@@ -53,3 +53,13 @@ reports are ignored. Nothing in the build requires a previous output.
 The preservation build and private-data audit are implemented. Relocation,
 runtime scenarios and the aggregate release gates are added in the next stage;
 this checkout does not yet claim a completed release.
+
+## Kit style integration
+
+Kit's AS linter currently selects `.s` and `.inc` files. This source retains
+its imported `.asm` extension until semantic reorganisation. The project
+validation adapter selects every tracked source named by `config/lint.json`,
+stages `.s` copies under `build/lint-stage/` and calls `rltool lint` on those
+copies. Only an explicit format operation copies formatting back. General
+tracked text and code use `rltool lint` and `rltool format` directly.
+No copy is a build input and no Kit or Core source is changed.
