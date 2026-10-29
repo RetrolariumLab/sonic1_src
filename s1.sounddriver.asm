@@ -2846,7 +2846,7 @@ SoundD0:	binclude "sound/sfx/soundd0.smps"
 		if ((*)&$7FFF)+Size_of_SegaPCM>$8000
 			align $8000
 		endif
-SegaPCM:	include "sound/dac/pcm/generated/sega.inc"
+SegaPCM:	include "sound/dac/pcm/sega.asm"
 		even
 
 		if SegaPCM.size>$8000

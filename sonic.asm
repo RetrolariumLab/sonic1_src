@@ -11,7 +11,7 @@
 ; ===========================================================================
 ; ASSEMBLY OPTIONS:
 
-Revision = 1
+; Revision is supplied by the selected preservation profile.
 ; 	| If 0, build the original version of the game, dubbed REV00
 ; 	| If 1, build the later version, dubbed REV01, which includes various bugfixes and enhancements
 ; 	| If 2, build the hacked version from Sonic Mega Collection, dubbed REVXB,

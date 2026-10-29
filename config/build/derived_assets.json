@@ -1,0 +1,88 @@
+{
+  "schema_version": 1,
+  "containers": [
+    {
+      "image": "rev00",
+      "path": "rev00/containers/dac_driver.kos",
+      "decoded_size": 7110,
+      "decoded_sha1": "a165a8469270cd71869ce65ed4b4d65c6055f0f4"
+    },
+    {
+      "image": "rev01",
+      "path": "rev01/containers/dac_driver.kos",
+      "decoded_size": 7110,
+      "decoded_sha1": "a165a8469270cd71869ce65ed4b4d65c6055f0f4"
+    },
+    {
+      "image": "revxb",
+      "path": "revxb/containers/dac_driver.kos",
+      "decoded_size": 7110,
+      "decoded_sha1": "a165a8469270cd71869ce65ed4b4d65c6055f0f4"
+    }
+  ],
+  "assets": [
+    {
+      "path": "rev00/sound/dac/dpcm/kick.dpcm",
+      "image": "rev00",
+      "offset": 238,
+      "size": 850,
+      "sha1": "1db1168f302a4d905b5bb1abbd48b604ec359c8d"
+    },
+    {
+      "path": "rev00/sound/dac/dpcm/snare.dpcm",
+      "image": "rev00",
+      "offset": 1088,
+      "size": 1904,
+      "sha1": "537db2090aa93ce48d518bc3dca74c50bbd66fcc"
+    },
+    {
+      "path": "rev00/sound/dac/dpcm/timpani.dpcm",
+      "image": "rev00",
+      "offset": 2992,
+      "size": 4118,
+      "sha1": "2dcf9201fe0c88b580ad84febadca08c79e6cf9a"
+    },
+    {
+      "path": "rev01/sound/dac/dpcm/kick.dpcm",
+      "image": "rev01",
+      "offset": 238,
+      "size": 850,
+      "sha1": "1db1168f302a4d905b5bb1abbd48b604ec359c8d"
+    },
+    {
+      "path": "rev01/sound/dac/dpcm/snare.dpcm",
+      "image": "rev01",
+      "offset": 1088,
+      "size": 1904,
+      "sha1": "537db2090aa93ce48d518bc3dca74c50bbd66fcc"
+    },
+    {
+      "path": "rev01/sound/dac/dpcm/timpani.dpcm",
+      "image": "rev01",
+      "offset": 2992,
+      "size": 4118,
+      "sha1": "2dcf9201fe0c88b580ad84febadca08c79e6cf9a"
+    },
+    {
+      "path": "revxb/sound/dac/dpcm/kick.dpcm",
+      "image": "revxb",
+      "offset": 238,
+      "size": 850,
+      "sha1": "1db1168f302a4d905b5bb1abbd48b604ec359c8d"
+    },
+    {
+      "path": "revxb/sound/dac/dpcm/snare.dpcm",
+      "image": "revxb",
+      "offset": 1088,
+      "size": 1904,
+      "sha1": "537db2090aa93ce48d518bc3dca74c50bbd66fcc"
+    },
+    {
+      "path": "revxb/sound/dac/dpcm/timpani.dpcm",
+      "image": "revxb",
+      "offset": 2992,
+      "size": 4118,
+      "sha1": "2dcf9201fe0c88b580ad84febadca08c79e6cf9a"
+    }
+  ]
+}

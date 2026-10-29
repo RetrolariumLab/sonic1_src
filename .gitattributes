@@ -1,7 +1,3 @@
-*.asm		text
-*.txt		text
-*.xml		text
-*.cs		text
-*.cpp		text
-*.ini		text
-*.bin		binary
+* text=auto eol=lf
+*.asm text
+*.bin binary

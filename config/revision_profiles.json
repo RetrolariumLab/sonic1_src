@@ -1,0 +1,31 @@
+{
+  "schema_version": 1,
+  "default": "rev01",
+  "entrypoint": "sonic.asm",
+  "profiles": [
+    {
+      "id": "rev00",
+      "image": "rev00",
+      "defines": {
+        "Revision": 0
+      },
+      "status": "preservation"
+    },
+    {
+      "id": "rev01",
+      "image": "rev01",
+      "defines": {
+        "Revision": 1
+      },
+      "status": "preservation"
+    },
+    {
+      "id": "revxb",
+      "image": "revxb",
+      "defines": {
+        "Revision": 2
+      },
+      "status": "preservation"
+    }
+  ]
+}

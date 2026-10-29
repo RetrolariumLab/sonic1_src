@@ -1,0 +1,25 @@
+{
+  "schema_version": 1,
+  "kit": {
+    "release": "2026.10.11",
+    "source_commit": "fab4af3440f14e2a1aa98631b12c1113b50ea13b"
+  },
+  "core": {
+    "version": "0.5.0",
+    "source_commit": "cd5ac6974de99137214866ec72be547449235600"
+  },
+  "hosts": {
+    "windows-x86_64": {
+      "supported": true,
+      "components": {
+        "asl": {
+          "sha256": "73a35502b6e4c3bf5c0d5999a7872955bd4f05567874761dd026c296b33038f7",
+          "version": "AS 1.42 Beta build 212"
+        },
+        "p2bin": {
+          "sha256": "b6b7db88a3ecccb26f61410fa0f14bee7eda3ddf62ee9335ca51ef11c0d73252"
+        }
+      }
+    }
+  }
+}
