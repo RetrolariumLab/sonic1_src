@@ -57,12 +57,6 @@ Sonic_CalcRoomAhead:
 		andi.b	#$38,d1
 		bne.s	.find_wall_lr
 		addq.w	#8,d2
-	if FixBugs
-		; Fix push sensor position while rolling
-		btst	#status_rolling_bit,obStatus(a0)	; is Sonic rolling?
-		beq.s	.find_wall_lr				; if not, branch
-		subq.w	#5,d2					; if so, move push sensor up a bit
-	endif
 
 	; loc_14D3C:
 	.find_wall_lr:
@@ -125,9 +119,6 @@ Sonic_FindFloor:
 		move.w	#0,d6
 		moveq	#$D,d5					; bit to test for solidness (top solid)
 		bsr.w	FindFloor
-	if FixBugs
-		move.w	d4,-(sp)
-	endif
 		move.w	d1,-(sp)				; save d1 (distance to floor) to stack
 
 		move.w	obY(a0),d2
@@ -145,9 +136,6 @@ Sonic_FindFloor:
 		moveq	#$D,d5					; bit to test for solidness (top solid)
 		bsr.w	FindFloor				; d1 = distance to floor left side
 		move.w	(sp)+,d0				; d0 = distance to floor right side
-	if FixBugs
-		move.w	(sp)+,d5
-	endif
 		move.b	#0,d2
 
 ; loc_14DD0:
@@ -157,9 +145,6 @@ Sonic_FindSmaller:
 		ble.s	.no_swap				; branch if d0 > d1
 		move.b	(v_anglebuffer).w,d3
 		exg	d0,d1					; d1 is always the smaller distance
-	if FixBugs
-		exg.l	d5,d4
-	endif
 
 	; loc_14DDE:
 	.no_swap:
@@ -245,9 +230,6 @@ Sonic_FindWallRight:
 		move.w	#0,d6
 		moveq	#$E,d5					; bit to test for solidness (left/right/bottom solid)
 		bsr.w	FindWall
-	if FixBugs
-		move.w	d4,-(sp)
-	endif
 		move.w	d1,-(sp)				; save d1 (distance to wall) to stack
 
 		move.w	obY(a0),d2
@@ -265,9 +247,6 @@ Sonic_FindWallRight:
 		moveq	#$E,d5					; bit to test for solidness (left/right/bottom solid)
 		bsr.w	FindWall				; d1 = distance to wall upper side
 		move.w	(sp)+,d0				; d0 = distance to wall lower side
-	if FixBugs
-		move.w	(sp)+,d5
-	endif
 
 		move.b	#$C0,d2
 		bra.w	Sonic_FindSmaller			; make d1 the smaller distance
@@ -372,9 +351,6 @@ Sonic_FindCeiling:
 		move.w	#$1000,d6				; yflip tile
 		moveq	#$E,d5					; bit to test for solidness (left/right/bottom solid)
 		bsr.w	FindFloor
-	if FixBugs
-		move.w	d4,-(sp)
-	endif
 		move.w	d1,-(sp)				; save d1 (distance to ceiling) to stack
 
 		move.w	obY(a0),d2
@@ -393,9 +369,6 @@ Sonic_FindCeiling:
 		moveq	#$E,d5					; bit to test for solidness (left/right/bottom solid)
 		bsr.w	FindFloor				; d1 = distance to ceiling on left side
 		move.w	(sp)+,d0				; d0 = distance to ceiling on right side
-	if FixBugs
-		move.w	(sp)+,d5
-	endif
 
 		move.b	#$80,d2
 		bra.w	Sonic_FindSmaller			; make d1 the smaller distance
@@ -499,9 +472,6 @@ Sonic_FindWallLeft:
 		move.w	#$800,d6				; xflip tile
 		moveq	#$E,d5					; bit to test for solidness (left/right/bottom solid)
 		bsr.w	FindWall
-	if FixBugs
-		move.w	d4,-(sp)
-	endif
 		move.w	d1,-(sp)				; save d1 (distance to wall) to stack
 
 		move.w	obY(a0),d2
@@ -520,9 +490,6 @@ Sonic_FindWallLeft:
 		moveq	#$E,d5					; bit to test for solidness (left/right/bottom solid)
 		bsr.w	FindWall				; d1 = distance to wall lower side
 		move.w	(sp)+,d0				; d0 = distance to wall upper side
-	if FixBugs
-		move.w	(sp)+,d5
-	endif
 
 		move.b	#$40,d2
 		bra.w	Sonic_FindSmaller			; make d1 the smaller distance
@@ -582,12 +549,6 @@ Sonic_FindWallLeft_Quick:
 ObjHitWallLeft:
 		add.w	obX(a0),d3
 		move.w	obY(a0),d2
-	if FixBugs
-		; Engine bug: colliding with left walls is erratic with this function.
-		; The cause is this: a missing instruction to flip collision on the found
-		; 16x16 block; this one:
-		eori.w	#$F,d3
-	endif
 		lea	(v_anglebuffer).w,a4			; write angle here
 		move.b	#0,(a4)
 		movea.w	#-$10,a3				; width of a 16x16 tile

@@ -29,13 +29,9 @@ Bri_Main:	; Routine 0
 		move.w	#ArtTile_GHZ_Bridge|Tile_Pal3,obGfx(a0)	; set art tile and palette line
 		move.b	#sprite_cam_field,obRender(a0)		; set to playfield-positioned mode
 		move.b	#3,obPriority(a0)			; set sprite priority
-	if FixBugs
-		move.b	#16/2,obActWid(a0)			; set sprite display width (one log)
-	else
 		; This sprite display width is way too large, causing the bridge to potentially screen-wrap.
 		; It's likely that this was forgotten when the bridge was turned into individual 16px log objects.
 		move.b	#256/2,obActWid(a0)			; set sprite display width (very large)
-	endif
 
 		move.w	obY(a0),d2				; copy Y-position from parent
 		move.w	obX(a0),d3				; get center X-position of bridge
@@ -52,14 +48,7 @@ Bri_Main:	; Routine 0
 		bcs.s	Bri_Action				; branch on underflow (bridge only has only 1 log)
 
 .loopBuildBridge:
-	if FixBugs
-		; If an object is allocated before the parent object, then
-		; when the child is deleted, it will have already been queued
-		; for display, which is a display-and-delete bug.
-		bsr.w	FindNextFreeObj				; find next free object RAM slot
-	else
 		bsr.w	FindFreeObj				; find any free object RAM slot
-	endif
 		bne.s	Bri_Action				; if object RAM is full, abort
 		addq.b	#1,bridge_children(a0)			; increment number of loaded child objects
 
@@ -106,10 +95,8 @@ Bri_Action:	; Routine 2
 		bsr.w	Bri_Bend				; update bridge bend for nudge
 
 .display:
-	if FixBugs=0
 		; This has been moved to prevent a display-after-free bug.
 		bsr.w	DisplaySprite				; display main bridge object
-	endif
 		bra.w	Bri_ChkDel				; delete main bridge object and all child logs if out of range
 
 ; ===========================================================================
@@ -151,10 +138,8 @@ Bri_CheckOnBridge:
 Bri_StoodOn:	; Routine 4
 		bsr.s	Bri_WalkOff				; allow exiting bridge (sets obRoutine = 2 (Bri_Action) on exit)
 
-	if FixBugs=0
 		; This has been moved to prevent a display-after-free bug.
 		bsr.w	DisplaySprite				; display main bridge object
-	endif
 		bra.w	Bri_ChkDel				; delete main bridge object and all child logs if out of range
 
 ; ===========================================================================
@@ -348,12 +333,7 @@ Bri_Data_Align:	; Values used to align logs to the left & right of the one being
 
 Bri_ChkDel:
 		out_of_range.w	.deleteBridge			; has bridge gone out of range? if yes, delete it with all child logs
-	if FixBugs
-		; This has been moved to prevent a display-after-free bug.
-		bra.w	DisplaySprite				; display main bridge object
-	else
 		rts						; return
-	endif
 ; ---------------------------------------------------------------------------
 
 .deleteBridge:

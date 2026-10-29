@@ -150,11 +150,6 @@ Saw_Type3_SpeedingFromLeft:
 
 	.hide:
 		addq.l	#4,sp					; skip returning to Saw_Action to avoid rendering sprite
-	if FixBugs
-		; The above line will properly avoid drawing the sprite, but it will
-		; also prevent despawning the object, which can lead to memory leaks.
-		out_of_range.w	Saw_Delete,saw_origX(a0)	; has saw gone out of range? if yes, delete it
-	endif
 
 	.return:
 		rts						; return
@@ -198,10 +193,6 @@ Saw_Type4_SpeedingFromRight:
 
 	.hide:
 		addq.l	#4,sp					; skip returning to Saw_Action to avoid rendering sprite
-	if FixBugs
-		; See above.
-		out_of_range.w	Saw_Delete,saw_origX(a0)	; has saw gone out of range? if yes, delete it
-	endif
 
 	.return:
 		rts						; return

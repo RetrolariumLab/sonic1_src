@@ -25,12 +25,10 @@ Smab_Main:	; Routine 0
 		move.b	#sprite_cam_field,obRender(a0)		; set to playfield-positioned mode
 		move.b	#32/2,obActWid(a0)			; set sprite display width
 		move.b	#4,obPriority(a0)			; set sprite priority
-	if UnusedOptimization=0
 		; This is very likely an unused leftover from a copy-paste job from Object 3C (GHZ smashable wall),
 		; where this line was used to set the correct frame out of three. However, here it makes no sense,
 		; as all it could ever do is use four sprite pieces for the unsmashed block for no reason.
 		move.b	obSubtype(a0),obFrame(a0)		; set frame ID from subtype (0 = two sprite pieces // 1 = four sprite pieces, unused)
-	endif
 ; ---------------------------------------------------------------------------
 
 Smab_Solid:	; Routine 2
@@ -106,21 +104,10 @@ Smab_Fragment:	; Routine 4
 		bsr.w	SpeedToPos				; update fragment position based on speeds
 		addi.w	#gravity,obVelY(a0)			; make fragment fall
 
-	if FixBugs
-		; Objects should not call DisplaySprite and DeleteObject on
-		; the same frame or else cause a null-pointer dereference.
-		; Also, fragments already queue themselves for display, so they should
-		; not return to SmashBlock and get queued again through RememberState.
-		addq.l	#4,sp					; don't return to SmashBlock
-		tst.b	obRender(a0)				; has fragment gone offscreen?
-		bpl.w	DeleteObject				; if yes, delete it
-		bra.w	DisplaySprite				; otherwise, keep displaying fragment sprite
-	else
 		bsr.w	DisplaySprite				; display fragment sprite
 		tst.b	obRender(a0)				; has fragment gone offscreen?
 		bpl.w	DeleteObject				; if yes, delete it
 		rts						; return to Points main routine
-	endif
 
 ; ===========================================================================
 Smab_Speeds:	;  x-speed, y-speed

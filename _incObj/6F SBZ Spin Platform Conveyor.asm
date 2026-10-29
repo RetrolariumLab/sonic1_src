@@ -107,13 +107,6 @@ SpinC_Main:	; Routine 0
 		move.w	(a2,d1.w),spinc_nextX(a0)		; retrieve first target X-position for platform
 		move.w	2(a2,d1.w),spinc_nextY(a0)		; retrieve first target Y-position for platform
 
-	if FixBugs
-		; Ensure platforms on the upper path never start in the spinning state.
-		move.b	#1,obAnim(a0)				; set "still" animation
-		cmpi.w	#4*2,d1					; is platform at or past third corner?
-		blo.s	.initMovement				; if not, branch
-		move.b	#0,obAnim(a0)				; set "spinning" animation
-	else
 		tst.w	d1					; is platform at first corner?
 		bne.s	.checkSpinning				; if not, branch
 		move.b	#1,obAnim(a0)				; set "still" animation
@@ -121,7 +114,6 @@ SpinC_Main:	; Routine 0
 		cmpi.w	#4*2,d1					; is platform at third corner?
 		bne.s	.initMovement				; if not, branch
 		move.b	#0,obAnim(a0)				; set "spinning" animation
-	endif
 
 	.initMovement:
 		bsr.w	LCon_ChangeDir				; initialize platform's speeds for first target (calling Object 63)
@@ -134,11 +126,6 @@ SpinC_Main_Spawner:
 		lea	(v_obj63).w,a2				; load flags storing the "conveyor group loaded" states per set
 		bset	#0,(a2,d0.w)				; set flag that this conveyor group has been loaded
 		beq.s	.spawn					; if it wasn't already set, branch
-	if FixBugs
-		; Avoid returning to SpinConvey to prevent display-and-delete
-		; and double-delete bugs.
-		addq.l	#4,sp					; skip returning to "SpinConvey"
-	endif
 		jmp	(DeleteObject).l			; delete spawner object
 ; ---------------------------------------------------------------------------
 
@@ -155,14 +142,7 @@ SpinC_Main_Spawner:
 ; ---------------------------------------------------------------------------
 
 .loopMakePlatforms:
-	if FixBugs
-		; If an object is allocated before the parent object, then
-		; when the child is deleted, it will have already been queued
-		; for display, which is a display-and-delete bug.
-		jsr	(FindNextFreeObj).l			; find next free object RAM slot
-	else
 		jsr	(FindFreeObj).l				; find any free object RAM slot
-	endif
 		bne.s	.next					; if object RAM is full, branch
 
 	; SpinC_LoadPform:

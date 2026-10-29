@@ -71,12 +71,8 @@ Bonus_Points:	; Bonus points array
 		dc.w 0		; subtype 00 - invalid
 		dc.w 1000	; subtype 01 - 10000 points
 		dc.w 100	; subtype 02 - 1000 points
-	if FixBugs
-		dc.w 10		; subtype 03 - 100 points
-	else
 		; This is the wrong number of points.
 		dc.w 1		; subtype 03 - 10 points (should be 100)
-	endif
 ; ===========================================================================
 
 Bonus_Display:	; Routine 2

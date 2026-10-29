@@ -103,12 +103,6 @@ LWall_Solid:	; Routine 2
 		bsr.w	SpeedToPos				; update lava wall's position to make it move
 
 .displayOrDelete:
-	if FixBugs
-		tst.b	lwall_flag(a0)				; is lava wall already moving?
-		bne.s	.show					; if yes, don't delete it
-		out_of_range.s	.startDelete			; is lava wall offscreen? if yes, branch to delete it
-	.show:	bra.w	DisplaySprite				; display lava wall sprite
-	else
 		; Objects shouldn't call DisplaySprite and DeleteObject on
 		; the same frame or else cause a null-pointer dereference.
 		bsr.w	DisplaySprite				; display lava wall sprite
@@ -116,18 +110,12 @@ LWall_Solid:	; Routine 2
 		bne.s	.show					; if yes, don't delete it
 		out_of_range.s	.startDelete			; is lava wall offscreen? if yes, branch to delete it
 	.show:	rts						; return
-	endif
 ; ---------------------------------------------------------------------------
 
 .startDelete:
 		lea	(v_objstate).w,a2			; load respawn table
 		moveq	#0,d0					; clear d0 for word-addressing
 		move.b	obRespawnNo(a0),d0			; get respawn table index
-	if FixBugs
-		; This didn't verify if the lava wall even has a respawn entry,
-		; which could write bad data (such as when placed in debug mode).
-		beq.s	.delete					; if it doesn't have an index, branch
-	endif
 		bclr	#7,2(a2,d0.w)				; clear respawn block flag so lava wall can spawn again
 
 	.delete:

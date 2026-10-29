@@ -101,17 +101,8 @@ Bas_Action_DropDown_Delete:
 		; even though Sonic was vertically above it as it began falling.
 		; Due to the way the logic is laid out, this can't ever happen.
 
-	if FixBugs
-		; Objects shouldn't call DisplaySprite and DeleteObject on
-		; the same frame or else cause a null-pointer dereference.
-		tst.b	obRender(a0)				; has Basaran gone offscreen?
-		bmi.s	.return					; if not, branch
-		addq.l	#4,sp					; skip returning to Bas_Action to avoid delete-and-display bug
-		bra.w	DeleteObject				; delete Basaran
-	else
 		tst.b	obRender(a0)				; has Basaran gone offscreen?
 		bpl.w	DeleteObject				; if yes, delete it
-	endif
 
 	.return:
 		rts						; return
@@ -200,7 +191,6 @@ Bas_CheckDistanceAndFaceSonic:
 
 ; ===========================================================================
 
-	if UnusedOptimization=0
 		; Dead, unused code.
 		; The simple nature of it may hint at the Basaran once being
 		; able to launch projectiles that would despawn once offscreen.
@@ -210,7 +200,6 @@ Bas_CheckDistanceAndFaceSonic:
 		tst.b	obRender(a0)				; did object go offscreen?
 		bpl.w	DeleteObject				; if yes, delete object
 		rts						; return
-	endif
 
 ; ===========================================================================
 

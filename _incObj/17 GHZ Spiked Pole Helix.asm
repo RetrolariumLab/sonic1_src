@@ -23,13 +23,11 @@ Hel_Main:	; Routine 0
 		addq.b	#2,obRoutine(a0)			; advance to Hel_ParentSpike (2)
 		move.l	#Map_Hel,obMap(a0)			; set mappings
 		move.w	#ArtTile_GHZ_Spike_Pole|Tile_Pal3,obGfx(a0) ; set art tile and palette (located inside main GHZ graphics)
-	if (FixBugs=0)&(UnusedOptimization=0)
 		; This appears to be an unused leftover from early development,
 		; possibly related to the equally unused routines 4 and 6.
 		; Setting these status bits has no effect for this object,
 		; but it's still safer and cleaner to remove this line.
 		move.b	#status_xflip|status_yflip|status_rolling,obStatus(a0) ; set obStatus to 7 (unused leftover)
-	endif
 		move.b	#sprite_cam_field,obRender(a0)		; set playfield-positioned mode
 		move.b	#3,obPriority(a0)			; set sprite priority
 		move.b	#16/2,obActWid(a0)			; set sprite display width
@@ -52,14 +50,7 @@ Hel_Main:	; Routine 0
 		moveq	#0,d6					; start at frame ID 0
 
 .loopBuildHelix:
-	if FixBugs
-		; If an object is allocated before the parent object, then
-		; when the child is deleted, it will have already been queued
-		; for display, which is a display-and-delete bug.
-		bsr.w	FindNextFreeObj				; find next free object slot
-	else
 		bsr.w	FindFreeObj				; find a free object slot
-	endif
 		bne.s	Hel_ParentSpike				; if object RAM is full, branch
 		addq.b	#1,helix_children(a0)			; increment number of loaded spikes
 
@@ -98,10 +89,8 @@ Hel_Main:	; Routine 0
 ; Hel_Action:
 Hel_ParentSpike: ; Routine 2, 4
 		bsr.w	Hel_RotateSpikes			; rotate the parent spike like the others
-	if FixBugs=0
 		; This has been moved to prevent a display-after-free bug.
 		bsr.w	DisplaySprite				; display parent helix
-	endif
 		bra.w	Hel_ChkDel				; delete helix if offscreen
 
 ; ===========================================================================
@@ -126,12 +115,7 @@ Hel_RotateSpikes:
 
 Hel_ChkDel:
 		out_of_range.w	.deleteHelix			; has helix gone offscreen? if yes, delete it
-	if FixBugs
-		; This has been moved to prevent a display-after-free bug.
-		bra.w	DisplaySprite				; display parent spike
-	else
 		rts						; don't delete helix
-	endif
 ; ---------------------------------------------------------------------------
 
 .deleteHelix:

@@ -32,13 +32,7 @@ Invis_Main:	; Routine 0
 ; ---------------------------------------------------------------------------
 
 Invis_Solid:	; Routine 2
-	if FixBugs
-		; Fixes phasing through barriers while ducking
-		; (note that ChkPartiallyVisible had to be fixed as well)
-		bsr.w	ChkPartiallyVisible		; check if object is in visible screen space (including vertically)
-	else
 		bsr.w	ChkObjectVisible		; check if object is in visible screen space (vertically imprecise)
-	endif
 		bne.s	.chkdel				; if not, branch
 
 		moveq	#0,d1				; clear d1 (obActWid is a byte, we need words)

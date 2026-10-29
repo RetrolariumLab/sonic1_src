@@ -18,9 +18,6 @@ mblock_origY:		equ objoff_32	; initial Y-position
 mblock_slide_wait:	equ objoff_34	; (subtype 9/A only) delay before red sliding floor moves back
 mblock_slide_goback:	equ objoff_36	; (subtype 9/A only) set if red sliding floor is currently moving back
 
-    if FixBugs
-mblock_fix_storeX:	equ objoff_38	; (FixBugs only) stores X-position around MBlock_Move to avoid stack pointer corruption
-    endif
 ; ===========================================================================
 
 MBlock_Var:	; width, frame
@@ -82,26 +79,9 @@ MBlock_StandOn:	; Routine 4
 		move.b	obActWid(a0),d1				; use sprite display width as platform solidity width
 		jsr	(ExitPlatform).l			; allow exiting platform (can set obRoutine = 2, MBlock_Platform)
 
-	if FixBugs
-		; MBlock_SecretLZ1Raft manipulates the stack pointer so that
-		; the platform doesn't appear until the switch has been
-		; pressed. Normally this is not an issue, because this
-		; routine is called when the player is actively standing on
-		; the platform, which is impossible, since PlatformObject
-		; in the other routine is also skipped, and when the platform
-		; appears, it's given a different subtype that doesn't
-		; manipulate the stack pointer. However, it's still better
-		; practice to not store data on the stack in this instance
-		; to avoid any potential crash, so we just use object scratch
-		; RAM instead.
-		move.w	obX(a0),mblock_fix_storeX(a0)		; backup current X-position before calling MBlock_Move (scratch RAM)
-		bsr.w	MBlock_Move				; execute platform movement behavior
-		move.w	mblock_fix_storeX(a0),d2		; restore previous X-position as input for MvSonicOnPtfm2 (scratch RAM)
-	else
 		move.w	obX(a0),-(sp)				; backup current X-position before calling MBlock_Move (stack)
 		bsr.w	MBlock_Move				; execute platform movement behavior
 		move.w	(sp)+,d2				; restore previous X-position as input for MvSonicOnPtfm2 (stack)
-	endif
 
 		jsr	(MvSonicOnPtfm2).l			; move Sonic with platform as it moves
 ; ---------------------------------------------------------------------------

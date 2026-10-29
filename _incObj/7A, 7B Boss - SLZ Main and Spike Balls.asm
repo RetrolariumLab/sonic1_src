@@ -75,18 +75,10 @@ BossStarLight_LoadBoss:
 
 ; loc_1895C:
 BossStarLight_Done:
-	if FixBugs
-		lea	(v_lvlobjspace).w,a1 			; load level object space address
-	else
 		lea	(v_objspace+object_size*1).w,a1 	; Nonsensical starting point, since dynamic object allocations begin at v_lvlobjspace.
-	endif
 		lea	BossStarLight_SeesawList(a0),a2 	; load some scratch RAM from the boss object into a2 to keep track of seesaws
 		moveq	#id_Seesaw,d0
-	if FixBugs
-		moveq	#(v_lvlobjend-v_lvlobjspace)/object_size-1,d1
-	else
 		moveq	#(v_objspace_end-(v_objspace+object_size*1))/object_size/2-1,d1	; Nonsensical length, it only covers the first half of object RAM.
-	endif
 
 ; loc_18968:
 BossStarLight_CheckSaws:
@@ -273,13 +265,8 @@ BSLZ_MakeBall:
 		lea	BossStarLight_SeesawList(a0),a1		; load lists of found and valid seesaws into a1
 		move.w	(a1,d0.w),d0				; get the address of the seesaw number we are over by using the index we just made in d0, and put it back in d0
 		movea.l	d0,a2					; move the address of the seesaw into a2
-	if FixBugs
-		lea	(v_lvlobjspace).w,a1			; load level object space address
-		moveq	#(v_lvlobjend-v_lvlobjspace)/object_size-1,d1 ; number of objects to scan
-	else
 		lea	(v_objspace+object_size*1).w,a1 ; Nonsensical starting point, since dynamic object allocations begin at v_lvlobjspace.
 		moveq	#(v_objspace_end-(v_objspace+object_size*1))/object_size/2-1,d1	; Nonsensical length, it only covers the first half of object RAM.
-	endif
 
 ; loc_18AFA:
 .checkForBall:
@@ -393,24 +380,13 @@ BSLZ_Escape:
 ; loc_18BE0:
 .checkOffScreen:
 		tst.b	obRender(a0)				; has Eggman left the screen (is bit 7 clear)?
-	if FixBugs
-		bpl.s	BossStarLight_PopAndDelete		; yes, bit 7 is cleared, so we can delete the object (this leverages signed numbers!)
-	else
 		bpl.w	BossStarLight_Delete			; yes, bit 7 is cleared, so we can delete the object (this leverages signed numbers!)
-	endif
 
 ; loc_18BE8:
 .flee:
 		bsr.w	BossMove
 		bra.w	BSLZ_ShipUpdate
 
-	if FixBugs
-BossStarLight_PopAndDelete:
-		; Avoid returning to BossStarLight_ShipMain to prevent a
-		; display-and-delete bug.
-		addq.l	#4,sp
-		bra.w	BossStarLight_Delete
-	endif
 ; ===========================================================================
 
 BossStarLight_FaceMain:	; Routine 4
@@ -684,18 +660,10 @@ BossSpikeball_CheckFlicker:
 
 ; loc_18EAA:
 BossSpikeball_HitBoss:	; Routine 6
-	if FixBugs
-		lea	(v_lvlobjspace).w,a1
-	else
 		lea	(v_objspace+object_size*1).w,a1 ; Nonsensical starting point, since dynamic object allocations begin at v_lvlobjspace.
-	endif
 		moveq	#id_BossStarLight,d0
 		moveq	#object_size,d1
-	if FixBugs
-		moveq	#(v_lvlobjend-v_lvlobjspace)/object_size-1,d2
-	else
 		moveq	#(v_objspace_end-(v_objspace+object_size*1))/object_size/2-1,d2	; Nonsensical length, it only covers the first half of object RAM.
-	endif
 
 ; loc_18EB4:
 .findBoss:
@@ -931,14 +899,7 @@ BossSpikeball_MoveFrag:	; Routine $A
 		move.b	d0,obFrame(a0)			; set frame to value from above calculation, allowing graphics frame to alternate every 4 frames
 
 		tst.b	obRender(a0)
-	if FixBugs
-		; Avoid returning to BossSpikeball to prevent a display-and-delete bug.
-		bmi.s	.return
-		addq.l	#4,sp
-		bra.w	BossStarLight_Delete
-	else
 		bpl.w	BossStarLight_Delete
-	endif
 
 .return:
 		rts

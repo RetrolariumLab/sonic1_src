@@ -364,14 +364,6 @@ BLZ_Escape2:
 ; ===========================================================================
 
 BossLabyrinth_ShipDel:
-	if FixBugs
-		; Make sure the palette doesn't get stuck on white if Eggman was hit as he was fleeing and leaving the screen
-		move.w #cBlack,(v_palette+$22).w
-
-		; Avoid returning to BossLabyrinth_ShipMain to prevent a
-		; display-and-delete bug.
-		addq.l	#4,sp
-	endif
 		jmp	(DeleteObject).l
 ; ===========================================================================
 
@@ -383,14 +375,7 @@ BossLabyrinth_FaceMain:	; Routine 4
 		moveq	#0,d0
 		move.b	ob2ndRout(a1),d0
 		moveq	#1,d1
-	if FixBugs
-		; we want to check the defeat flag offset of the boss controller and not the face object, so
-		; a1 must be checked for this condition instead of the face object itself (a0) for the defeat animation
-		; to properly display
-		tst.b   BossLabyrinth_EarlyDefeatFlag(a1)	; has Eggman been defeated while ascending?
-	else
 		tst.b	BossLabyrinth_EarlyDefeatFlag(a0)	; check the defeat flag, except a0 contains the face object and not the boss so this value will always be 0
-	endif
 		beq.s	.checkHitState				; if not, branch
 		moveq	#$A,d1					; set animation to defeated
 		bra.s	.writeAnim				; write animation
@@ -434,17 +419,7 @@ BossLabyrinth_FlameMain:; Routine 6
 		cmp.b	(a0),d0					; does the flame have the same object ID as the boss (aka boss has been deleted offscreen)?
 		bne.s	BossLabyrinth_FlameDel			; if not, branch
 		cmpi.b	#$E,ob2ndRout(a1)			; are we currently in Escape2?
-	if FixBugs
-	; The normal flame animation never gets played here since they forgot to add a label for the horizontal movement check.
-	; So the boss branches and skips the last check, causing an invisible flame.
-	; This very simple bugfix restores the flame's visibility when starting the fight and ending the fight.
-	; The flame WILL NOT show up during the climb as Eggman writes to obX using the CalcSine subroutine to move (sine to move, cosine to check direction), rather than adjusting obVelX to move.
-	; It is ambiguous whether the flame was intended to show up or not during that part and it would require a large rewrite.
-	; This however definitely was a basic mistake as without the bugfix and additional label, that code never gets executed at all.
-		bne.s	.checkMove				; if not, branch
-	else
 		bne.s	.skip
-	endif
 		move.b	#$B,obAnim(a0)				; set thruster animation for taking off
 		tst.b	obRender(a0)				; what is our screen status?
 		bpl.s	BossLabyrinth_FlameDel			; off screen, delete (bit 7 would be 1 if we were on screen, therefore a negative number due to sign)

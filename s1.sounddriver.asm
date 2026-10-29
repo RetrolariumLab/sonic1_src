@@ -184,14 +184,8 @@ UpdateMusic:
 		jsr	DoFadeIn(pc)
 ; loc_71BB2:
 .skipfadein:
-	if FixBugs
-		moveq	#0,d0
-		or.b	SMPS_RAM.v_soundqueue2(a6),d0
-		or.w	SMPS_RAM.v_soundqueue0(a6),d0
-	else
 		; DANGER! The following line only checks v_soundqueue0 and v_soundqueue1, breaking v_soundqueue2.
 		tst.w	SMPS_RAM.v_soundqueue0(a6)		; is a music or sound queued for playing?
-	endif
 		beq.s	.nosndinput				; if not, branch
 		jsr	CycleSoundQueue(pc)
 ; loc_71BBC:
@@ -677,14 +671,10 @@ PlaySoundID:
 		beq.w	StopAllSound
 		bpl.s	.locret					; if >= 0, return (not a valid sound, bgm or command)
 		move.b	#$80,SMPS_RAM.v_sound_id(a6)		; reset music flag
-	if FixBugs
-		cmpi.b	#bgm__Last,d7				; is this music ($81-$93)?
-	else
 		; DANGER! Music ends at $93, yet this checks until $9F; attempting to
 		; play sounds $94-$9F will cause a crash!
 		; See LevSel_NoCheat for more.
 		cmpi.b	#bgm__Last+$C,d7			; is this music ($81-$9F)?
-	endif
 		bls.w	Sound_PlayBGM				; branch if yes
 		cmpi.b	#sfx__First,d7				; is this after music but before sfx? (redundant check)
 		blo.w	.locret					; return if yes
@@ -692,17 +682,10 @@ PlaySoundID:
 		bls.w	Sound_PlaySFX				; branch if yes
 		cmpi.b	#spec__First,d7				; is this after sfx but before special sfx? (redundant check)
 		blo.w	.locret					; return if yes
-	if FixBugs
-		cmpi.b	#spec__Last,d7				; is this special sfx ($D0-$D0)?
-		bls.w	Sound_PlaySpecial			; branch if yes
-		cmpi.b	#flg__First,d7				; is this after special sfx but before $E0?
-		blo.w	.locret					; return if yes
-	else
 		; DANGER! Special SFXes end at $D0, yet this checks until $DF; attempting to
 		; play sounds $D1-$DF will cause a crash!
 		cmpi.b	#spec__Last+$10,d7			; is this special sfx ($D0-$DF)?
 		blo.w	Sound_PlaySpecial			; branch if yes
-	endif
 		cmpi.b	#flg__Last,d7				; is this $E0-$E4?
 		bls.s	Sound_E0toE4				; branch if yes
 ; locret_71F8C:
@@ -812,18 +795,6 @@ Sound_PlayBGM:
 		moveq	#0,d1
 		movea.l	a4,a3
 		addq.w	#6,a4					; point past header
-	if FixBugs
-		; Fix the 0FM/DAC fade-in bug
-		; https://info.sonicretro.org/SCHG_How-to:Fix_Song_Restoration_Bugs_in_Sonic_1%27s_Sound_Driver
-		move.b	4(a3),d4				; load tempo dividing timing
-		moveq	#SMPS_Track.len,d6
-		moveq	#0,d7
-		move.b	#1,d5					; note duration for first "note"
-		move.b	2(a3),d7				; load number of FM+DAC tracks
-		beq.w	.bgm_fmdone				; branch if zero
-		subq.b	#1,d7
-		move.b	#$C0,d1					; default AMS+FMS+Panning
-	else
 		moveq	#0,d7
 		move.b	2(a3),d7				; load number of FM+DAC tracks
 		beq.w	.bgm_fmdone				; branch if zero
@@ -832,7 +803,6 @@ Sound_PlayBGM:
 		move.b	4(a3),d4				; load tempo dividing timing
 		moveq	#SMPS_Track.len,d6
 		move.b	#1,d5					; note duration for first "note"
-	endif
 		lea	SMPS_RAM.v_music_fmdac_tracks(a6),a1
 		lea	FMDACInitBytes(pc),a2
 ; loc_72098:
@@ -1005,12 +975,6 @@ Sound_PlaySFX:
 		move.w	(a1)+,d1				; voice pointer
 		add.l	a3,d1					; relative pointer
 		move.b	(a1)+,d5				; dividing timing
-	if FixBugs
-		; DANGER! there is a missing 'moveq	#0,d7' here, without which SFXes whose
-		; index entry is above $3F will cause a crash.
-		; This bug is fixed in Ristar's driver.
-		moveq	#0,d7
-	endif
 		move.b	(a1)+,d7				; number of tracks (FM + PSG)
 		subq.b	#1,d7
 		moveq	#SMPS_Track.len,d6
@@ -1129,11 +1093,6 @@ Sound_PlaySpecial:
 		add.l	a3,d0					; relative pointer
 		move.l	d0,SMPS_RAM.v_special_voice_ptr(a6)	; store voice pointer
 		move.b	(a1)+,d5				; dividing timing
-	if FixBugs
-		; DANGER! there is a missing 'moveq	#0,d7' here, without which special SFXes whose
-		; index entry is above $3F will cause a crash. This instance was not fixed in Ristar's driver.
-		moveq	#0,d7
-	endif
 		move.b	(a1)+,d7				; number of tracks (FM + PSG)
 		subq.b	#1,d7
 		moveq	#SMPS_Track.len,d6
@@ -1238,12 +1197,6 @@ StopSFX:
 		bne.s	.getfmpointer				; branch if not
 		tst.b	SMPS_RAM.v_spcsfx_fm4_track.PlaybackControl(a6) ; is special SFX playing?
 		bpl.s	.getfmpointer				; branch if not
-	if FixBugs
-		; DANGER! there is a missing 'movea.l	a5,a3' here, without which the
-		; code is broken. It is dangerous to do a fade out when a GHZ waterfall
-		; is playing its sound!
-		movea.l	a5,a3
-	endif
 		lea	SMPS_RAM.v_spcsfx_fm4_track(a6),a5
 		movea.l	SMPS_RAM.v_special_voice_ptr(a6),a1	; get special voice pointer
 		bra.s	.gotfmpointer
@@ -1260,12 +1213,6 @@ StopSFX:
 .gotfmpointer:
 		bclr	#2,SMPS_Track.PlaybackControl(a5)	; clear 'SFX is overriding' bit
 		bset	#1,SMPS_Track.PlaybackControl(a5)	; set 'track at rest' bit
-	if FixBugs
-		; DANGER! `SetVoice` expects d0 to be a word, but it's only passed
-		; as a byte below. This may result in restoring invalid/broken FM
-		; voices during fade out sequence if upper byte of d0 was trashed.
-		moveq	#0,d0
-	endif
 		move.b	SMPS_Track.VoiceIndex(a5),d0		; current voice
 		jsr	SetVoice(pc)
 		movea.l	a3,a5
@@ -1275,11 +1222,6 @@ StopSFX:
 .trackpsg:
 		jsr	PSGNoteOff(pc)
 		lea	SMPS_RAM.v_spcsfx_psg3_track(a6),a0
-	if FixBugs
-		; cfStopTrack does this check but this function oddly lacks it.
-		tst.b	SMPS_Track.PlaybackControl(a0)		; is track playing?
-		bpl.s	.getchannelptr				; branch if not
-	endif
 		cmpi.b	#$E0,d3					; is this a noise channel?
 		beq.s	.gotpsgpointer				; branch if yes
 		cmpi.b	#$C0,d3					; is this PSG 3?
@@ -1320,12 +1262,6 @@ StopSpecialSFX:
 		tst.b	SMPS_Track.PlaybackControl(a5)		; is track playing?
 		bpl.s	.fadedfm				; branch if not
 		movea.l	SMPS_RAM.v_voice_ptr(a6),a1		; voice pointer
-	if FixBugs
-		; DANGER! `SetVoice` expects d0 to be a word, but it's only passed
-		; as a byte below. This may result in restoring invalid/broken FM
-		; voices during fade out sequence if upper byte of d0 was trashed.
-		moveq	#0,d0
-	endif
 		move.b	SMPS_Track.VoiceIndex(a5),d0		; current voice
 		jsr	SetVoice(pc)
 ; loc_724AE:
@@ -1464,12 +1400,8 @@ StopAllSound:
 		moveq	#0,d1					; FM3/FM6 normal mode, disable timers
 		jsr	WriteFMI(pc)
 		movea.l	a6,a0
-	if FixBugs
-		move.w	#(SMPS_RAM.v_1up_ram_copy/4)-1,d0	; clear $400 bytes: all variables and track data
-	else
 		; DANGER! This should be clearing all variables and track data, but misses the last $10 bytes of v_spcsfx_psg3_Track.
 		move.w	#((SMPS_RAM.v_1up_ram_copy-$10)/4)-1,d0	; clear $390 bytes: all variables and most track data
-	endif
 ; loc_725B6:
 .clearramloop:
 		clr.l	(a0)+
@@ -1489,10 +1421,6 @@ InitMusicPlayback:
 		move.b	SMPS_RAM.f_speedup(a6),d3
 		move.b	SMPS_RAM.v_fadein_counter(a6),d4
 		move.w	SMPS_RAM.v_soundqueue0(a6),d5
-	if FixBugs
-		; DANGER! Only v_soundqueue0 and v_soundqueue1 are backed up, once again breaking v_soundqueue2
-		move.b	SMPS_RAM.v_soundqueue2(a6),d6
-	endif
 		move.w	#((SMPS_RAM.v_1up_ram_end-SMPS_RAM.v_1up_ram)/4)-1,d0 ; clear $220 bytes: all variables and music track data
 ; loc_725E4:
 .clearramloop:
@@ -1505,27 +1433,8 @@ InitMusicPlayback:
 		move.b	d3,SMPS_RAM.f_speedup(a6)
 		move.b	d4,SMPS_RAM.v_fadein_counter(a6)
 		move.w	d5,SMPS_RAM.v_soundqueue0(a6)
-	if FixBugs
-		; DANGER! Only v_soundqueue0 and v_soundqueue1 are restored, once again breaking v_soundqueue2
-		move.b	d6,SMPS_RAM.v_soundqueue2(a6)
-	endif
 		move.b	#$80,SMPS_RAM.v_sound_id(a6)		; set music to $80 (silence)
 
-	if FixBugs
-		lea	SMPS_RAM.v_music_dac_track.VoiceControl(a6),a1
-		lea	FMDACInitBytes(pc),a2
-		moveq	#SMPS_MUSIC_FM_DAC_TRACK_COUNT-1,d1	; 7 DAC/FM tracks
-		bsr.s	.writeloop
-		lea	PSGInitBytes(pc),a2
-		moveq	#SMPS_MUSIC_PSG_TRACK_COUNT-1,d1	; 3 PSG tracks
-
-.writeloop:
-		move.b	(a2)+,(a1)				; write track's channel byte
-		lea	SMPS_Track.len(a1),a1			; next track
-		dbf	d1,.writeloop				; loop for all DAC/FM/PSG tracks
-
-		rts
-	else
 		; DANGER! This silences ALL channels, even the ones being used
 		; by SFX, and not music! .sendfmnoteoff does this already, and
 		; doesn't affect SFX channels, either.
@@ -1538,7 +1447,6 @@ InitMusicPlayback:
 		; notes.
 		jsr	FMSilenceAll(pc)
 		bra.w	PSGSilenceAll
-	endif
 
 ; End of function InitMusicPlayback
 ; ===========================================================================
@@ -1647,17 +1555,6 @@ DoFadeIn:
 		bclr	#2,SMPS_RAM.v_music_dac_track.PlaybackControl(a6) ; clear 'SFX overriding' bit
 		clr.b	SMPS_RAM.f_fadein_flag(a6)		; stop fadein
 
-	if FixBugs
-		; Fix the DAC fade-in bug
-		; https://info.sonicretro.org/SCHG_How-to:Fix_Song_Restoration_Bugs_in_Sonic_1%27s_Sound_Driver
-		tst.b	SMPS_RAM.v_music_dac_track.PlaybackControl(a6) ; is the DAC channel running?
-		bpl.s	.Resume_NoDAC				; if not, branch
-
-		moveq	#$FFFFFFB6,d0				; prepare FM channel 3/6 L/R/AMS/FMS address
-		move.b	SMPS_RAM.v_music_dac_track.AMSFMSPan(a6),d1 ; load DAC channel's L/R/AMS/FMS value
-		jmp	WriteFMII(pc)				; write to FM 6
-.Resume_NoDAC:
-	endif
 		rts
 ; End of function DoFadeIn
 
@@ -1933,13 +1830,6 @@ PSGDoVolFX:
 		lsl.w	#2,d0
 		movea.l	(a0,d0.w),a0
 	
-	if FixBugs
-		; Make the below code more efficient
-		move.b	SMPS_Track.VolEnvIndex(a5),d0		; get volume envelope index
-		addq.b	#1,SMPS_Track.VolEnvIndex(a5)		; increment volume envelope index
-		move.b	(a0,d0.w),d0				; volume envelope value
-		bmi.w	VolEnvHold				; branch if not
-	else
 		move.b	SMPS_Track.VolEnvIndex(a5),d0		; get volume envelope index
 		move.b	(a0,d0.w),d0				; volume envelope value
 		addq.b	#1,SMPS_Track.VolEnvIndex(a5)		; increment volume envelope index
@@ -1947,7 +1837,6 @@ PSGDoVolFX:
 		beq.s	.gotflutter				; branch if not
 		cmpi.b	#$80,d0					; is it the terminator?
 		beq.s	VolEnvHold				; if so, branch
-	endif
 
 ; loc_72960:
 .gotflutter:
@@ -2000,15 +1889,6 @@ SendPSGNoteOff:
 		move.b	SMPS_Track.VoiceControl(a5),d0		; PSG channel to change
 		ori.b	#$1F,d0					; maximum volume attenuation
 		move.b	d0,(psg_input).l
-	if FixBugs
-		; DANGER! If InitMusicPlayback doesn't silence all channels, there's the
-		; risk of music accidentally playing noise because it can't detect if
-		; the PSG4/noise channel needs muting on track initialisation.
-		; This is the same fix that S&K's driver uses:
-		cmpi.b	#$DF,d0					; are stopping PSG3?
-		bne.s	locret_729B4
-		move.b	#$FF,(psg_input).l			; if so, stop noise channel while we're at it
-	endif
 
 locret_729B4:
 		rts
@@ -2170,13 +2050,6 @@ cfFadeInToPrevious:
 		move.l	(a1)+,(a0)+
 		dbf	d0,.restoreramloop
 
-	if FixBugs
-		; Fix the FM 6 restoration bug
-		; https://info.sonicretro.org/SCHG_How-to:Fix_Song_Restoration_Bugs_in_Sonic_1%27s_Sound_Driver
-		move.b	#$2B,d0					; register: DAC mode (bit 7 = enable)
-		moveq	#0,d1					; value: DAC mode disable
-		jsr	WriteFMI(pc)				; write to YM2612 Port 0 [sub_7272E]
-	endif
 
 		bset	#2,SMPS_RAM.v_music_dac_track.PlaybackControl(a6) ; set 'SFX overriding' bit
 		movea.l	a5,a3
@@ -2293,12 +2166,6 @@ cfStopSpecialFM4:
 		movea.l	SMPS_RAM.v_voice_ptr(a6),a1		; voice pointer
 		bclr	#2,SMPS_Track.PlaybackControl(a5)	; clear 'SFX is overriding' bit
 		bset	#1,SMPS_Track.PlaybackControl(a5)	; set 'track at rest' bit
-	if FixBugs
-		; DANGER! `SetVoice` expects d0 to be a word, but it's only passed
-		; as a byte below. This may result in restoring invalid/broken FM
-		; voices during fade out sequence if upper byte of d0 was trashed.
-		moveq	#0,d0
-	endif
 		move.b	SMPS_Track.VoiceIndex(a5),d0		; current voice
 		jsr	SetVoice(pc)
 		movea.l	a3,a5
@@ -2386,14 +2253,10 @@ SendVoiceTL:
 		movea.l	SMPS_RAM.v_voice_ptr(a6),a1		; voice pointer
 		tst.b	SMPS_RAM.f_voice_selector(a6)
 		beq.s	.gotvoiceptr
-	if FixBugs
-		movea.l	SMPS_Track.VoicePtr(a5),a1
-	else
 		; DANGER! This uploads the wrong voice! It should have been a5 instead of a6!
 		; In Sonic 1's prototype, TrackVoicePtr was a global variable instead of a
 		; per-track variable, explaining why this uses a6 instead of a5.
 		movea.l	SMPS_Track.VoicePtr(a6),a1
-	endif
 		tst.b	SMPS_RAM.f_voice_selector(a6)
 		bmi.s	.gotvoiceptr
 		movea.l	SMPS_RAM.v_special_voice_ptr(a6),a1

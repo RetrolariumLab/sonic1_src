@@ -389,11 +389,6 @@ BMZ_Escape:
 ; ===========================================================================
 
 BossMarble_ShipDel:
-	if FixBugs
-		; Avoid returning to BossMarble_ShipMain to prevent a
-		; display-and-delete bug.
-		addq.l	#4,sp
-	endif
 		jmp	(DeleteObject).l
 ; ===========================================================================
 
@@ -526,13 +521,8 @@ BossFire:
 		moveq	#0,d0
 		move.b	obRoutine(a0),d0			; copy object routine
 		move.w	BossFire_Index(pc,d0.w),d0		; use the object routine index and BossFire_Index to calculate our offset
-	if FixBugs
-		; DisplaySprite has been moved to avoid a display-after-free bug.
-		jmp	BossFire_Index(pc,d0.w)
-	else
 		jsr	BossFire_Index(pc,d0.w)			; jump into the table and use our offset to pick a routine in the index to go to
 		jmp	(DisplaySprite).l
-	endif
 ; ===========================================================================
 BossFire_Index:	dc.w BossFire_Main-BossFire_Index
 		dc.w BossFire_Action-BossFire_Index
@@ -573,12 +563,7 @@ BossFire_Action:	; Routine 2
 		jsr	(AnimateSprite).l
 		cmpi.w	#boss_mz_y+$D8,obY(a0)			; has the fire fallen into the lava (this routine is shared due to sub routine index above)
 		bhi.s	BossFire_Delete				; if so, delete
-	if FixBugs
-		; DisplaySprite has been moved to avoid a display-after-free bug.
-		jmp	(DisplaySprite).l
-	else
 		rts
-	endif
 ; ===========================================================================
 
 BossFire_Delete:
@@ -721,11 +706,6 @@ BossFire_FallEdge:	; sub Routine 6
 ; ===========================================================================
 
 BossFire_Delete2:
-	if FixBugs
-		; Do not return to BossFire_Action, to avoid double-delete
-		; and display-and-delete bugs.
-		addq.l	#4,sp
-	endif
 		jmp	(DeleteObject).l
 ; ===========================================================================
 ; This controls the flames that never make it to the edge, and burn out on the platform. We branch here from setting the subtype and timer in Duplicate2
@@ -742,13 +722,7 @@ BossFire_TempFire: 	; Routine 4
 
 BossFire_Animate:
 		lea	(Ani_Fire).l,a1
-	if FixBugs
-		; DisplaySprite has been moved to avoid a display-after-free bug.
-		jsr	(AnimateSprite).l
-		jmp	(DisplaySprite).l
-	else
 		jmp	(AnimateSprite).l
-	endif
 ; ===========================================================================
 
 ; BossFire_Delete3:

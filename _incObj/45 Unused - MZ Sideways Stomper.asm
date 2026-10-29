@@ -97,10 +97,8 @@ SStom_MainBlock: ; Routine 2
 		move.w	(sp)+,d4				; restore previous X-position as SolidObject input
 		bsr.w	SolidObject				; make the main block of the stomper solid
 
-	if FixBugs=0
 		; This has been moved to prevent a display-after-free bug.
 		bsr.w	DisplaySprite				; display stomper main block
-	endif
 		bra.w	SStom_ChkDel				; delete object if it went out of range
 ; ===========================================================================
 
@@ -125,19 +123,12 @@ SStom_Spikes:	; Routine 4
 
 ; SStom_Display:
 SStom_WallBracket: ; Routine 6
-	if FixBugs=0
 		bsr.w	DisplaySprite				; just display wall bracket
-	endif
 ; ---------------------------------------------------------------------------
 
 SStom_ChkDel:
 		out_of_range.w	DeleteObject,sstom_origX_2(a0)	; has object gone out of range? if yes, delete it
-	if FixBugs
-		; This has been moved to prevent a display-after-free bug.
-		bra.w	DisplaySprite				; display object
-	else
 		rts						; return
-	endif
 
 ; ===========================================================================
 ; ---------------------------------------------------------------------------
@@ -159,10 +150,6 @@ SStom_Move:
 SStom_Move_Index:
 		dc.w SStom_MoveStomper-SStom_Move_Index		; 0 - short
 		dc.w SStom_MoveStomper-SStom_Move_Index		; 1 - long
-	if FixBugs
-		; An entry for subtype 02 is missing, despite being defined in SStom_Len.
-		dc.w SStom_MoveStomper-SStom_Move_Index		; 2 - medium
-	endif
 ; ===========================================================================
 
 SStom_MoveStomper:

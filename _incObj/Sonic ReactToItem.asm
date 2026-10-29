@@ -21,9 +21,6 @@ ReactToItem:
 		subq.b	#3,d5					; shrink by 3px
 		sub.w	d5,d3					; d3 = Y-position of Sonic's top edge
 
-	if FixBugs
-		cmpi.b	#id_Duck,obAnim(a0)			; is Sonic in his ducking animation?
-	else
 		; Rather than checking for the ducking animation, this specifically checks for the
 		; ducking frame. This works fine here, but led to humorous problems in sequels:
 		; - in Sonic 2, only the second ducking frame has a smaller hitbox, and only
@@ -32,7 +29,6 @@ ReactToItem:
 		; meaning it instead takes effect on a random angled walking frame
 		; - Sonic 3 & Knuckles just removed this code entirely
 		cmpi.b	#fr_Duck,obFrame(a0)			; is Sonic ducking?
-	endif
 		bne.s	.notducking				; if not, branch
 		addi.w	#((sonic_height-3)-sonic_duck_height)*2,d3 ; adjust Y-position of Sonic's top edge when ducking
 		moveq	#sonic_duck_height,d5			; use alternate hitbox extent
@@ -211,11 +207,6 @@ React_CollisionDetected:
 React_Monitor:
 		tst.w	obVelY(a0)				; is Sonic moving upwards?
 		bpl.s	.chkBreakMonitor			; if not, branch
-	if FixBugs
-		; Fix bumping monitors while Sonic isn't airborne
-		btst	#status_in_air_bit,obStatus(a0)		; is Sonic in air?
-		beq.s	.chkBreakMonitor			; if not, don't bump monitor
-	endif
 
 .chkBumpMonitor:
 		move.w	obY(a0),d0				; get Sonic's Y-position
@@ -338,16 +329,12 @@ React_ChkHurt:
 
 ; .isflashing:
 .noDamage:
-	if FixBugs
-		bra.w	React_CheckNext				; try next object in RAM
-	else
 		; If Sonic is hurt or invincible, this would exit ReactToItem entirely upon finding
 		; the first damaging object. As a result, later objects in RAM would never be checked,
 		; even if they could trigger a valid interaction. One obvious manifestiation of this bug
 		; is picking up lost rings while standing on Marble Zone lava being nearly impossible.
 		moveq	#-1,d0					; collision detected
 		rts						; exit ReactToItem
-	endif
 ; ---------------------------------------------------------------------------
 
 ; .notinvincible:
@@ -409,14 +396,6 @@ HurtSonic:
 		move.b	#id_Hurt,obAnim(a0)			; set Sonic to hurt animation
 		move.w	#2*60,flashtime(a0)			; set temporary invulnerability time to 2 seconds
 
-	if FixBugs
-		move.w	#sfx_HitSpikes,d0			; use spike damage sound
-		cmpi.b	#id_Spikes,obID(a2)			; was damage caused by spikes?
-		beq.s	.sound					; if yes, branch
-		cmpi.b	#id_Harpoon,obID(a2)			; was damage caused by LZ harpoon?
-		beq.s	.sound					; if yes, branch
-		move.w	#sfx_Death,d0				; use generic damage sound
-	else
 		; This is bugged: the harpoon will never play the spike sound!
 		move.w	#sfx_Death,d0				; use generic damage sound
 		cmpi.b	#id_Spikes,obID(a2)			; was damage caused by spikes?
@@ -424,7 +403,6 @@ HurtSonic:
 		cmpi.b	#id_Harpoon,obID(a2)			; was damage caused by LZ harpoon?
 		bne.s	.sound					; if not, branch
 		move.w	#sfx_HitSpikes,d0			; use spike damage sound
-	endif
 
 	.sound:
 		jsr	(QueueSound2).l				; play selected sound
@@ -464,33 +442,18 @@ KillSonic:
 		move.w	#0,obVelX(a0)				; stop horizontal movement
 		move.w	#0,obInertia(a0)			; stop ground movement
 
-	if (FixBugs=0)&(UnusedOptimization=0)
 		; Leftover line from the prototype, where objoff_38 was used to respawn Sonic at his last Y-position,
 		; which causes sticktoconvex to get overwritten with the high byte of Sonic's Y-position.
 		; Sonic doesn't react to solids when he dies, but escaping death through debug mode would cause problems.
 		move.w	obY(a0),objoff_38(a0)			; (unused) backup Y-position before dying
-	endif
 
 		move.b	#id_Death,obAnim(a0)			; set Sonic to use death animation
 		bset	#7,obGfx(a0)				; set Sonic to high sprite priority state
 
-	if FixBugs
-		; Stop timer as soon as death is triggered to prevent double deaths from time overs
-		clr.b	(f_timecount).w				; stop time counter
-
-		; Fix harpoon object's death sound
-		move.w	#sfx_HitSpikes,d0			; play spikes death sound
-		cmpi.b	#id_Spikes,obID(a2)			; check if you were killed by spikes
-		beq.s	.sound					; if yes, branch
-		cmpi.b	#id_Harpoon,obID(a2)			; check if you were killed by a harpoon
-		beq.s	.sound					; if yes, branch
-		move.w	#sfx_Death,d0				; play normal death sound
-	else
 		move.w	#sfx_Death,d0				; play normal death sound
 		cmpi.b	#id_Spikes,obID(a2)			; check if you were killed by spikes
 		bne.s	.sound					; if not, branch
 		move.w	#sfx_HitSpikes,d0			; play spikes death sound
-	endif
 
 	.sound:
 		jsr	(QueueSound2).l				; play selected sound

@@ -34,9 +34,6 @@ Ledge_Main:	; Routine 0
 		ori.b	#sprite_cam_field,obRender(a0)
 		move.b	#4,obPriority(a0)
 		move.b	#7,collapsible_timedelay(a0)		; set time delay for collapse
-	if FixBugs
-		move.b	#96/2,obActWid(a0)
-	else
 		; There isn't any need to give this object a 200 pixel radius for
 		; its culling radius, as it could cause wrapping issues. 96 pixels
 		; is perfectly fine and matches its collision.
@@ -45,7 +42,6 @@ Ledge_Main:	; Routine 0
 		; and causes more problems there due to the ledge's collision code
 		; being rewritten to use obActWid (such as teleporting under it).
 		move.b	#200/2,obActWid(a0)
-	endif
 		move.b	obSubtype(a0),obFrame(a0)		; use subtype as frame ID (0 or 1)
 		move.b	#112/2,obHeight(a0)
 		bset	#sprite_customheight_bit,obRender(a0)	; set custom height flag
@@ -115,18 +111,12 @@ Ledge_FragmentPiece:	; Routine 6
 
 .fragmentFall:
 		bsr.w	ObjectFall
-	if FixBugs
-		tst.b	obRender(a0)
-		bpl.s	Ledge_Delete
-		bra.w	DisplaySprite
-	else
 		; Objects should not call DisplaySprite and DeleteObject on
 		; the same frame or else cause a null-pointer dereference.
 		bsr.w	DisplaySprite
 		tst.b	obRender(a0)
 		bpl.s	Ledge_Delete
 		rts
-	endif
 ; ===========================================================================
 
 Ledge_Delete:	; Routine 8
@@ -249,18 +239,12 @@ CFlo_FragmentPiece:	; Routine 6
 
 .fragmentFall:
 		bsr.w	ObjectFall
-	if FixBugs
-		tst.b	obRender(a0)
-		bpl.s	CFlo_Delete
-		bra.w	DisplaySprite
-	else
 		; Objects should not call DisplaySprite and DeleteObject on
 		; the same frame or else cause a null-pointer dereference.
 		bsr.w	DisplaySprite
 		tst.b	obRender(a0)
 		bpl.s	CFlo_Delete
 		rts
-	endif
 ; ===========================================================================
 
 CFlo_Delete:	; Routine 8
@@ -318,14 +302,7 @@ FragmentatePlatform:
 ; ===========================================================================
 
 .loopFragments:
-	if FixBugs
-		; If an object is allocated before the parent object, then
-		; when the child is deleted, it will have already been queued
-		; for display, which is a display-and-delete bug.
-		bsr.w	FindNextFreeObj				; find free object after current one in RAM
-	else
 		bsr.w	FindFreeObj				; find free object from start over and over (slow here!)
-	endif
 		bne.s	.fragmentationDone			; if object RAM is full, branch
 		addq.w	#5,a3					; advance to next sprite piece in mappings
 	.firstFragment:
@@ -338,15 +315,8 @@ FragmentatePlatform:
 		move.w	obGfx(a0),obGfx(a1)			; copy art tile
 		move.b	obPriority(a0),obPriority(a1)		; copy sprite priority
 		move.b	obActWid(a0),obActWid(a1)		; copy display width
-	if FixBugs
-		; The GHZ ledge has the "custom sprite height" flag set in obRender, which gets carried over
-		; to all child fragments. However, no custom height is specified (so it is implicitly 0).
-		; As a result, the fragments get culled/deleted too early while they are falling down.
-		move.b	obHeight(a0),obHeight(a1)		; copy display height
-	endif
 		move.b	(a4)+,collapsible_timedelay(a1)		; write next time delay from "CollapseData_..." array
 
-	if FixBugs=0
 		; This check ensures that fragments that are loaded earlier in RAM than
 		; the first fragment will still be rendered on the frame they are spawned in.
 		; However, the above fix makes this special case redundant.
@@ -354,7 +324,6 @@ FragmentatePlatform:
 		bhs.s	.afterFirst				; if yes, branch
 		bsr.w	DisplaySprite2				; fragment was loaded before first, make sure it still gets rendered on first frame
 	.afterFirst:
-	endif
 
 		dbf	d1,.loopFragments			; loop until all fragments have been spawned in
 

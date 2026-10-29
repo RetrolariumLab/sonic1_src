@@ -113,10 +113,6 @@ Elev_StoodOn:	; Routine 4
 ; ---------------------------------------------------------------------------
 
 .deleted:
-	if FixBugs
-		; Avoid display-and-delete and double-delete bugs.
-		addq.l	#4,sp					; don't return to "Elevator:" to prevent calling DisplaySprite
-	endif
 		rts						; return
 
 ; ===========================================================================

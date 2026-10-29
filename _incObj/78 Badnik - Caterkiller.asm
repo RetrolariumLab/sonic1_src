@@ -30,11 +30,6 @@ cat_segmentpos:	equ cat_parent	; segment position - starts as 0/4/8/$A, incremen
 
 ; Cat_Return:
 Cat_HideForInit:
-	if FixBugs
-		; Fix badnik invisibly falling forever if it doesn't have a floor beneath it
-		cmpi.w	#$7FF,obY(a0)				; has object fallen below max level height?
-		bhi.w	Cat_Delete				; if yes, delete it
-	endif
 		rts						; return
 ; ===========================================================================
 
@@ -379,19 +374,9 @@ Cat_BodySeg1:	; Routine 4, 8
 		beq.s	.delete					; if yes, branch
 		cmpi.b	#$A,obRoutine(a1)			; is the parent going to delete itself? (set to Cat_Delete)
 		bne.s	.display				; if not, branch
-	if FixBugs
-		; Each body segment deletes itself when it detects that the head is going to delete itself.
-		; This mostly works, but does cause the sub-object to linger for one frame longer than it should,
-		; which is why rolling into a Caterkiller at high speed causes Sonic to be hurt.
-		clr.b	obColType(a0)				; prevent segment from hurting.
-	endif
 
 .delete:
 		move.b	#$A,obRoutine(a0)			; mark self for deletion (Cat_Delete)
-	if FixBugs
-		; Do not queue self for display, since it will be deleted by its child later.
-		rts						; return
-	endif
 
 .display:
 		jmp	(DisplaySprite).l			; display sprite

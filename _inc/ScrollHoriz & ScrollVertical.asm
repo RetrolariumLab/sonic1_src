@@ -36,20 +36,10 @@ MoveScreenHoriz:
 		sub.w	(v_screenposx).w,d0			; d0 = Sonic's distance from left edge of screen
 
 		subi.w	#(320/2)-16,d0				; is distance less than 144px?
-	if FixBugs
-		; Fix horizontal wrap bug (left)
-		blt.s	SH_MoveCameraLeft			; if yes, branch (signed)
-	else
 		bcs.s	SH_MoveCameraLeft			; if yes, branch (unsigned)
-	endif
 
 		subi.w	#16,d0					; is distance more than 160px?
-	if FixBugs
-		; Fix horizontal wrap bug (right)
-		bge.s	SH_MoveCameraRight			; if yes, branch (signed)
-	else
 		bcc.s	SH_MoveCameraRight			; if yes, branch (unsigned)
-	endif
 
 		clr.w	(v_scrshiftx).w				; Sonic is within the sweet spot, do not update camera shift
 		rts						; return
@@ -81,13 +71,6 @@ SH_SetScreen:
 
 ; SH_BehindMid:
 SH_MoveCameraLeft:
-	if FixBugs
-		; Fix leftside movement not being capped (unlike rightside movement),
-		; which can result in draw errors if going too fast to the left.
-		cmpi.w	#-16,d0					; is Sonic within -16px of middle area?
-		bgt.s	.moveLeft				; if yes, branch
-		move.w	#-16,d0					; set to -16 if lower
-	endif
 
 	; SH_Behind16:
 	.moveLeft:
@@ -100,7 +83,6 @@ SH_MoveCameraLeft:
 ; End of function ScrollHoriz
 ; ===========================================================================
 
-	if UnusedOptimization=0
 ; Dead, unused code.
 AutoScroll_Unused:
 		; This appears to be some sort of autoscrolling logic that moves
@@ -119,7 +101,6 @@ AutoScroll_Unused:
 		move.w	#2,d0					; move camera to the right
 		bra.s	SH_MoveCameraRight			; go to right-moving logic
 ; End of function AutoScroll_Unused
-	endif
 
 ; ===========================================================================
 ; ---------------------------------------------------------------------------

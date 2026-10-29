@@ -4,12 +4,6 @@
 ; ---------------------------------------------------------------------------
 
 PaletteCycle:
-	if FixBugs
-		; Fix palettes getting corrupted during level transitions between different zones
-		tst.w	(f_restart).w				; is level set to restart?
-		beq.s	.doCycle				; if not, branch
-		rts						; don't execute palette cycle
-	endif
 
 	.doCycle:
 		moveq	#0,d2					; clear d2 (redundant, not used here)
@@ -325,9 +319,7 @@ Pal_LZCyc_Waterfall:	binclude	"palette/Cycle - LZ Waterfall.bin"
 Pal_LZCyc_Conveyor:	binclude	"palette/Cycle - LZ Conveyor Belt.bin"
 Pal_LZCyc_ConveyorUW:	binclude	"palette/Cycle - LZ Conveyor Belt Underwater.bin"
 Pal_SBZ3Cyc_Waterfall:	binclude	"palette/Cycle - SBZ3 Waterfall.bin"
-	if UnusedOptimization=0
 Pal_MZCyc_Unused:	binclude	"palette/Cycle - MZ (Unused).bin"
-	endif
 Pal_SLZCyc_Lights:	binclude	"palette/Cycle - SLZ.bin"
 Pal_SYZCyc_BlackYellow:	binclude	"palette/Cycle - SYZ1.bin"
 Pal_SYZCyc_RedWhite:	binclude	"palette/Cycle - SYZ2.bin"

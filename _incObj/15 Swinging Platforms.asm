@@ -73,14 +73,7 @@ Swing_CreateLinks:
 		subq.w	#1,d1					; spawn one less child object
 
 .loopMakeChain:
-	if FixBugs
-		; If an object is allocated before the parent object, then
-		; when the child is deleted, it will have already been queued
-		; for display, which is a display-and-delete bug.
-		bsr.w	FindNextFreeObj				; find next free object RAM slot
-	else
 		bsr.w	FindFreeObj				; find any free object RAM slot
-	endif
 		bne.s	.finalizeParent				; if object RAM is full, abort
 
 		addq.b	#1,swing_children(a0)			; increment number of loaded child objects
@@ -146,10 +139,8 @@ Swing_Platform:	; Routine 2
 Swing_Swinging:	; Routine $C
 		bsr.w	Swing_Move				; swing platform and update its child links
 
-	if FixBugs=0
 		; This has been moved to prevent a display-after-free bug.
 		bsr.w	DisplaySprite				; display main platform object
-	endif
 		bra.w	Swing_ChkDel				; delete platform and links if out of range
 ; ===========================================================================
 
@@ -168,10 +159,8 @@ Swing_StoodOn:	; Routine 4
 		addq.b	#1,d3					; +1px for height
 		bsr.w	MvSonicOnPtfm				; move Sonic with platform as it swings
 
-	if FixBugs=0
 		; This has been moved to prevent a display-after-free bug.
 		bsr.w	DisplaySprite				; display main platform object
-	endif
 		bra.w	Swing_ChkDel				; delete platform and links if out of range
 		rts						; useless rts
 ; ===========================================================================
@@ -274,12 +263,7 @@ Swing_UpdateSwingPosition:
 
 Swing_ChkDel:
 		out_of_range.w	.deleteAll,swing_origX(a0)	; has platform gone out of range? if yes, delete it with all links
-	if FixBugs
-		; This has been moved to prevent a display-after-free bug.
-		bra.w	DisplaySprite				; display platform
-	else
 		rts						; return
-	endif
 ; ---------------------------------------------------------------------------
 
 ; Swing_DelAll:

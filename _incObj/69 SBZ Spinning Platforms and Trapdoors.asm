@@ -24,12 +24,8 @@ Spin_Main:	; Routine 0
 		move.l	#Map_Trap,obMap(a0)			; set mappings
 		move.w	#ArtTile_SBZ_Trap_Door|Tile_Pal3,obGfx(a0) ; set art tile and palette line
 		ori.b	#sprite_cam_field,obRender(a0)		; set to playfield-positioned mode
-	if FixBugs
-		move.b	#128/2,obActWid(a0)			; set sprite display width (corrected)
-	else
 		; This width is way too big, resulting in screen wrapping issues
 		move.b	#256/2,obActWid(a0)			; set sprite display width (too large)
-	endif
 
 		moveq	#0,d0					; clear d0
 		move.b	obSubtype(a0),d0			; get object subtype

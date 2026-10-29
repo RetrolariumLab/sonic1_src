@@ -17,21 +17,6 @@ Mon_Index:	dc.w Mon_Main-Mon_Index				; 0 - init
 ; ===========================================================================
 
 Mon_Main:	; Routine 0
-	if FixBugs
-		; Convert monitors with invalid subtypes (above 8) into solid barriers,
-		; preserving the subtype as width and height setting for the barrier.
-		; SBZ2 has a handful of these broken monitors hidden in walls, all
-		; of which match to properly sized invisible solid barriers, likely
-		; originating from improper data conversion late into development.
-
-		; If you have replaced the SBZ2 object data with its fixed version,
-		; this fix is not necessary.
-		cmpi.b	#8,obSubtype(a0)			; is monitor subtype valid? i.e. no higher than goggles monitor (ID 8)
-		bls.s	.valid					; if yes, branch
-		move.b	#id_Invisibarrier,obID(a0)		; otherwise, convert this monitor to an invisible solid barrier
-		jmp	(Invisibarrier).l			; execute barrier logic
-.valid:
-	endif
 
 		addq.b	#2,obRoutine(a0)			; go to "Mon_Solid" next
 		move.b	#28/2,obHeight(a0)			; set height
@@ -45,10 +30,8 @@ Mon_Main:	; Routine 0
 		lea	(v_objstate).w,a2			; get object respawn table
 		moveq	#0,d0					; clear d0
 		move.b	obRespawnNo(a0),d0			; get monitor's respawn table index number
-	if FixBugs=0
 		; This has been relocated into the RememberState fix below
 		bclr	#7,2(a2,d0.w)				; immediately clear the respawn block flag (...why?)
-	endif
 		btst	#0,2(a2,d0.w)				; has monitor already been broken?
 		beq.s	.notbroken				; if not, branch
 
@@ -153,10 +136,8 @@ Mon_Solid:	; Routine 2
 .checkpush:
 		btst	#status_pushing_bit,obStatus(a0)	; is Sonic still pushing against the monitor?
 		beq.s	Mon_Animate				; if not, branch
-	if FixBugs=0
 		; This causes the infamous "walk-jump bug"
 		move.w	#id_Run,obAnim(a1)			; clear obAnim and set obNextAni to 1
-	endif
 
 ; loc_A26A:
 .stoppushing:
@@ -168,15 +149,11 @@ Mon_Animate:	; Routine 6
 		bsr.w	AnimateSprite				; animate monitor
 
 Mon_Display:	; Routine 8
-	if FixBugs
-		bra.w	RememberState				; handle display, respawn table, and offscreen delete
-	else
 		; Objects shouldn't call DisplaySprite and DeleteObject in
 		; the same frame or else cause a null-pointer dereference.
 		bsr.w	DisplaySprite				; display monitor
 		out_of_range.w	DeleteObject			; check if monitor has gone offscreen and delete it if so
 		rts						; return
-	endif
 ; ===========================================================================
 
 Mon_BreakOpen:	; Routine 4 (set from ReactToItem)
@@ -261,14 +238,7 @@ Pow_Checks:
 Pow_ChkEggman:
 		cmpi.b	#1,d0					; does monitor contain Eggman?
 		bne.s	Pow_ChkSonic				; if not, branch
-	if FixBugs
-		; Fix the Eggman monitor
-		; https://info.sonicretro.org/SCHG_How-to:Have_a_functional_Eggman_monitor_in_Sonic_1
-		move.w	obX(a0),spikes_origX(a0)		; needed to display the icon properly
-		jmp	(Spikes_Hurt).l				; use imaginary spikes to hurt Sonic
-	else
 		rts						; Eggman monitor does nothing by default
-	endif
 ; ===========================================================================
 
 Pow_ChkSonic:
@@ -298,15 +268,6 @@ Pow_ChkShoes:
 		; an oversight, or an intentional design choice.
 		move.w	#son_deceleration,(v_sonspeeddec).w 	; set Sonic's deceleration (same as regular)
 
-	if FixBugs
-		; Fix speed shoes for underwater state.
-		btst	#6,(v_player+obStatus).w		; is Sonic underwater?
-		beq.s	.notunderwater				; if not, branch
-		move.w	#son_maxspeed,(v_sonspeedmax).w		; initial Sonic's top speed
-		move.w	#son_acceleration,(v_sonspeedacc).w	; initial Sonic's acceleration
-		move.w	#son_deceleration,(v_sonspeeddec).w 	; initial Sonic's deceleration
-	.notunderwater:
-	endif
 
 		move.w	#bgm_Speedup,d0				; set music speed-up command
 		jmp	(QueueSound1).l				; play it
@@ -356,15 +317,6 @@ Pow_ChkRings:
 		bne.s	Pow_ChkS				; if not, branch
 
 		addi.w	#10,(v_rings).w				; add 10 rings to the number of rings you have
-	if FixBugs
-		; There isn't any limit to how many rings the player can
-		; collect, which bugs out the ring counter at 999+ rings.
-		; Sonic 2 REV00 only fixed this for regular rings, while
-		; monitors were not fixed until REV01.
-		cmpi.w	#999,(v_rings).w			; does the player have 999 rings?
-		blo.s	.chkExtraLife				; if not, branch
-		move.w	#999,(v_rings).w			; cap at 999 rings
-	endif
 
 	.chkExtraLife:
 		ori.b	#1,(f_ringcount).w			; update the ring counter
@@ -401,15 +353,7 @@ Pow_ChkEnd:
 
 Pow_Delete:	; Routine 4
 		subq.w	#1,obTimeFrame(a0)			; deduct 1 from final delay (half a second by default)
-	if FixBugs
-		; Avoid returning to PowerUp to prevent display-and-delete
-		; and double-delete bugs.
-		bmi.s	.return					; if time remains, branch
-		addq.l	#4,sp					; tamper return value to not return to PowerUp
-		bra.w	DeleteObject				; delete icon object
-	else
 		bmi.w	DeleteObject				; delete icon object after half a second
-	endif
 
 .return:
 		rts						; return to PowerUp to keep displaying icon

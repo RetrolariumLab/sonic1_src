@@ -7,14 +7,8 @@ GeyserMaker:
 		moveq	#0,d0
 		move.b	obRoutine(a0),d0
 		move.w	GMake_Index(pc,d0.w),d1
-	if FixBugs
-		; Deletion has been changed to eliminate potential
-		; double-delete and display-and-delete bugs.
-		jmp	GMake_Index(pc,d1.w)
-	else
 		jsr	GMake_Index(pc,d1.w)
 		bra.w	Geyser_ChkDel
-	endif
 ; ===========================================================================
 GMake_Index:	dc.w GMake_Main-GMake_Index		; 0
 		dc.w GMake_Wait-GMake_Index		; 2
@@ -53,11 +47,6 @@ GMake_Wait:	; Routine 2
 		addq.b	#2,obRoutine(a0)			; if Sonic is within range, advance to GMake_ChkType
 
 	.cancel:
-	if FixBugs
-		; Deletion has been changed to eliminate potential
-		; double-delete and display-and-delete bugs.
-		out_of_range.w	DeleteObject
-	endif
 		rts
 ; ===========================================================================
 
@@ -91,20 +80,10 @@ GMake_ChkType:	; Routine 4
 		tst.b	obSubtype(a0)				; is object type 00 (geyser)?
 		beq.s	GMake_Display				; if yes, branch
 		addq.b	#2,obRoutine(a0)			; for object type 01 (lavafall), advance to GMake_MakeLava
-	if FixBugs
-		; Deletion has been changed to eliminate potential
-		; double-delete and display-and-delete bugs.
-		out_of_range.w	DeleteObject
-	endif
 		rts
 ; ===========================================================================
 
 GMake_Display:	; Routine 8
-	if FixBugs
-		; Deletion has been changed to eliminate potential
-		; double-delete and display-and-delete bugs.
-		out_of_range.w	DeleteObject
-	endif
 		lea	(Ani_Geyser).l,a1			; advance animation
 		bsr.w	AnimateSprite				; (for geyser, this will advance obRoutine after bubbling animation has finished)
 		bsr.w	DisplaySprite
@@ -116,11 +95,6 @@ GMake_Delete:	; Routine $A
 		move.b	#2,obRoutine(a0)			; set to GMake_Wait
 		tst.b	obSubtype(a0)				; is this a lava geyser?
 		beq.w	DeleteObject				; if yes, delete maker
-	if FixBugs
-		; Deletion has been changed to eliminate potential
-		; double-delete and display-and-delete bugs.
-		out_of_range.w	DeleteObject
-	endif
 		rts						; keep lavafall maker alive indefinitely
 
 
@@ -133,14 +107,8 @@ LavaGeyser:
 		moveq	#0,d0
 		move.b	obRoutine(a0),d0
 		move.w	Geyser_Index(pc,d0.w),d1
-	if FixBugs
-		; The call to DisplaySprite has been moved to prevent a
-		; display-and-delete bug.
-		jmp	Geyser_Index(pc,d1.w)
-	else
 		jsr	Geyser_Index(pc,d1.w)
 		bra.w	DisplaySprite
-	endif
 ; ===========================================================================
 Geyser_Index:	dc.w Geyser_Main-Geyser_Index		; 0
 		dc.w Geyser_Action-Geyser_Index		; 2
@@ -181,13 +149,9 @@ Geyser_Main:	; Routine 0
 		move.l	#Map_Geyser,obMap(a1)			; set mappings
 		move.w	#ArtTile_MZ_Lava|Tile_Pal4,obGfx(a1)	; set art tile and palette line (palcycle)
 		move.b	#sprite_cam_field,obRender(a1)		; set to playfield-positioned mode
-	if FixBugs=0
 		; This is inconsistent with GeyserMaker, causing it to vanish
 		; while still partially on-screen.
 		move.b	#64/2,obActWid(a1)			; set sprite display width
-	else
-		move.b	#112/2,obActWid(a1)			; set sprite display width
-	endif
 		move.w	obX(a0),obX(a1)				; copy X-position
 		move.w	obY(a0),obY(a1)				; copy Y-position
 		move.b	obSubtype(a0),obSubtype(a1)		; copy subtype
@@ -246,12 +210,7 @@ Geyser_Action:	; Routine 2
 
 Geyser_ChkDel:
 		out_of_range.w	DeleteObject
-	if FixBugs
-		; Moved to prevent a delete-and-display bug.
-		bra.w	DisplaySprite
-	else
 		rts
-	endif
 ; ===========================================================================
 Geyser_Types:	dc.w Geyser_Type00-Geyser_Types	; geyser
 		dc.w Geyser_Type01-Geyser_Types	; fall

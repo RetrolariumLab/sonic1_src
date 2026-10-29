@@ -542,14 +542,8 @@ Points:
 		moveq	#0,d0
 		move.b	obRoutine(a0),d0
 		move.w	Poi_Index(pc,d0.w),d1
-	if FixBugs
-		; Objects shouldn't call DisplaySprite and DeleteObject on
-		; the same frame or else cause a null-pointer dereference.
-		jmp	Poi_Index(pc,d1.w)
-	else
 		jsr	Poi_Index(pc,d1.w)
 		bra.w	DisplaySprite
-	endif
 ; ===========================================================================
 Poi_Index:	dc.w Poi_Main-Poi_Index
 		dc.w Poi_Slower-Poi_Index
@@ -570,11 +564,7 @@ Poi_Slower:	; Routine 2
 		bpl.w	DeleteObject				; if yes, delete it
 		bsr.w	SpeedToPos				; update position based on velocity
 		addi.w	#$18,obVelY(a0)				; reduce upward speed
-	if FixBugs
-		bra.w	DisplaySprite				; display points object
-	else
 		rts						; return to top Points routine for display
-	endif
 
 ; ===========================================================================
 

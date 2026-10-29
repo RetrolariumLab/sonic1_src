@@ -41,14 +41,12 @@ Drown_Main:	; Routine 0
 		move.b	obSubtype(a0),d0			; get bubble type
 		bpl.s	.numberBubble				; is this the special countdown object (set from Obj01_InWater)? if not, branch
 		addq.b	#8,obRoutine(a0)			; advance to Drown_Countdown
-	if FixBugs=0
 		; This is a leftover setting the drowning countdown object to mappings that point towards
 		; an unused face of Sonic holding his breath. Since the air-tracking object is invisible
 		; (the drowning countdown numbers are loaded separately), it goes completely unused.
 		; The relevant graphics at "Nem_LzSonic" were also removed entirely in REV01.
 		move.l	#Map_UnusedFace,obMap(a0)		; set drown numbers mappings
 		move.w	#ArtTile_LZ_UnusedFace,obGfx(a0)	; set drown numbers art tile
-	endif
 		andi.w	#$7F,d0					; clear drown countdown bit from subtype
 		move.b	d0,drown_type(a0)			; set bubble type
 		bra.w	Drown_Countdown				; skip directly to countdown logic
@@ -73,17 +71,9 @@ Drown_ChkWater:	; Routine 4
 		move.b	#6,obRoutine(a0)			; goto Drown_Display next
 		addq.b	#7,obAnim(a0)				; advance number bubble to "flashing" animation ()
 
-	if FixBugs
-		; Fixes a graphical glitch with bubbles hitting the surface
-		cmpi.b	#$E,obAnim(a0)				; is this the "mediumbubble" animation?
-		blo.s	Drown_Display				; if not, branch
-		move.b	#$D,obAnim(a0)				; force back to "blank" animation
-		bra.s	Drown_Display				; display number and animate
-	else
 		cmpi.b	#$D,obAnim(a0)				; is this the "blank" animation?
 		beq.s	Drown_Display				; if yes, branch
 		bra.s	Drown_Display				; if not... also branch (what?)
-	endif
 ; ===========================================================================
 
 .wobble:
@@ -267,11 +257,6 @@ Drown_Countdown:; Routine $A
 		move.w	#0,obVelX(a0)				; cancel X-speed
 		move.w	#0,obInertia(a0)			; cancel ground speed
 		move.b	#1,(f_nobgscroll).w			; disable plane scrolling while drowning
-	if FixBugs
-		; Correct Drowning Bugs
-		move.b	#2,obRoutine(a0)			; make sure Sonic is in his default state (Sonic_Control)
-		clr.b	(f_timecount).w				; also stop the timer immediately to avoid double deaths from Time Overs
-	endif
 		movea.l	(sp)+,a0				; restore current object
 		rts						; return
 ; ===========================================================================
@@ -373,6 +358,4 @@ Drown_Countdown:; Routine $A
 
 		include	"_anim/Drowning Countdown.asm"
 
-	if FixBugs=0
 Map_UnusedFace:	include	"_maps/Unused Sonic Face.asm"
-	endif

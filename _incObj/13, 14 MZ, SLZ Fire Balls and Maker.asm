@@ -9,14 +9,7 @@ LavaMaker:
 		move.w	LavaM_Index(pc,d0.w),d1
 		jsr	LavaM_Index(pc,d1.w)
 
-	if FixBugs
-		; This had to be changed because LBall_ChkDel has
-		; been adjusted to fix display-and-delete bugs.
-		out_of_range.w	DeleteObject
-		rts
-	else
 		bra.w	LBall_ChkDel
-	endif
 ; ===========================================================================
 LavaM_Index:	dc.w LavaM_Main-LavaM_Index
 		dc.w LavaM_MakeLava-LavaM_Index
@@ -65,12 +58,8 @@ LavaBall:
 		moveq	#0,d0
 		move.b	obRoutine(a0),d0
 		move.w	LBall_Index(pc,d0.w),d1
-	if FixBugs
-		jmp	LBall_Index(pc,d1.w)
-	else
 		jsr	LBall_Index(pc,d1.w)
 		bra.w	DisplaySprite
-	endif
 ; ===========================================================================
 LBall_Index:	dc.w LBall_Main-LBall_Index
 		dc.w LBall_Action-LBall_Index
@@ -144,11 +133,7 @@ LBall_Action:	; Routine 2
 
 LBall_ChkDel:
 		out_of_range.w	DeleteObject			; has lava ball gone out of range? if yes, delete it
-	if FixBugs
-		bra.w	DisplaySprite				; display lava ball
-	else
 		rts						; return
-	endif
 
 ; ===========================================================================
 LBall_TypeIndex:dc.w LBall_RiseAndFall-LBall_TypeIndex		; 0

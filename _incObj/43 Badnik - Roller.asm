@@ -35,11 +35,6 @@ Roll_Main:	; Routine 0
 		move.b	#32/2,obActWid(a0)			; set sprite display width
 	.hide:
 
-	if FixBugs
-		; Fix badnik invisibly falling forever if it doesn't have a floor beneath it
-		cmpi.w	#$7FF,obY(a0)				; has object fallen below max level height?
-		bhi.w	DeleteObject				; if yes, delete it
-	endif
 		rts						; return (and do NOT display sprite yet)
 ; ===========================================================================
 
@@ -52,9 +47,6 @@ Roll_Action:	; Routine 2
 		lea	(Ani_Roll).l,a1				; load animation script
 		bsr.w	AnimateSprite				; animate Roller
 
-	if FixBugs
-		bra.w	RememberState				; display or handle offscreen deletion
-	else
 		; This is an exact copy-paste of the RememberState subroutine, except that
 		; it uses bgt instead of bhi for the offscreen check. As a result, Rollers
 		; cannot despawn when going too far offscreen to the left, which can cause
@@ -79,7 +71,6 @@ Roll_Action:	; Routine 2
 		bclr	#7,2(a2,d0.w)
 	.delete:
 		bra.w	DeleteObject
-	endif
 
 ; ===========================================================================
 Roll_ActIndex:	dc.w Roll_Action_FromLeft-Roll_ActIndex		; 0

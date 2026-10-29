@@ -133,16 +133,9 @@ Ring_SpawningDone:
 Ring_Animate:	; Routine 2
 		move.b	(v_ani1_frame).w,obFrame(a0)		; set frame (updated in SynchroAnimate => Sync2)
 
-	if FixBugs
-		; Objects shouldn't call DisplaySprite and DeleteObject in
-		; the same frame or else cause a null-pointer dereference.
-		out_of_range.s	Ring_Delete,ring_origX(a0)	; has ring gone out of range (based on group X-position)? if yes, delete it
-		bra.w	DisplaySprite				; otherwise, display ring sprite
-	else
 		bsr.w	DisplaySprite				; display ring sprite
 		out_of_range.s	Ring_Delete,ring_origX(a0)	; has ring gone out of range (based on group X-position)? if yes, delete it
 		rts						; return
-	endif
 ; ===========================================================================
 
 Ring_Collect:	; Routine 4 (set from ReactToItem)
@@ -174,19 +167,7 @@ Ring_Delete:	; Routine 8
 ; ---------------------------------------------------------------------------
 
 CollectRing:
-	if FixBugs
-		; There isn't any limit to how many rings the player can
-		; collect, which bugs out the ring counter at 999+ rings.
-		; Sonic 2 and 3K would add a cap to stop this.
-		moveq	#1,d0					; add 1 to rings
-		add.w	(v_rings).w,d0				; get previous ring count
-		cmpi.w	#999,d0					; does the player have 999 rings now?
-		blo.s	.belowmax				; if not, branch
-		move.w	#999,d0					; cap at 999 rings
-.belowmax:	move.w	d0,(v_rings).w				; set new ring count
-	else
 		addq.w	#1,(v_rings).w				; add 1 to rings
-	endif
 		ori.b	#1,(f_ringcount).w			; update the rings counter
 
 		move.w	#sfx_Ring,d0				; play ring sound
@@ -263,12 +244,10 @@ RLoss_Count:	; Routine 0
 		move.b	#3,obPriority(a1)			; set sprite priority (1 lower than normal rings)
 		move.b	#col_12x12|col_item,obColType(a1)	; set to power-up collision type and hitbox 12x12 (=$47)
 		move.b	#16/2,obActWid(a1)			; set sprite display width
-	if FixBugs=0
 		; This resets the timer for all spilled rings,
 		; even if they were already close to getting deleted
 		; https://info.sonicretro.org/SCHG_How-to:Fix_Ring_Timers
 		move.b	#255,(v_ani3_time).w			; set bouncy ring animation timer to 255 frames
-	endif
 
 		; Calculate bouncy ring angles
 		tst.w	d4					; are we spawning another ring and it's even?
@@ -299,13 +278,6 @@ RLoss_Count:	; Routine 0
 		move.b	#$80,(f_ringcount).w			; update ring counter ($80 means all digits should be reset to __0)
 		move.b	#0,(v_lifecount).w			; reset the flags for extra lives on 100/200 rings collected
 
-	if FixBugs
-		; Fix Ring Timers
-		; https://info.sonicretro.org/SCHG_How-to:Fix_Ring_Timers
-		move.b	#255,d0					; set both timers to 255 frames
-		move.b	d0,obDelayAni(a0)			; set ring despawn timer
-		move.b	d0,(v_ani3_time).w			; set animation timer
-	endif
 
 		move.w	#sfx_RingLoss,d0			; set ring loss sound
 		jsr	(QueueSound2).l				; play it
@@ -333,26 +305,13 @@ RLoss_Bounce:	; Routine 2
 		neg.w	obVelY(a0)				; negate fall speed to make ring bounce up
 
 .chkdel:
-	if FixBugs
-		; Fix Ring Timers
-		; https://info.sonicretro.org/SCHG_How-to:Fix_Ring_Timers
-		subq.b	#1,obDelayAni(a0)			; decrement remaining time for bouncing ring
-		beq.w	DeleteObject				; if time reached zero, delete ring
-	else
 		tst.b	(v_ani3_time).w				; has global lost rings animation timer expired?
 		beq.s	RLoss_Delete				; if yes, delete ring
-	endif
 
 		move.w	(v_limitbtm2).w,d0			; get current bottom level boundary
 		addi.w	#224,d0					; add vertical screen height
 		cmp.w	obY(a0),d0				; has object moved below the bottom level boundary?
-	if FixBugs
-		; Fix accidental deletion of scattered rings at the top of the screen.
-		; The cause is using an unsigned check instead of a signed one.
-		blt.s	RLoss_Delete				; if yes, delete ring
-	else
 		blo.s	RLoss_Delete				; if yes, delete ring
-	endif
 		bra.w	DisplaySprite				; display this ring
 ; ===========================================================================
 

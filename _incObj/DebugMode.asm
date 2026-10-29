@@ -22,11 +22,6 @@ Debug_Init:	; Routine 0
 
 		move.w	(v_limittop2).w,(v_limittopdb).w	; buffer level x-boundary
 		move.w	(v_limitbtm1).w,(v_limitbtmdb).w	; buffer level y-boundary
-	if FixBugs
-		; Do not affect camera and position in Special Stages
-		cmpi.b	#id_Special,(v_gamemode).w		; are we in a Special Stage?
-		beq.s	.wrapDone				; if yes, skip wrapping
-	endif
 		move.w	#0,(v_limittop2).w			; unlock top screen boundary
 		move.w	#$800-224,(v_limitbtm1).w		; unlock bottom level boundary, minus screen height
 
@@ -39,47 +34,6 @@ Debug_Init:	; Routine 0
 		move.b	#fr_Null,obFrame(a0)			; set Sonic's frame to null (blank)
 		move.b	#id_Walk,obAnim(a0)			; set Sonic's animation to walk (0)
 
-	if FixBugs
-		; Fix various issues when entering debug mode by resetting
-		; Sonic to his normal state and clearing a handful of flags.
-		bset	#status_in_air_bit,obStatus(a0)		; force airborne state to speed up vertical camera
-		move.b	#2,obRoutine(a0)			; force to Sonic_Control routine
-		move.w	#$60,(v_lookshift).w			; reset up/down camera shift
-
-		moveq	#0,d0					; set to clear values
-		move.b	d0,(f_playerctrl).w			; clear control override flag
-		move.b	d0,(f_nobgscroll).w			; clear deform stop flag
-		move.w	d0,obVelX(a0)				; clear X-velocity
-		move.w	d0,obVelY(a0)				; clear Y-velocity
-		move.w	d0,obInertia(a0)			; clear ground speed
-		move.b	d0,obAngle(a0)				; clear angle
-		move.b	d0,jumping(a0)				; clear jump flag
-		move.b	d0,sticktoconvex(a0)			; clear SBZ gear flag
-
-		; Debug Mode makes no attempt to check if Sonic was standing on any
-		; object before entering it, causing behavior such as being stuck to
-		; platforms or warped back down to an object previously stood on.
-		btst	#status_on_object_bit,obStatus(a0)	; is Sonic standing on an object?
-		beq.s	.notOnObject				; if not, branch
-		bclr	#status_on_object_bit,obStatus(a0)	; clear Sonic's standing flag
-		move.b	standonobject(a0),d0			; get object ID
-		clr.b	standonobject(a0)			; clear object ID
-		lsl.w	#object_size_bits,d0			; multiply by $40 (object_size)
-		addi.l	#v_objspace&$FFFFFF,d0			; add base object RAM location
-		movea.l	d0,a2					; a2 = address of stood-on object
-		bclr	#status_on_object_bit,obStatus(a2)	; clear object's standing flag
-		clr.b	obSolid(a2)				; clear object's solid state
-	.notOnObject:
-
-		; Exit underwater state if applicable
-		bclr	#status_underwater_bit,obStatus(a0)	; clear underwater status
-		beq.s	.notUnderwater				; if Sonic wasn't underwater, branch
-		jsr	(ResumeMusic).l				; resume music after a countdown
-		move.w  #son_maxspeed,(v_sonspeedmax).w		; restore Sonic's speed
-		move.w  #son_acceleration,(v_sonspeedacc).w	; restore Sonic's acceleration
-		move.w  #son_deceleration,(v_sonspeeddec).w	; restore Sonic's deceleration
-	.notUnderwater:
-	endif
 
 		cmpi.b	#id_Special,(v_gamemode).w		; is game mode Special Stage?
 		bne.s	.isLevel				; if not, branch
@@ -104,14 +58,7 @@ Debug_Init:	; Routine 0
 	.finishDebugSetup:
 		bsr.w	Debug_ShowItem				; load selected item graphics when entering debug mode
 		move.b	#debug_movedelay,(v_debugspeedtimer).w	; set initial move delay (12 frames)
-	if FixBugs
-		; If the D-Pad is held while entering debug mode, the initial move speed
-		; is incredibly slow. The cause is this value getting set to just a 1,
-		; instead of the normal 15 when no D-Pad button is pressed in Debug_Control.
-		move.b	#debug_startspeed,(v_debugspeed).w	; set initial move speed (normal)
-	else
 		move.b	#1,(v_debugspeed).w			; set initial move speed (just 1)
-	endif
 ; ---------------------------------------------------------------------------
 
 Debug_Action:	; Routine 2
@@ -184,71 +131,28 @@ Debug_Move:
 		btst	#bitUp,d4				; is up being held?
 		beq.s	.chkDown				; if not, branch
 		sub.l	d1,d2					; move up
-	if FixBugs
-		; These boundary checks only consider absolute values, which allows going offscreen.
-		; From Sonic 2 onward, the active level boundaries are instead used for the checks.
-		; Left/right bounds technically lack those fixes, they were added here for consistency.
-		moveq	#0,d0					; clear d0
-		move.w	(v_limittop2).w,d0			; get current top level boundary
-		swap	d0					; move to upper word for long comparison
-		cmp.l	d0,d2					; would new Y-position exceed top level boundary?
-		bge.s	.chkDown				; if not, branch
-		move.l	d0,d2					; keep Y-position within top level bound
-	else
 		bcc.s	.chkDown				; would new Y-position underflow? if not, branch
 		moveq	#0,d2					; keep Y-position within absolute top bound
-	endif
 
 	.chkDown:
 		btst	#bitDn,d4				; is down being held?
 		beq.s	.chkLeft				; if not, branch
 		add.l	d1,d2					; move down
-	if FixBugs
-		; See above.
-		moveq	#0,d0					; clear d0
-		move.w	(v_limitbtm2).w,d0			; get current bottom level boundary
-		addi.w	#224-1,d0				; add screen height
-		swap	d0					; move to upper word for long comparison
-		cmp.l	d0,d2					; would new Y-position exceed bottom level boundary?
-		blt.s	.chkLeft				; if not, branch
-		move.l	d0,d2					; keep Y-position within bottom level bound
-	else
 		cmpi.l	#$7FF<<16,d2				; would new Y-position exceed maximum bottom?
 		blo.s	.chkLeft				; if not, branch
 		move.l	#$7FF<<16,d2				; keep Y-position within bottom bound
-	endif
 
 	.chkLeft:
 		btst	#bitL,d4				; is left being held?
 		beq.s	.chkRight				; if not, branch
 		sub.l	d1,d3					; move left
-	if FixBugs
-		; See above.
-		moveq	#0,d0					; clear d0
-		move.w	(v_limitleft2).w,d0			; get current left level boundary
-		swap	d0					; move to upper word for long comparison
-		cmp.l	d0,d3					; would new X-position exceed left level boundary?
-		bge.s	.chkRight				; if not, branch
-		move.l	d0,d3					; keep X-position within left level bound
-	else
 		bcc.s	.chkRight				; would new X-position underflow? if not, branch
 		moveq	#0,d3					; keep X-position within absolute left bound
-	endif
 
 	.chkRight:
 		btst	#bitR,d4				; is right being held?
 		beq.s	.setNewDebugPosition			; if not, branch
 		add.l	d1,d3					; move right
-	if FixBugs
-		; See above. Also, right side lacked any boundary check to begin with.
-		moveq	#0,d0					; clear d0
-		move.w	(v_limitright2),d0			; get current right level boundary
-		addi.w	#320-1,d0				; add screen width
-		swap	d0					; move to upper word for long comparison
-		cmp.l	d0,d3					; would new X-position exceed right level boundary?
-		blt.s	.setNewDebugPosition			; if not, branch
-		move.l	d0,d3					; keep X-position within right level bound
-	endif
 
 .setNewDebugPosition:
 		move.l	d2,obY(a0)				; set new Y-position
@@ -291,10 +195,6 @@ Debug_ChgItem:
 
 		jsr	(FindFreeObj).l				; find a free object slot
 		bne.s	Debug_ExitDebugMode			; if none are free, branch
-	if FixBugs
-		; Fix not being able to place more rings and such after collecting one
-		clr.b	(v_objstate+2).w			; free up object state for spawned object (target for obRespawnNo=0)
-	endif
 		move.w	obX(a0),obX(a1)				; set new object's X-position
 		move.w	obY(a0),obY(a1)				; set new object's Y-position
 		_move.b	obMap(a0),obID(a1)			; create object (ID is stored in list with mappings as map+(object<<24))
@@ -405,9 +305,7 @@ __LABEL__:	label	*
 		dbug	Map_Spring,	id_Springs,		0,	0,	ArtTile_Spring_Horizontal
 		dbug	Map_Newt,	id_Newtron,		0,	0,	ArtTile_Newtron|Tile_Pal2
 		dbug	Map_Edge,	id_EdgeWalls,		0,	0,	ArtTile_GHZ_Edge_Wall|Tile_Pal3
-	if UnusedOptimization=0
 		dbug	Map_GBall,	id_RollingBall,		0,	0,	ArtTile_GHZ_Giant_Ball|Tile_Pal3
-	endif
 		dbug	Map_Lamp,	id_Lamppost,		1,	0,	ArtTile_Lamppost
 		dbug	Map_GRing,	id_GiantRing,		0,	0,	ArtTile_Giant_Ring|Tile_Pal2
 		dbug	Map_Bonus,	id_HiddenBonus,		1,	1,	ArtTile_Hidden_Points|Tile_Prio
@@ -431,12 +329,8 @@ __LABEL__:	label	*
 		dbug	Map_LBlock,	id_LabyrinthBlock,	1,	0,	ArtTile_LZ_Blocks|Tile_Pal3
 		dbug	Map_LBlock,	id_LabyrinthBlock,	$13,	1,	ArtTile_LZ_Blocks|Tile_Pal3
 		dbug	Map_LBlock,	id_LabyrinthBlock,	5,	0,	ArtTile_LZ_Blocks|Tile_Pal3
-	    if FixBugs
-		dbug	Map_Gar,	id_Gargoyle,		0,	0,	ArtTile_LZ_Gargoyle|Tile_Pal3
-	    else
 		; Incorrect VRAM address
 		dbug	Map_Gar,	id_Gargoyle,		0,	0,	(ArtTile_LZ_UnusedFace-2)|Tile_Pal3
-	    endif
 		dbug	Map_LBlock,	id_LabyrinthBlock,	$27,	2,	ArtTile_LZ_Blocks|Tile_Pal3
 		dbug	Map_LBlock,	id_LabyrinthBlock,	$30,	3,	ArtTile_LZ_Blocks|Tile_Pal3
 		dbug	Map_LConv,	id_LabyrinthConvey,	$7F,	0,	ArtTile_LZ_Conveyor_Belt
@@ -465,14 +359,9 @@ __LABEL__:	label	*
 		dbug	Map_Push,	id_PushBlock,		0,	0,	ArtTile_MZ_Block|Tile_Pal3
 		dbug	Map_Yad,	id_Yadrin,		0,	0,	ArtTile_Yadrin|Tile_Pal2
 		dbug	Map_Smab,	id_SmashBlock,		0,	0,	ArtTile_MZ_Block|Tile_Pal3
-	    if FixBugs
-		dbug	Map_MBlock,	id_MovingBlock,		0,	0,	ArtTile_MZ_Block|Tile_Pal3
-		dbug	Map_CFlo,	id_CollapseFloor,	0,	0,	ArtTile_MZ_Block|Tile_Pal3
-	    else
 		; Incorrect palette lines
 		dbug	Map_MBlock,	id_MovingBlock,		0,	0,	ArtTile_MZ_Block
 		dbug	Map_CFlo,	id_CollapseFloor,	0,	0,	ArtTile_MZ_Block|Tile_Pal4
-	    endif
 		dbug	Map_LTag,	id_LavaTag,		0,	0,	ArtTile_Monitor|Tile_Prio
 		dbug	Map_Bas,	id_Basaran,		0,	0,	ArtTile_Basaran
 		dbug	Map_Cat,	id_Caterkiller,		0,	0,	ArtTile_MZ_SYZ_Caterkiller|Tile_Pal2
@@ -563,16 +452,10 @@ __LABEL__:	label	*
 	if Revision=0
 		dbug 	Map_Ring,	id_Rings,		0,	0,	ArtTile_Ring|Tile_Pal2
 		dbug	Map_Bump,	id_Bumper,		0,	0,	ArtTile_SYZ_Bumper
-	    if FixBugs
-		dbug	Map_Animal2,	id_Animals,		$A,	0,	ArtTile_Ending_Flicky
-		dbug	Map_Animal2,	id_Animals,		$B,	0,	ArtTile_Ending_Flicky
-		dbug	Map_Animal2,	id_Animals,		$C,	0,	ArtTile_Ending_Flicky
-	    else
 		; Wrong art tile offset
 		dbug	Map_Animal2,	id_Animals,		$A,	0,	ArtTile_Ending_Flicky-5
 		dbug	Map_Animal2,	id_Animals,		$B,	0,	ArtTile_Ending_Flicky-5
 		dbug	Map_Animal2,	id_Animals,		$C,	0,	ArtTile_Ending_Flicky-5
-	    endif
 		dbug	Map_Animal1,	id_Animals,		$D,	0,	ArtTile_Ending_Rabbit
 		dbug	Map_Animal1,	id_Animals,		$E,	0,	ArtTile_Ending_Rabbit
 		dbug	Map_Animal1,	id_Animals,		$F,	0,	ArtTile_Ending_Penguin

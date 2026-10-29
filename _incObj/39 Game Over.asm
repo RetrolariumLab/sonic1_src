@@ -48,10 +48,8 @@ Over_MoveIn:	; Routine 2
 .conjoined:
 		move.w	#12*60,obTimeFrame(a0)			; set time delay to 12 seconds
 		addq.b	#2,obRoutine(a0)			; advance to Over_Wait
-	if FixBugs=0
 		; This causes the text to briefly flicker when conjoining.
 		rts						; return on conjoining frame
-	endif
 ; ===========================================================================
 
 Over_Wait:	; Routine 4

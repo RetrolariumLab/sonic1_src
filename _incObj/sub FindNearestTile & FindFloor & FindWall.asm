@@ -37,30 +37,9 @@ FindNearestTile:
 		andi.w	#$1E,d0					; d0 = high nybble of low byte of X-position, multiplied by 2
 		add.w	d0,d1					; add to base address
 
-	if FixBugs
-		movea.l	d1,a1
-		rts
-
-		; The regular branch to .blanktile will result in d1 being set to $FFFFFF00,
-		; which will be returned in a1 and subsequently be used as the RAM location
-		; for blank chunk collision. By luck, that address (v_chunk0collision) is
-		; never changed from 0, so it doesn't cause any trouble in the final game,
-		; but it is still incredibly dangerous and requires RAM to be laid out in a
-		; specific way so it doesn't break, which is why it has an assembly check.
-		; With this fix, blank chunks instead use a fixed ROM location that always
-		; contains a 0 word. This will also remove the need for that assembly check.
-
-	    .blanktile:
-		lea	.chunk0(pc),a1
-		rts
-
-	    .chunk0:
-		dc.w 0
-	else
 	    .blanktile:
 		movea.l	d1,a1
 		rts
-	endif
 
 ; ===========================================================================
 
@@ -191,9 +170,6 @@ FindFloor:
 ; ---------------------------------------------------------------------------
 
 FindFloor2:
-	if FixBugs
-		move.w	d4,-(sp)
-	endif
 		bsr.w	FindNearestTile
 		move.w	(a1),d0
 		move.w	d0,d4
@@ -207,9 +183,6 @@ FindFloor2:
 		move.w	d2,d0
 		andi.w	#$F,d0
 		sub.w	d0,d1
-	if FixBugs
-		move.w	(sp)+,d4
-	endif
 		rts
 ; ===========================================================================
 
@@ -254,9 +227,6 @@ FindFloor2:
 		add.w	d1,d0
 		move.w	#$F,d1
 		sub.w	d0,d1
-	if FixBugs
-		addq.w	#2,sp
-	endif
 		rts
 ; ===========================================================================
 
@@ -266,9 +236,6 @@ FindFloor2:
 		add.w	d1,d0
 		bpl.w	.isblank2
 		not.w	d1
-	if FixBugs
-		addq.w	#2,sp
-	endif
 		rts
 ; End of function FindFloor2
 
@@ -375,9 +342,6 @@ FindWall:
 ; ---------------------------------------------------------------------------
 
 FindWall2:
-	if FixBugs
-		move.w	d4,-(sp)
-	endif
 		bsr.w	FindNearestTile
 		move.w	(a1),d0
 		move.w	d0,d4
@@ -391,9 +355,6 @@ FindWall2:
 		move.w	d3,d0
 		andi.w	#$F,d0
 		sub.w	d0,d1
-	if FixBugs
-		move.w	(sp)+,d4
-	endif
 		rts
 ; ===========================================================================
 
@@ -438,9 +399,6 @@ FindWall2:
 		add.w	d1,d0
 		move.w	#$F,d1
 		sub.w	d0,d1
-	if FixBugs
-		addq.w	#2,sp
-	endif
 		rts
 ; ===========================================================================
 
@@ -450,8 +408,5 @@ FindWall2:
 		add.w	d1,d0
 		bpl.w	.isblank
 		not.w	d1
-	if FixBugs
-		addq.w	#2,sp
-	endif
 		rts
 ; End of function FindWall2

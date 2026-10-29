@@ -10,16 +10,9 @@ Signpost:
 		jsr	Sign_Index(pc,d1.w)
 		lea	(Ani_Sign).l,a1
 		bsr.w	AnimateSprite
-	if FixBugs
-		; Objects shouldn't call DisplaySprite and DeleteObject in
-		; the same frame or else cause a null-pointer dereference.
-		out_of_range.w	DeleteObject
-		bra.w	DisplaySprite
-	else
 		bsr.w	DisplaySprite
 		out_of_range.w	DeleteObject
 		rts
-	endif
 ; ===========================================================================
 Sign_Index:	dc.w Sign_Main-Sign_Index
 		dc.w Sign_Touch-Sign_Index
@@ -118,18 +111,6 @@ Sign_SonicRun:	; Routine 6
 		tst.w	(v_debuguse).w				; is debug mode in use?
 		bne.w	Sign_Return				; if yes, don't load end cards until debug mode was exited
 
-	if FixBugs
-		; This function's checks are a mess, creating an edge case where it's
-		; possible for the player to avoid having their controls locked by
-		; jumping at the right side of the screen just as the score tally
-		; appears.
-		tst.b	(v_player+obID).w			; has Sonic's object been deleted (because he entered the giant ring)?
-		beq.s	Sign_LoadEndCards			; if yes, skip all other checks
-		btst	#1,(v_player+obStatus).w		; is Sonic airborne?
-		bne.w	Sign_Return				; if yes, don't do anything until he has landed
-		move.b	#1,(f_lockctrl).w			; lock controls
-		move.w	#btnR<<8,(v_jpadhold2).w		; make Sonic run to the right
-	else
 		btst	#1,(v_player+obStatus).w		; is Sonic airborne?
 		bne.s	.airborne				; if yes, don't lock controls
 		move.b	#1,(f_lockctrl).w			; lock controls
@@ -138,7 +119,6 @@ Sign_SonicRun:	; Routine 6
 	.airborne:
 		tst.b	(v_player+obID).w			; has Sonic's object been deleted (because he entered the giant ring)?
 		beq.s	Sign_LoadEndCards			; if yes, skip right-side position check
-	endif
 
 		move.w	(v_player+obX).w,d0			; get Sonic's X-position
 		move.w	(v_limitright2).w,d1			; get right level boundary
@@ -169,12 +149,6 @@ GotThroughAct:
 		move.b	#1,(f_endactbonus).w			; update bonus HUD for pre-tally display
 
 	; Time Bonus
-	if FixBugs
-		; Time doesn't update while Debug Mode is enabled, which always results
-		; in an annoying, unskippable 50,000 points time bonus with it enabled.
-		tst.w	(f_debugmode).w				; is debug mode enabled?
-		bne.s	.ringBonus				; if yes, skip time bonus
-	endif
 		moveq	#0,d0					; clear d0 (minutes are a byte)
 		move.b	(v_timemin).w,d0			; get minutes part of time counter
 		mulu.w	#60,d0					; convert minutes to seconds

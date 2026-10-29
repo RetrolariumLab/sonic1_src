@@ -66,14 +66,7 @@ SBall_Main:	; Routine 0
 		bcs.s	.finalizeTip				; if it underflowed, only the parent is in chain, branch
 
 .makeChain:
-	if FixBugs
-		; If an object is allocated before the parent object, then
-		; when the child is deleted, it will have already been queued
-		; for display, which is a display-and-delete bug.
-		bsr.w	FindNextFreeObj				; find a free object slot (after current)
-	else
 		bsr.w	FindFreeObj				; find a free object slot (anywhere)
-	endif
 		bne.s	.finalizeTip				; if object RAM is full, branch
 
 		addq.b	#1,sball_children(a0)			; increment child object counter

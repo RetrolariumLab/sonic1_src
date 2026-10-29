@@ -28,13 +28,9 @@ SolidObject:
 		add.w	d1,d0					; d0 = x pos of Sonic on object
 		bmi.s	.leave					; if Sonic moves off the left, branch
 		cmp.w	d2,d0					; has Sonic moved off the right?
-	if FixBugs
-		bls.s	.stand					; if not, branch
-	else
 		; This is one pixel too soon,
 		; can cause damage on sideways spikes while walking off
 		blo.s	.stand					; if not, branch
-	endif
 
 	.leave:
 		bclr	#status_on_object_bit,obStatus(a1)	; clear Sonic's standing flag
@@ -45,12 +41,8 @@ SolidObject:
 
 	.stand:
 		move.w	d4,d2
-	if FixBugs
-		jsr	(MvSonicOnPtfm).l
-	else
 		; Goes out of range just from enabling FixBugs
 		bsr.w	MvSonicOnPtfm
-	endif
 		moveq	#0,d4					; clear flag for no new collision
 		rts
 
@@ -83,12 +75,8 @@ SolidObject_NoRenderChk:
 
 	.stand:
 		move.w	d4,d2
-	if FixBugs
-		jsr	(MvSonicOnPtfm).l
-	else
 		; Goes out of range just from enabling FixBugs
 		bsr.w	MvSonicOnPtfm
-	endif
 		moveq	#0,d4
 		rts
 
@@ -253,10 +241,8 @@ Solid_SideAir:
 Solid_NoCollision:
 		btst	#status_pushing_bit,obStatus(a0)	; is Sonic pushing?
 		beq.s	Solid_Debug				; if not, branch
-	if FixBugs=0
 		; This causes the infamous "walk-jump bug"
 		move.w	#id_Run,obAnim(a1)			; use running animation
-	endif
 
 Solid_NotPushing:
 		bclr	#status_pushing_bit,obStatus(a0)	; clear pushing flag
@@ -281,7 +267,6 @@ Solid_Below:
 		bpl.s	Solid_TopBtmAir				; branch if moving downwards
 		tst.w	d3
 		bpl.s	Solid_TopBtmAir				; branch if nearer top (he can't be)
-	if FixBugs=0
 		; This is in the wrong place: Sonic will not be pushed out of objects
 		; from above if he's not moving upwards against it! This is much more
 		; noticeable if you port Knuckles, as he'll be able to phase through
@@ -290,14 +275,9 @@ Solid_Below:
 		; Sonic 3 & Knuckles and Knuckles in Sonic 2 attempted to fix this, but
 		; didn't do a particularly good job at it.
 		sub.w	d3,obY(a1)				; correct Sonic's position
-	endif
 		move.w	#0,obVelY(a1)				; stop Sonic moving
 
 Solid_TopBtmAir:
-	if FixBugs
-		; See above.
-		sub.w	d3,obY(a1)				; correct Sonic's position
-	endif
 		moveq	#-1,d4					; return top/bottom collision
 		rts
 ; ===========================================================================

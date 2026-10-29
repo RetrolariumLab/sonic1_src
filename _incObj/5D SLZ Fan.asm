@@ -38,11 +38,6 @@ Fan_Action:	; Routine 2
 .blow:
 		tst.b	fan_switch(a0)				; is fan switched on?
 		bne.w	.chkdel					; if not, branch
-	if FixBugs
-		; Fix fans affecting debug mode
-		tst.w	(v_debuguse).w				; is debug mode active?
-		bne.s	.animate				; if yes, branch
-	endif
 
 		lea	(v_player).w,a1				; load Sonic object
 		move.w	obX(a1),d0				; get Sonic's X-position
@@ -101,16 +96,9 @@ Fan_Action:	; Routine 2
 ; ---------------------------------------------------------------------------
 
 .chkdel:
-	if FixBugs
-		; Objects shouldn't call DisplaySprite and DeleteObject in
-		; the same frame or else cause a null-pointer dereference.
-		out_of_range.w	DeleteObject
-		bra.w	DisplaySprite
-	else
 		bsr.w	DisplaySprite
 		out_of_range.w	DeleteObject
 		rts
-	endif
 ; ===========================================================================
 
 Map_Fan:	include	"_maps/Fan.asm"

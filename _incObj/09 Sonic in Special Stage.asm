@@ -60,13 +60,6 @@ SonicSS_Control: ; Routine 2
 		btst	#bitB,(v_jpadpress1).w			; is button B pressed?
 		beq.s	SonicSS_NoDebug				; if not, branch
 		move.w	#1,(v_debuguse).w			; change Sonic into a ring
-	if FixBugs
-		; A return command is missing here, causing Sonic to jump when
-		; entering debug mode. This is likely due to this being forked
-		; from an earlier version of the main Sonic object, because the
-		; prototype has the same problem in stages.
-		rts
-	endif
 
 ; Obj09_NoDebug:
 SonicSS_NoDebug:
@@ -101,9 +94,7 @@ SonicSS_OnWall:	; While Sonic is touching a solid block
 
 ; Obj09_InAir:
 SonicSS_InAir:	; While Sonic is airborne from jumping or falling
-	if UnusedOptimization=0
 		bsr.w	SonicSS_JumpHeight_Unused		; (disabled code) would have allowed to granularly control jump height
-	endif
 		bsr.w	SonicSS_Move				; update position based on button inputs
 		bsr.w	SonicSS_Fall				; apply gravity based on stage rotation
 ; ---------------------------------------------------------------------------
@@ -322,7 +313,6 @@ SonicSS_NoJump:
 
 
 ; ===========================================================================
-	if UnusedOptimization=0
 ; ---------------------------------------------------------------------------
 ; Unused subroutine to limit Sonic's upward vertical speed depending on
 ; how long the jump button was held after the initial jump. This likely got
@@ -347,7 +337,6 @@ SonicSS_JumpHeight_Unused:
 .return:
 		rts						; return
 ; End of function SonicSS_JumpHeight
-	endif
 
 ; ===========================================================================
 ; ---------------------------------------------------------------------------
@@ -844,18 +833,10 @@ SonicSS_ChkUP:
 		bne.w	SonicSS_NoSolidActionBlock		; if yes, disable action until timeout has expired
 		move.b	#ss_timeout,sonss_timeout_updown(a0)	; set timeout to next action to half a second
 
-	if FixBugs
-		move.w	(v_ssrotate).w,d0			; get current rotation speed
-		bpl.s	.pos					; if it's going clockwise, branch
-		neg.w	d0					; if it's going counter-clockwise, negate
-	.pos:	cmpi.w	#ss_rotatespeed*2,d0			; is stage already rotating at fast speed?
-		bhs.s	SonicSS_UPsnd				; if yes, branch (prevent speeding up again)
-	else
 		; This check only works correctly if the base rotation speed is EXACTLY $40 (bit 6 = $40).
 		; It is by default, but altering the default speed in GM_Special will break UP/DOWN blocks.
 		btst	#6,(v_ssrotate+1).w			; is stage already at fast speed? (either rotation)
 		beq.s	SonicSS_UPsnd				; if yes, branch (prevent speeding up twice)
-	endif
 
 		asl.w	(v_ssrotate).w				; multiply current stage rotation speed by 2
 
@@ -879,18 +860,10 @@ SonicSS_ChkDOWN:
 		bne.w	SonicSS_NoSolidActionBlock		; if yes, disable action until timeout has expired
 		move.b	#ss_timeout,sonss_timeout_updown(a0)	; set timeout to next action to half a second
 
-	if FixBugs
-		move.w	(v_ssrotate).w,d0			; get current rotation speed
-		bpl.s	.pos					; if it's going clockwise, branch
-		neg.w	d0					; if it's going counter-clockwise, negate
-	.pos:	cmpi.w	#ss_rotatespeed,d0			; is stage already rotating at slow speed?
-		bls.s	SonicSS_DOWNsnd				; if yes, branch (prevent slowing down again)
-	else
 		; This check only works correctly if the base rotation speed is EXACTLY $40 (bit 6 = $40).
 		; It is by default, but altering the default speed in GM_Special will break UP/DOWN blocks.
 		btst	#6,(v_ssrotate+1).w			; is stage already at slow speed? (either rotation)
 		bne.s	SonicSS_DOWNsnd				; if yes, branch (prevent slowing down twice)
-	endif
 
 		asr.w	(v_ssrotate).w				; divide current stage rotation speed by 2
 

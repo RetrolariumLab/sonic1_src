@@ -78,21 +78,10 @@ Smash_Fragment:	; Routine 4
 		bsr.w	SpeedToPos				; update fragment position based on speeds
 		addi.w	#gravity*2,obVelY(a0)			; make fragment fall faster (double gravity)
 
-	if FixBugs
-		; Objects should not call DisplaySprite and DeleteObject on
-		; the same frame or else cause a null-pointer dereference.
-		; Also, fragments already queue themselves for display, so they should
-		; not return to SmashWall and get queued again through RememberState.
-		addq.l	#4,sp					; don't return to SmashWall
-		tst.b	obRender(a0)				; has fragment gone offscreen?
-		bpl.w	DeleteObject				; if yes, delete it
-		bra.w	DisplaySprite				; otherwise, keep displaying fragment sprite
-	else
 		bsr.w	DisplaySprite				; display fragment sprite
 		tst.b	obRender(a0)				; has fragment gone offscreen?
 		bpl.w	DeleteObject				; if yes, delete it
 		rts						; return to Points main routine
-	endif
 
 
 ; ===========================================================================

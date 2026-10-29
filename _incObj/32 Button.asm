@@ -32,12 +32,7 @@ But_Main:	; Routine 0
 
 But_Pressed:	; Routine 2
 		tst.b	obRender(a0)				; is button on screen?
-	if FixBugs
-		; Covers an out-of-range error due to the below fix.
-		bpl.w	.display				; if not, branch
-	else
 		bpl.s	.display				; if not, branch
-	endif
 
 		move.w	#32/2+sonic_solid_width,d1		; collision width
 		move.w	#10/2,d2				; collision height (initial)
@@ -66,12 +61,6 @@ But_Pressed:	; Routine 2
 	.checkMZ1Block:
 		tst.b	obSubtype(a0)				; is this the special MZ1 button? (bit 7 set)
 		bpl.s	.checkSonicOnTop			; if not, branch
-	if FixBugs
-		; A handful of buttons in the object layout definitions outside Marble Zone also
-		; have bit 7 set for unrelated purposes, making But_MZBlock a dangerous subroutine.
-		cmpi.b	#id_MZ,(v_zone).w			; are we in Marble Zone?
-		bne.s	.checkSonicOnTop			; if not, skip this subroutine
-	endif
 		bsr.w	But_MZBlock				; check if pushable block has landed on button
 		bne.s	.pressed				; if it has, branch
 
@@ -108,16 +97,9 @@ But_Pressed:	; Routine 2
 
 ; But_Display:
 .display:
-	if FixBugs
-		; Objects shouldn't call DisplaySprite and DeleteObject on
-		; the same frame or else cause a null-pointer dereference.
-		out_of_range.s	.delete
-		bra.w	DisplaySprite
-	else
 		bsr.w	DisplaySprite
 		out_of_range.w	.delete
 		rts
-	endif
 
 	.delete:
 		bsr.w	DeleteObject

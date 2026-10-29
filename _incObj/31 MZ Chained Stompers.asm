@@ -150,9 +150,7 @@ CStom_MainBlock: ; Routine 2
 		movea.l	a2,a0					; restore stomper object
 
 .display:
-	if FixBugs=0
 		bsr.w	DisplaySprite				; display main metal block
-	endif
 		bra.w	CStom_ChkDel				; handle out-of-range deletion
 ; ===========================================================================
 
@@ -176,19 +174,11 @@ CStom_Spikes:	; Routine 4
 ; ---------------------------------------------------------------------------
 
 CStom_Ceiling:	; Routine 6
-	if FixBugs=0
 		bsr.w	DisplaySprite				; display sprite
-	endif
 
 CStom_ChkDel:
 		out_of_range.w	DeleteObject			; has object gone out of range? if yes, delete it
-	if FixBugs
-		; Objects shouldn't call DisplaySprite and DeleteObject on
-		; the same frame or else cause a null-pointer dereference.
-		bra.w	DisplaySprite				; display sprite
-	else
 		rts						; return
-	endif
 
 ; ===========================================================================
 ; ---------------------------------------------------------------------------

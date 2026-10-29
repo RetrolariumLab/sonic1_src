@@ -23,12 +23,8 @@ Jaws_Main:	; Routine 0
 		ori.b	#sprite_cam_field,obRender(a0)		; set playfield-positioned mode
 		move.b	#col_32x24|col_badnik,obColType(a0)	; set collision type to badnik, 32x24
 		move.b	#4,obPriority(a0)			; set sprite priority
-	if FixBugs
-		move.b	#48/2,obActWid(a0)			; set sprite display width (corrected)
-	else
 		; This is too small, object gets culled too early.
 		move.b	#32/2,obActWid(a0)			; set sprite display width
-	endif
 
 		moveq	#0,d0					; clear d0
 		move.b	obSubtype(a0),d0			; load object subtype number

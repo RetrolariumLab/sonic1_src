@@ -32,25 +32,15 @@ OPL_Main:
 		move.l	a1,(v_opl_data+$C).w
 		lea	(v_objstate).w,a2
 		move.w	#$101,(a2)+				; start respawn counter at 1
-	if FixBugs
-		move.w	#(v_objstate_end-v_objstate-2)/4-1,d0
-	else
 		; This clears longwords, but the loop counter is measured in words!
 		; This causes $17C bytes to be cleared instead of $BE.
 		move.w	#(v_objstate_end-v_objstate-2)/2-1,d0
-	endif
 
 	; OPL_ClrList:
 	.clear_respawn_list:
 		clr.l	(a2)+
 		dbf	d0,.clear_respawn_list			; clear object respawn list
 
-	if FixBugs
-		; Clear the last word, since the above loop only does longwords.
-		if (v_objstate_end-v_objstate-2)&2
-			clr.w	(a2)+
-		endif
-	endif
 
 		lea	(v_objstate).w,a2
 		moveq	#0,d2
@@ -200,13 +190,6 @@ OPL_MovedRight:
 	.no_respawn:
 		bsr.w	OPL_SpawnObj				; check respawn flag and spawn object
 		beq.s	.loop_find_right			; loop until object is found outside window
-	if FixBugs
-		; Fix a remember sprite related bug
-		; https://info.sonicretro.org/SCHG_How-to:Fix_a_remember_sprite_related_bug
-		tst.b	4(a0)					; was this object a remember state?
-		bpl.s	.found_right				; if not, branch
-		subq.b	#1,(a2)					; move right counter back
-	endif
 
 	; loc_DA16:
 	.found_right:
@@ -257,13 +240,7 @@ OPL_NoMove:
 OPL_SpawnObj:
 		tst.b	4(a0)					; is remember respawn flag set?
 		bpl.s	OPL_MakeItem				; if not, branch
-	if FixBugs
-		; Fix a remember sprite related bug
-		; https://info.sonicretro.org/SCHG_How-to:Fix_a_remember_sprite_related_bug
-		btst	#7,2(a2,d2.w)				; is remember bit already set? (test only)
-	else
 		bset	#7,2(a2,d2.w)				; set flag so it isn't loaded more than once
-	endif
 		beq.s	OPL_MakeItem				; branch if object hasn't already been destroyed
 		addq.w	#6,a0					; goto next object in objpos list
 		moveq	#0,d0
@@ -284,11 +261,6 @@ OPL_MakeItem:
 		move.b	d1,obStatus(a1)
 		move.b	(a0)+,d0				; get object id
 		bpl.s	.no_respawn_bit				; branch if remember respawn bit is not set
-	if FixBugs
-		; Fix a remember sprite related bug
-		; https://info.sonicretro.org/SCHG_How-to:Fix_a_remember_sprite_related_bug
-		bset	#7,2(a2,d2.w)				; set as removed
-	endif
 		andi.b	#$7F,d0					; ignore respawn bit
 		move.b	d2,obRespawnNo(a1)			; give object its place in the respawn table
 

@@ -70,12 +70,8 @@ Buzz_Action_Fire:
 		addi.w	#$1C,obY(a1)				; align missile vertically
 		move.w	#$200,obVelY(a1)			; move missile downwards
 		move.w	#$200,obVelX(a1)			; move missile to the right
-	if FixBugs
-		moveq	#$18-4,d0				; set horizontal alignment offset (corrected)
-	else
 		; This horizontal offset is misaligned with the Buzz Bomber's sprites.
 		move.w	#$18,d0					; set horizontal alignment offset
-	endif
 		btst	#status_xflip_bit,obStatus(a0)		; is Buzz Bomber facing left?
 		bne.s	.alignX					; if not, branch
 		neg.w	d0					; invert X-alignment offset
@@ -181,12 +177,6 @@ Msl_Main:	; Routine 0
 
 Msl_Animate:	; Routine 2
 		bsr.s	Msl_ChkCancel				; check if parent Buzz Bomber has been destroyed, delete missile if so
-	if FixBugs
-		; Msl_ChkCancel can call DeleteObject, so we shouldn't queue
-		; this object for display or update the animation state.
-		bne.s	.display				; has missile been deleted by Msl_ChkCancel? if not, branch
-		rts						; return without displaying deleted missile
-	endif
 
 	.display:
 		lea	(Ani_Missile).l,a1			; load animation script
@@ -202,14 +192,7 @@ Msl_Animate:	; Routine 2
 Msl_ChkCancel:
 		movea.l	msl_parent(a0),a1			; load parent Buzz Bomber object
 		_cmpi.b	#id_ExplosionItem,obID(a1)		; has Buzz Bomber been destroyed?
-	if FixBugs
-		; This adds a return value so that we know if the object has been freed.
-		bne.s	.return					; if not, branch (Z-flag = 0)
-		bsr.s	Msl_Delete				; delete missile and return here
-		moveq	#0,d0					; notify caller that missile has been deleted (Z-flag = 1)
-	else
 		beq.s	Msl_Delete				; if yes, delete missile
-	endif
 
 	.return:
 		rts						; return with result in Z-flag
@@ -218,45 +201,33 @@ Msl_ChkCancel:
 ; ===========================================================================
 
 Msl_FromBuzz:	; Routine 4
-	if UnusedOptimization=0
 		; This check would change the missile into a small explosion object
 		; (the same one used by the prototype front-facing Ball Hog badniks)
 		; if bit 7 was set in its status flags. However, this flag never gets
 		; set, and even if it was, the small explosion's graphics are broken.
 		btst	#status_defeated_bit,obStatus(a0)	; has bit 7 of status flags been set? (impossible condition)
 		bne.s	.explode				; if yes, dissolve missile
-	endif
 
 		move.b	#col_12x12|col_hurt,obColType(a0)	; set ReactToItem entry to $87 (damaging, 12x12)
 		move.b	#1,obAnim(a0)				; set to ".missile" animation
 		bsr.w	SpeedToPos				; update missile position
 
-	if FixBugs=0
 		; Object should not call DisplaySprite and DeleteObject on
 		; the same frame, or else cause a null-pointer dereference.
 		lea	(Ani_Missile).l,a1			; load animation script
 		bsr.w	AnimateSprite				; animate missile
 		bsr.w	DisplaySprite				; display missile
-	endif
 		move.w	(v_limitbtm2).w,d0			; load bottom level boundary
 		addi.w	#224,d0					; add screen height
 		cmp.w	obY(a0),d0				; has missile moved below the bottom level boundary?
 		blo.s	Msl_Delete				; if yes, delete it
-	if FixBugs
-		lea	(Ani_Missile).l,a1			; load animation script
-		bsr.w	AnimateSprite				; animate missile
-		bra.w	DisplaySprite				; display missile
-	else
 		rts						; return
-	endif
 ; ---------------------------------------------------------------------------
 
-	if UnusedOptimization=0
 .explode:	; Unreachable code (see notes above).
 		_move.b	#id_UnusedExplosion,obID(a0)		; change object to a small explosion ($24)
 		move.b	#0,obRoutine(a0)			; reset routine counter
 		bra.w	UnusedExplosion				; jump to unused explosion code
-	endif
 ; ===========================================================================
 
 Msl_Delete:	; Routine 6

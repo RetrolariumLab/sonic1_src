@@ -142,15 +142,10 @@ SEgg_Leap:
 		or.w	obVelY(a0),d0				; OR X with Y
 		bne.s	.exit					; if Eggman is moving, leave
 
-	if FixBugs
-		lea	(v_lvlobjspace-object_size).w,a1
-		moveq	#(v_lvlobjend-v_lvlobjspace)/object_size-1,d0
-	else
 		 ; Nonsensical starting point and length, since dynamic object allocations
 		 ; begin at v_lvlobjspace. Also, this only covers the first half.
 		lea	(v_objspace).w,a1
 		moveq	#(v_objspace_end-(v_objspace+object_size*1))/object_size/2-1,d0
-	endif
 		moveq	#object_size,d1
 
 ; SEgg_FindLoop:

@@ -86,11 +86,6 @@ Bub_ChkWater:	; Routine 4
 		; Logic for large, inhalable bubbles
 		tst.b	bub_inhalable(a0)			; is this a large, inhalable bubble?
 		beq.s	.display				; if not, branch
-	if FixBugs
-		; Fix air bubbles being inhalable while in debug mode
-		tst.w	(v_debuguse).w				; is debug mode active?
-		bne.s	.display				; if yes, branch
-	endif
 		bsr.w	Bub_ChkSonic				; has Sonic touched the bubble?
 		beq.s	.display				; if not, branch
 

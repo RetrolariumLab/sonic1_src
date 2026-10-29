@@ -60,11 +60,6 @@ Tele_Action:	; Routine 2
 		cmpi.w	#32*2,d1				; is Sonic vertically within 64px of the teleporter entrance?
 		bhs.s	.return					; if not, branch
 
-	if FixBugs
-		; Fix being able to activate teleporters while in debug mode
-		tst.w	(v_debuguse).w				; is debug mode active?
-		bne.s	.return					; if yes, ignore teleporter
-	endif
 		tst.b	(f_playerctrl).w			; is Sonic already inside a teleporter? (Sonic override flags)
 		bne.s	.return					; if yes, ignore it
 

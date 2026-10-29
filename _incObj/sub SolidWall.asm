@@ -43,10 +43,8 @@ EdgeWall_SolidWall:
 .no_collision:
 		btst	#status_pushing_bit,obStatus(a0)	; is Sonic pushing?
 		beq.s	.exit					; if not, branch
-	if FixBugs=0
 		; This causes the infamous "walk-jump bug"
 		move.w	#id_Run,obAnim(a1)			; use running animation
-	endif
 
 .air:
 		bclr	#status_pushing_bit,obStatus(a0)	; clear pushing flag

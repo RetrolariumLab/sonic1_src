@@ -36,16 +36,9 @@ Edge_Solid:	; Routine 2
 ; ---------------------------------------------------------------------------
 
 Edge_Display:	; Routine 4
-	if FixBugs
-		; Objects shouldn't call DisplaySprite and DeleteObject on
-		; the same frame, or else cause a null-pointer dereference.
-		out_of_range.w	DeleteObject
-		bra.w	DisplaySprite
-	else
 		bsr.w	DisplaySprite
 		out_of_range.w	DeleteObject
 		rts
-	endif
 ; ===========================================================================
 
 Map_Edge:	include	"_maps/GHZ Edge Walls.asm"

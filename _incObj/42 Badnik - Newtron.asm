@@ -86,7 +86,6 @@ Newt_Action_WaitDrop:
 
 ; .fall:
 Newt_Action_Drop:
-	if UnusedOptimization=0
 		; This would set the hitbox to be 40x32 instead of the flat 40x16
 		; while on frame 1. However, the above branch will only trigger on
 		; frame 4, making this condition impossible. It might've been a
@@ -95,7 +94,6 @@ Newt_Action_Drop:
 		bne.s	.fall					; if not, branch
 		move.b	#col_40x32|col_badnik,obColType(a0)	; set collision size 40x32
 	.fall:
-	endif
 
 		bsr.w	ObjectFall				; make Newtron fall
 		bsr.w	ObjFloorDist				; get distance to floor
@@ -106,14 +104,12 @@ Newt_Action_Drop:
 		move.w	#0,obVelY(a0)				; stop Newtron falling
 		addq.b	#2,ob2ndRout(a0)			; advance to Newt_Action_MoveOnFloor
 		move.b	#2,obAnim(a0)				; use ".fly1" animation
-	if UnusedOptimization=0
 		; Another impossible condition at this location, and likely another leftover
 		; from an earlier implementation of the green Newtron badnik.
 		btst	#5,obGfx(a0)				; is this a green Newtron? (checked by palette line)
 		beq.s	.notGreen				; if not, branch
 		addq.b	#1,obAnim(a0)				; use ".fly2" animation instead
 	.notGreen:
-	endif
 		move.b	#col_40x16|col_badnik,obColType(a0)	; make destroyable (badnik, 40x16)
 		move.w	#$200,obVelX(a0)			; move Newtron horizontally to the right
 		btst	#status_xflip_bit,obStatus(a0)		; is Newtron facing left?

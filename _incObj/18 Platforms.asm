@@ -75,10 +75,8 @@ Plat_Solid:	; Routine 2
 Plat_Action:	; Routine 8
 		bsr.w	Plat_Move				; execute platform type behavior
 		bsr.w	Plat_Nudge				; depress platform a bit while Sonic is on it
-	if FixBugs=0
 		; This has been moved to prevent a display-after-free bug.
 		bsr.w	DisplaySprite				; display platform sprite
-	endif
 		bra.w	Plat_ChkDel				; delete platform if it has gone out of range
 ; ===========================================================================
 
@@ -99,10 +97,8 @@ Plat_StoodOn:	; Routine 4
 		move.w	(sp)+,d2				; restore platform X-position as input for MvSonicOnPtfm2
 		bsr.w	MvSonicOnPtfm2				; move Sonic with platform as it moves
 
-	if FixBugs=0
 		; This has been moved to prevent a display-after-free bug.
 		bsr.w	DisplaySprite				; display platform sprite
-	endif
 		bra.w	Plat_ChkDel				; delete platform if it has gone out of range
 		rts						; useless rts
 
@@ -334,12 +330,7 @@ Plat_ChangeMotion:
 
 Plat_ChkDel:
 		out_of_range.s	Plat_Delete,plat_origX(a0)	; has platform gone out of range? if yes, delete it
-	if FixBugs
-		; This has been moved to prevent a display-after-free bug.
-		bra.w	DisplaySprite				; display platform sprite
-	else
 		rts						; return
-	endif
 ; ===========================================================================
 
 Plat_Delete:	; Routine 6

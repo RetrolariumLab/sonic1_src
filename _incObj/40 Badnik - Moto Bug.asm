@@ -42,11 +42,6 @@ Moto_Main:	; Routine 0
 		bchg	#status_xflip_bit,obStatus(a0)		; make Motobug face to the left on spawn
 	.hide:
 
-	if FixBugs
-		; Fix badnik invisibly falling forever if it doesn't have a floor beneath it
-		cmpi.w	#$7FF,obY(a0)				; has object fallen below max level height?
-		bhi.w	DeleteObject				; if yes, delete it
-	endif
 		rts						; return (and do NOT display sprite yet)
 ; ---------------------------------------------------------------------------
 

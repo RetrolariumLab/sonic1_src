@@ -40,11 +40,6 @@ Crab_Main:	; Routine 0
 		addq.b	#2,obRoutine(a0)			; advance to Crab_Action
 	.hide:
 
-	if FixBugs
-		; Fix badnik invisibly falling forever if it doesn't have a floor beneath it
-		cmpi.w	#$7FF,obY(a0)				; has object fallen below max level height?
-		bhi.w	DeleteObject				; if yes, delete it
-	endif
 		rts						; return (and do NOT display sprite yet)
 ; ===========================================================================
 
@@ -223,13 +218,6 @@ Crab_BallMove:	; Routine 8
 
 		bsr.w	ObjectFall				; make balls fall (apply gravity)
 
-	if FixBugs
-		move.w	(v_limitbtm2).w,d0			; get lower level boundary
-		addi.w	#224,d0					; add screen height
-		cmp.w	obY(a0),d0				; have balls moved below the level boundary?
-		blo.s	.delete					; if yes, branch
-		bra.w	DisplaySprite				; display balls
-	else
 		; Another bug where an object is queued for display and then
 		; deleted, causing a null-pointer dereference.
 		bsr.w	DisplaySprite				; display balls
@@ -238,7 +226,6 @@ Crab_BallMove:	; Routine 8
 		cmp.w	obY(a0),d0				; have balls moved below the level boundary?
 		blo.s	.delete					; if yes, branch
 		rts						; return
-	endif
 
 	.delete:
 		bra.w	DeleteObject				; delete balls

@@ -100,10 +100,8 @@ LGrass_Solid:	; Sonic is NOT on platform
 ; ---------------------------------------------------------------------------
 
 LGrass_Display:
-	if FixBugs=0
 		; This has been moved to prevent a display-after-free bug.
 		bsr.w	DisplaySprite				; display platform sprite
-	endif
 		bra.w	LGrass_ChkDel				; delete platform if it has gone out of range
 
 ; ===========================================================================
@@ -274,12 +272,7 @@ LGrass_ChkDel:
 
 LGrass_ChkGone:
 		out_of_range.w	DeleteObject,lgrass_origX(a0)	; has platform gone out of range? if yes, delete it
-	if FixBugs
-		; This has been moved to prevent a display-after-free bug.
-		bra.w	DisplaySprite				; display platform sprite
-	else
 		rts						; return
-	endif
 ; ===========================================================================
 
 LGrass_DelFlames:
@@ -304,12 +297,7 @@ LGrass_DelFlames:
 		move.b	#0,lgrass_nudge(a0)			; reset to initial depression
 
 .return:
-	if FixBugs
-		; This has been moved to prevent a display-after-free bug.
-		bra.s	LGrass_ChkGone				; continue deleting main platform object
-	else
 		rts						; return
-	endif
 
 ; ===========================================================================
 ; ---------------------------------------------------------------------------

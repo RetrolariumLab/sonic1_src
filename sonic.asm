@@ -9,40 +9,7 @@
 ; Set your editor's tab width to 8 characters wide for viewing this file.
 
 ; ===========================================================================
-; ASSEMBLY OPTIONS:
-
-; Revision is supplied by the selected preservation profile.
-; 	| If 0, build the original version of the game, dubbed REV00
-; 	| If 1, build the later version, dubbed REV01, which includes various bugfixes and enhancements
-; 	| If 2, build the hacked version from Sonic Mega Collection, dubbed REVXB,
-;	|       which (sloppily) fixes the infamous "spike bug" -- not recommended
-
-FixBugs = 0
-;	| If 1, enables various bugfixes across the game and sound driver
-;	|       (see also the "_Fixed Binary Files" folder, and FixMusicAndSFXDataBugs)
-
-CheatsEnabled = 0
-;	| If 1, all in-game cheats (Level Select, Debug Mode, Slow-Motion, Japanese Credits)
-;	|       will be enabled by default, without requiring any title screen button inputs
-
-AllOptimizations = 0
-;	| If 1, enables all optimizations
-SkipChecksumCheck = 0|AllOptimizations
-;	| If 1, disables the slow bootup checksum calculation
-ZeroOffsetOptimization = 0|AllOptimizations
-;	| If 1, makes a handful of zero-offset instructions smaller
-PaddingOptimization = 0|AllOptimizations
-;	| If 1, removes about 3 KB of various superfluous padding
-UnusedOptimization = 0|AllOptimizations
-;	| If 1, removes dead code and unused data and optimizes tables with unused entries.
-
-EnableSRAM = 0
-;	| If 1, enable SRAM support
-BackupSRAM = 1
-;	| 0 = no saving (read-only SRAM); 1 = allow saving
-AddressSRAM = 3
-;	| 0 = odd+even; 2 = even only; 3 = odd only
-;	| (odd only is the most common setting)
+; Preservation revision is supplied by config/revision_profiles.json.
 
 ZoneCount = 6
 ;	| Used for the "zonewarning" macro. Do not change, unless more zones get added.
@@ -136,10 +103,7 @@ Vectors:
 		dc.l ErrorTrap					; Unused (reserved)
 		dc.l ErrorTrap					; Unused (reserved)
 		dc.l ErrorTrap					; Unused (reserved)
-	if Revision<>2|FixBugs
-		if (Revision=2)&(FixBugs=1)&(MOMPASS=1)
-			warning "'Revision = 2' is unnecessary with 'FixBugs' enabled (use 'Revision = 1' instead)."
-		endif
+	if Revision<>2
 		dc.l ErrorTrap					; Unused (reserved)
 		dc.l ErrorTrap					; Unused (reserved)
 		dc.l ErrorTrap					; Unused (reserved)
@@ -186,15 +150,9 @@ Checksum:		; Checksum is hardcoded to make it easier to check for ROM correctnes
 RomEndLoc:	dc.l EndOfRom-1					; End address of ROM
 		dc.l $FF0000					; Start address of RAM
 		dc.l $FFFFFF					; End address of RAM
-	if EnableSRAM=1
-		dc.b "RA", $A0+(BackupSRAM<<6)+(AddressSRAM<<3), $20 ; SRAM support
-		dc.l sram_start					; SRAM start
-		dc.l sram_end-1					; SRAM end
-	else
 		dc.b "    "
 		dc.b "    "
 		dc.b "    "
-	endif
 		dc.b "                                                    " ; Notes (unused, anything can be put in this space, but it has to be 52 bytes)
 		dc.b "JUE             "				; Region (Country code)
 	if * <> $200
@@ -383,7 +341,6 @@ GameProgram:
 		beq.w	GameInit				; if yes, branch
 
 CheckSumCheck:
-	if SkipChecksumCheck=0
 		movea.l	#EndOfHeader,a0				; start checking bytes after the header ($200)
 		movea.l	#RomEndLoc,a1				; stop at end of ROM
 		move.l	(a1),d0					; retrieve long of ROM end
@@ -395,7 +352,6 @@ CheckSumCheck:
 		movea.l	#Checksum,a1				; read the checksum
 		cmp.w	(a1),d1					; compare calculated value with checksum in ROM header
 		bne.w	CheckSumError				; if they don't match, a checksum error has occurred
-	endif
 
 CheckSumOk:
 		lea	(v_crossresetram).w,a6			; load cross-reset RAM location
@@ -422,13 +378,6 @@ GameInit:
 		bsr.w	JoypadInit				; initialize controller ports
 		move.b	#id_Sega,(v_gamemode).w			; set first Game Mode to Sega Screen
 
-	if CheatsEnabled=1
-		moveq	#1,d0					; enable all cheats by default
-		move.b	d0,(f_levselcheat).w			; enable level select cheat
-		move.b	d0,(f_slomocheat).w			; enable slow-motion cheat
-		move.b	d0,(f_debugcheat).w			; enable debug mode cheat
-		move.b	d0,(f_creditscheat).w			; enable hidden Japanese credits cheat
-	endif
 
 MainGameLoop:
 		move.b	(v_gamemode).w,d0			; load Game Mode
@@ -464,7 +413,6 @@ id_Credits:	gmptr	GM_Credits				; Credits ($1C)
 ; Error handler
 ; ---------------------------------------------------------------------------
 
-	if SkipChecksumCheck=0
 CheckSumError:
 		bsr.w	VDPSetupGame				; restore all VDP registers
 		move.l	#$C0000000,(vdp_control_port).l		; set VDP to CRAM write
@@ -472,7 +420,6 @@ CheckSumError:
 .fillred:	move.w	#cRed,(vdp_data_port).l			; fill palette with red
 		dbf	d7,.fillred				; repeat until CRAM is filled
 		bra.s	*					; endless loop to itself
-	endif
 ; ===========================================================================
 
 BusError:	move.b	#2,(v_errortype).w			; set error code
@@ -1208,15 +1155,10 @@ ClearScreen:
 		clr.l	(v_scrposx_vdp).w			; clear single horizontal scroll buffer
 	endif
 
-	if FixBugs
-		clearRAM v_spritetablebuffer,v_spritetablebuffer_end ; clear sprite table buffer
-		clearRAM v_hscrolltablebuffer,v_hscrolltablebuffer_end_padded ; clear H-Scroll table buffer
-	else
 		; Both of these clear loops clear one more longwords than they should.
 		; This will clear the first 4 bytes of v_palette_water and v_objspace, respectively.
 		clearRAM v_spritetablebuffer,v_spritetablebuffer_end+4 ; clear sprite table buffer
 		clearRAM v_hscrolltablebuffer,v_hscrolltablebuffer_end_padded+4 ; clear H-Scroll table buffer
-	endif
 
 		rts						; return
 ; End of function ClearScreen
@@ -1397,10 +1339,8 @@ RunPLC:
 .skipXor:
 		andi.w	#$7FFF,d2				; clear XOR flag
 
-	if FixBugs=0
 		; Relocated to bugfix below
 		move.w	d2,(v_plc_patternsleft).w		; save section counter
-	endif
 		bsr.w	NemDec_BuildCodeTable			; decompress the huffman tree RLE table
 		move.b	(a0)+,d5				; load lookup field
 		asl.w	#8,d5					; ''
@@ -1414,11 +1354,6 @@ RunPLC:
 		move.l	d0,(v_plc_previousrow).w		; clear previous XOR dump
 		move.l	d5,(v_plc_dataword).w			; store lookup field
 		move.l	d6,(v_plc_shiftvalue).w			; store bit shift counter
-	if FixBugs
-		; Fix a race condition with Pattern Load Cues
-		; https://info.sonicretro.org/SCHG_How-to:Fix_a_race_condition_with_Pattern_Load_Cues
-		move.w	d2,(v_plc_patternsleft).w		; save section counter
-	endif
 
 .return:
 		rts						; return
@@ -1505,19 +1440,6 @@ ProcessPLC_ShiftCue:
 		move.l	plc_slot_size(a0),(a0)+			; shift contents of PLC buffer up 6 bytes
 		dbf	d0,.loop				; repeat til done
 
-	if FixBugs
-		; The above code does not properly 'pop' the 16th PLC entry.
-		; Because of this, occupying the 16th slot will cause it to
-		; be repeatedly decompressed infinitely.
-		; Granted, this could be considered more of an optimisation
-		; than a bug: treating the 16th entry as a dummy that
-		; should never be occupied makes this code unnecessary.
-		; Still, the overhead of this code is minimal.
-		if (v_plc_buffer_only_end-v_plc_buffer-plc_slot_size)&2
-			move.w	plc_slot_size(a0),(a0)
-		endif
-		clr.l	(v_plc_buffer_only_end-plc_slot_size).w
-	endif
 
 		rts						; return
 ; End of function ProcessPLC
@@ -1797,7 +1719,7 @@ WaitForVBlank:
 ; >>> Subroutines for generic calculations
 	include	"_incObj/sub RandomNumber.asm"
 	include	"_incObj/sub CalcSine.asm"
-    if (Revision=0)&(UnusedOptimization=0)
+    if Revision=0
 	include	"_incObj/sub CalcSqrt.asm" ; Only in REV00, and even there it was never used
     endif
 	include	"_incObj/sub CalcAngle.asm"
@@ -1852,10 +1774,8 @@ GM_Sega:
 		bsr.w	PalLoad					; ...directly to active palette (not fade-in buffer)
 		move.w	#-$A,(v_pcyc_num).w			; light scanning palette cycle effect start offset
 		move.w	#0,(v_pcyc_time).w			; clear palette fade-in counter
-	if UnusedOptimization=0
 		move.w	#0,(v_pal_buffer+$12).w			; clear some palcycle buffer (unused?)
 		move.w	#0,(v_pal_buffer+$10).w			; clear some palcycle buffer (unused?)
-	endif
 		enable_display					; enable screen output
 ; ---------------------------------------------------------------------------
 
@@ -1929,13 +1849,9 @@ GM_Title:		; fading out from previous game mode
 
 		lea	(v_ram_start).l,a1			; set start of RAM to be used as decompression buffer
 		lea	(Eni_JapNames).l,a0			; load mappings for hidden Japanese credits
-	if FixBugs
-		move.w	#ArtTile_Title_Japanese_Text|Tile_Pal3,d0 ; set art tile for hidden Japanese credits (cyan)
-	else
 		; The hidden Japanese credits cheat in Object 8A sets the text color to cyan on palette line 3,
 		; but this part makes the text continue using palette line 1, rendering them black instead.
 		move.w	#ArtTile_Title_Japanese_Text|Tile_Pal1,d0 ; set art tile for hidden Japanese credits (black)
-	endif
 		bsr.w	EniDec					; decompress Enigma-compressed mappings to RAM buffer
 		copyTilemap v_ram_start,vram_fg,40,28		; transfer decompressed patterns from RAM buffer to VRAM
 
@@ -1974,9 +1890,7 @@ Tit_LoadText:
 		move.b	#0,(v_lastlamp).w			; clear lamppost counter
 		move.w	#0,(v_debuguse).w			; exit debug mode if necessary
 		move.w	#0,(f_demo).w				; disable demo mode
-	if UnusedOptimization=0
 		move.w	#0,(v_unused2).w			; unused variable
-	endif
 		move.w	#id_GHZ_act1,(v_zone_act).w		; set level to GHZ1 (000)
 		move.w	#0,(v_pcyc_time).w			; disable palette cycling
 		bsr.w	LevelSizeLoad				; load level size (will use GHZ1's sizes)
@@ -2010,13 +1924,7 @@ Tit_LoadText:
 		lea	(Eni_Title).l,a0			; load title screen emblem mappings
 		move.w	#ArtTile_Level,d0			; =$0000 (emblem mappings are themselves set up with a +$2000 offset per tile)
 		bsr.w	EniDec					; decompress Enigma-compressed emblem mappings to buffer
-	if FixBugs
-		; Fix title screen position
-		; https://info.sonicretro.org/SCHG_How-to:Fix_the_Title_Screen_position_in_Sonic_1
-		copyTilemap v_ram_start,vram_fg+$208,34,22	; transfer decompressed patterns from RAM buffer to VRAM (correctly centered)
-	else
 		copyTilemap v_ram_start,vram_fg+$206,34,22	; transfer decompressed patterns from RAM buffer to VRAM (off-center)
-	endif
 
 		locVRAM	ArtTile_Level*tile_size			; set target VRAM location for level patterns
 		lea	(Nem_GHZ_1st).l,a0			; load first half of GHZ patterns
@@ -2029,16 +1937,10 @@ Tit_LoadText:
 		move.b	#0,(f_debugmode).w			; disable debug mode (cheat remains active though)
 		move.w	#376,(v_generictimer).w			; run title screen for 376 frames (6 seconds plus some change)
 
-	if FixBugs
-		; Fix the Press Start Button text
-		; https://info.sonicretro.org/SCHG_How-to:Display_the_Press_Start_Button_text
-		clearRAM v_sonicteam,v_sonicteam+object_size	; delete RAM used by "SONIC TEAM PRESENTS" object (fully)
-	else
 		; Bug: this only clears half of the "SONIC TEAM PRESENTS" slot.
 		; This is responsible for why the "PRESS START BUTTON" text doesn't
 		; show up, as the routine ID isn't reset.
 		clearRAM v_sonicteam,v_sonicteam+object_size/2	; delete RAM used by "SONIC TEAM PRESENTS" object (partially)
-	endif
 
 		move.b	#id_TitleSonic,(v_titlesonic).w		; load big Sonic object
 		move.b	#id_PSBTM,(v_pressstart).w		; load "PRESS START BUTTON" object
@@ -2112,10 +2014,6 @@ Tit_EnterCheat:
 		addq.w	#1,(v_title_dcount).w			; increment number of successful D-Pad cheat inputs
 		tst.b	d0					; has end of cheat code been reached? (0-entry in cheat)
 		bne.s	Tit_CountC				; if not, branch
-	if FixBugs
-		; Allow additional cheats to be entered without resetting the sequence first.
-		clr.w	(v_title_dcount).w			; reset D-Pad counter
-	endif
 
 Tit_ActivateCheat:
 		; (On JAPANESE consoles only) Activated cheat depends on the amount of times C was pressed:
@@ -2145,17 +2043,6 @@ Tit_ResetCheat:
 		cmpi.w	#9,(v_title_dcount).w			; has cheat reached index 9? (impossible condition)
 		beq.s	Tit_CountC				; if yes, don't reset D-Pad counter
 		move.w	#0,(v_title_dcount).w			; reset cheat index counter
-	if FixBugs
-		; Entering an incorrect cheat input normally resets the entire sequence.
-		; If the incorrect input matches the first cheat button, it should be treated
-		; as the first successful input to make repeated attempts less awkward.
-		lea	(LevSelCode_J).l,a0			; reload J code
-		tst.b	(v_megadrive).w				; check if the machine is US or Japanese
-		bpl.s	.chkUp					; if Japanese, branch
-		lea	(LevSelCode_US).l,a0			; reload US code
-	.chkUp:	cmp.b	(a0),d0					; was incorrect button press the first cheat input?
-		beq.s	Tit_EnterCheat				; if yes, treat it as first correct input right away
-	endif
 
 Tit_CountC:
 		move.b	(v_jpadpress1).w,d0			; get currently pressed buttons
@@ -2178,12 +2065,6 @@ Tit_ChkLevSel:
 ; ---------------------------------------------------------------------------
 
 Tit_EnterLevelSelect:
-	if FixBugs
-		; Fix the level selects graphics bug
-		; https://info.sonicretro.org/SCHG_How-to:Fix_the_Level_Select_graphics_bug
-		move.b	#id_VBlank_Title,(v_vblank_routine).w	; set VBlank routine to $04
-		bsr.w	WaitForVBlank				; run VBlank one extra frame to prevent graphical glitches
-	endif
 		moveq	#palid_LevelSel,d0			; load level select palette...
 		bsr.w	PalLoad					; ...directly to active palette
 
@@ -2228,14 +2109,12 @@ LevSel_SelectionMade:
 		cmpi.w	#$9E,d0					; is sound $9E being played?
 		beq.s	LevSel_Credits				; if yes, go to Credits
 LevSel_NoCheat:
-	if FixBugs=0
 		; This is a workaround for a bug (see PlaySoundID in the sound driver for more info)
 		cmpi.w	#bgm__Last+1,d0				; is sound $80-$93 being played?
 		blo.s	LevSel_PlaySnd				; if yes, branch
 		cmpi.w	#sfx__First,d0				; is sound $94-$9F being played?
 		blo.s	LevelSelect				; if yes, branch
 LevSel_PlaySnd:
-	endif
 		bsr.w	QueueSound2				; play selected sound
 		bra.s	LevelSelect				; loop level select
 ; ===========================================================================
@@ -2825,42 +2704,15 @@ Level_TtlCardLoop: ; move in title cards, stay on them until PLCs have finished
 		jsr	(ExecuteObjects).l			; execute title cards object
 		jsr	(BuildSprites).l			; build sprites to show title cards
 		bsr.w	RunPLC					; decompress level graphics
-	if FixBugs=0
 		move.w	(v_ttlcardact+obX).w,d0			; get current position of the "ACT" element of the title cards
 		cmp.w	(v_ttlcardact+card_mainX).w,d0		; has "ACT" element reached its target position?
 		bne.s	Level_TtlCardLoop			; if not, loop until it has
-	else
-		; Check if *every* title card element has reached their target position.
-		; Decompression is normally slow enough that every element is able
-		; to reach their target position before it's finished, but if
-		; decompression is upgraded with something faster, then the risk
-		; of decompression finishing and exiting this loop before all of the title
-		; card is finished moving into place is increased.
-		lea	(v_titlecard).w,a0			; get title card elements
-		moveq	#4-1,d1					; number of title card elements
-
-Level_CheckTtlCard:
-		move.w	obX(a0),d0				; get current position of a title card element
-		cmp.w	card_mainX(a0),d0			; has this title card element reached its target position?
-		bne.s	Level_TtlCardLoop			; if not, loop until it has
-		lea	object_size(a0),a0			; next title card element
-		dbf	d1,Level_CheckTtlCard			; loop until every element has reached its target position
-	endif
 		tst.l	(v_plc_buffer).w			; have patterns been fully decompressed and loaded?
 		bne.s	Level_TtlCardLoop			; if not, loop until they have
 ; ---------------------------------------------------------------------------
 
 		; PLCs have finished, load/initialize remaining data
 
-	if FixBugs
-		; Do VBlank for one extra frame to provide enough processing time
-		; for the remaining data initialization below. Without it, it's
-		; possible for VBlank to interrupt in the middle of a transfer,
-		; resulting in visual corruption. This will also make title cards
-		; smoother should decompression get upgraded with something faster.
-		move.b	#id_VBlank_TitleCards,(v_vblank_routine).w ; set VBlank routine to $0C
-		bsr.w	WaitForVBlank				; wait until VBlank has finished
-	endif
 
 		jsr	(Hud_Base).l				; load basic HUD graphics (only in levels, not in the ending demos)
 
@@ -2872,9 +2724,7 @@ Level_SkipTtlCard:
 		bset	#2,(v_fg_scroll_flags).w		; draw an extra column at the left side of the screen during level start
 		bsr.w	LevelDataLoad				; load block mappings and palettes
 		bsr.w	LoadTilesFromStart			; fully draw the foreground and background once before fade-in
-	if UnusedOptimization=0
 		jsr	(ConvertCollisionArray).l		; call a routine that immediately returns (this is a disabled development function)
-	endif
 		bsr.w	ColIndexLoad				; set collision index for current zone
 		bsr.w	LZWaterFeatures				; initialize water features if zone is LZ
 
@@ -2919,9 +2769,7 @@ Level_SkipClr:
 		move.b	d0,(v_shield).w				; clear shield
 		move.b	d0,(v_invinc).w				; clear invincibility
 		move.b	d0,(v_shoes).w				; clear speed shoes
-	if UnusedOptimization=0
 		move.b	d0,(v_unused1).w			; clear unused flag (goggles?)
-	endif
 		move.w	d0,(v_debuguse).w			; exit debug mode if necessary
 		move.w	d0,(f_restart).w			; clear level restart flag
 		move.w	d0,(v_framecount).w			; reset frames since level start to 0
@@ -3017,10 +2865,7 @@ Level_MainLoop:
 		bsr.w	LZWaterFeatures				; apply water features if in Labyrinth Zone
 		jsr	(ExecuteObjects).l			; execute all objects in object RAM
 
-	if FixBugs
-		tst.w	(f_restart).w				; is the level set to restart?
-		bne.s	Level_CheckRestart			; if yes, branch to check restart condition
-	elseif Revision<>0
+	if Revision<>0
 		; For REV01, this code has been relocated from below to avoid brief visual glitches
 		; as a result of the zone ID changing. This, however, had the side effect of demos
 		; restarting if Sonic dies, rather than immediately going to the next game mode.
@@ -3049,7 +2894,7 @@ Level_SkipScroll:
 Level_CheckRestart:
 		cmpi.b	#id_Demo,(v_gamemode).w			; are we in a demo?
 		beq.s	Level_ChkDemo				; if yes, branch
-	if FixBugs|(Revision=0)
+	if Revision=0
 		tst.w	(f_restart).w				; is the level set to restart?
 		bne.w	GM_Level				; if yes, restart leve
 	endif
@@ -3266,14 +3111,6 @@ GM_Special:		; white fade-out from previous game mode
 		bsr.w	PalLoad_Fade				; ...into the palette fade-in buffer
 		jsr	(SS_Load).l				; load SS layout data (based on last stage entered and collected emeralds)
 
-	if FixBugs
-		; Set custom level boundaries so that the fixed
-		; debug mode will not break for Special Stages.
-		move.w	#$2B0,(v_limittop2).w			; set top boundary
-		move.w	#$7D0,(v_limitbtm2).w			; set bottom boundary
-		move.w	#$2E0,(v_limitleft2).w			; set left boundary
-		move.w	#$7A0,(v_limitright2).w			; set right boundary
-	endif
 
 		move.l	#0,(v_screenposx).w			; reset X-camera position
 		move.l	#0,(v_screenposy).w			; reset Y-camera position
@@ -3623,11 +3460,6 @@ End_LoadData:
 		move.w	#bgm_Ending,d0				; play ending sequence music
 		bsr.w	QueueSound1				; play it
 
-	if FixBugs
-		; Fix being able to enable debug mode without having entered the cheat code for it
-		tst.b	(f_debugcheat).w			; has debug cheat been entered?
-		beq.s	End_LoadSonic				; if not, branch
-	endif
 		btst	#bitA,(v_jpadhold1).w			; was button A held while entering ending sequence?
 		beq.s	End_LoadSonic				; if not, branch
 		move.b	#1,(f_debugmode).w			; enable debug mode
@@ -3651,9 +3483,7 @@ End_LoadSonic:
 		move.b	d0,(v_shield).w				; clear shield
 		move.b	d0,(v_invinc).w				; clear invincibility
 		move.b	d0,(v_shoes).w				; clear speed shoes
-	if UnusedOptimization=0
 		move.b	d0,(v_unused1).w			; clear unused flag (goggles?)
-	endif
 		move.w	d0,(v_debuguse).w			; exit debug mode if necessary
 		move.w	d0,(f_restart).w			; clear level restart flag
 		move.w	d0,(v_framecount).w			; reset frames since level start to 0
@@ -3662,9 +3492,7 @@ End_LoadSonic:
 		move.b	#1,(f_ringcount).w			; update rings counter
 		move.b	#0,(f_timecount).w			; stop time counter for the ending sequence
 
-	if UnusedOptimization=0
 		move.w	#1800,(v_generictimer).w		; set generic timer to 30 seconds (unused in ending sequence)
-	endif
 		move.b	#id_VBlank_Ending,(v_vblank_routine).w	; set VBlank routine to $18
 		bsr.w	WaitForVBlank				; wait until VBlank has finished
 ; ---------------------------------------------------------------------------
@@ -3738,11 +3566,6 @@ End_AllEmlds:		; during the slow white-in
 		bsr.w	WhiteOut_ToWhite			; brighten palette further
 
 End_SlowFade:
-	if FixBugs
-		; Fix a softlock if Sonic somehow dies in the Ending Sequence
-		cmpi.b	#6,(v_player+obRoutine).w		; has Sonic died?
-		bhs.s	End_GoToCredits				; if yes, abort sequence, go straight to credits
-	endif
 		tst.w	(f_restart).w				; has flag been set signaling that the emeralds have disappeared?
 		beq.w	End_AllEmlds				; if not, loop
 ; ---------------------------------------------------------------------------
@@ -4106,9 +3929,7 @@ Demo_EndGHZ2:	include	"demodata/Ending - GHZ2.asm"
 		include	"_incObj/15 Swinging Platforms.asm" ; includes "MvSonicOnPtfm" subroutine
 		include	"_incObj/17 GHZ Spiked Pole Helix.asm"
 		include	"_incObj/18 Platforms.asm"
-	if UnusedOptimization=0
 		include	"_incObj/19 Unused - GHZ Ball.asm" ; this was the rolling GHZ ball in the prototype
-	endif
 Map_GBall:	include	"_maps/GHZ Ball.asm"
 		include	"_incObj/1A, 53 Collapsing Ledges and Floors.asm" ; includes "SlopeObject_AssumeStoodOn" subroutine
 		include	"_incObj/1C GHZ, SYZ Scenery.asm"
@@ -4120,15 +3941,11 @@ Map_GBall:	include	"_maps/GHZ Ball.asm"
 ; ===========================================================================
 ; >>> Badniks, explosions, and Badnik-related objects
 		include	"_incObj/1E, 20 Badnik - Ball Hog and Cannonball.asm"
-	if UnusedOptimization=0
 		include	"_incObj/24 Unused - Small Explosion.asm"
-	endif
 		include	"_incObj/27, 3F Explosions.asm"
 		include	"_anim/Ball Hog.asm"
 Map_Hog:	include	"_maps/Ball Hog.asm"
-	if UnusedOptimization=0
 Map_UnkExplode:	include	"_maps/Unused Explosion.asm"
-	endif
 		include	"_maps/Explosions.asm"
 		include	"_incObj/28, 29 Animals and Points.asm"
 		include	"_incObj/1F Badnik - Crabmeat.asm"
@@ -4140,7 +3957,8 @@ Map_UnkExplode:	include	"_maps/Unused Explosion.asm"
 		include	"_incObj/25, 37 Rings.asm"
 		include	"_incObj/4B, 7C Giant Ring and Flash.asm"
 		include	"_anim/Rings.asm"
-Map_Ring:   if Revision=0
+Map_Ring:
+	if Revision=0
 		include	"_maps/Rings (REV00).asm"
 	    else
 		; REV01 added an extra blank frame, possibly to mitigate
@@ -4170,13 +3988,9 @@ Map_Flash:	include	"_maps/Ring Flash.asm"
 Map_Fire:	include	"_maps/Fireballs.asm"
 		include	"_incObj/30 MZ Large Green Glass Blocks.asm"
 		include	"_incObj/31 MZ Chained Stompers.asm"
-	if UnusedOptimization=0
 		include	"_incObj/45 Unused - MZ Sideways Stomper.asm"
-	endif
 Map_CStom:	include	"_maps/Chained Stompers.asm"
-	if UnusedOptimization=0
 Map_SStom:	include	"_maps/Sideways Stomper.asm"
-	endif
 		include	"_incObj/32 Button.asm"
 		include	"_incObj/33 MZ, LZ Pushable Blocks.asm"
 
@@ -4233,9 +4047,7 @@ Map_PRock:	include	"_maps/Purple Rock.asm"
 Map_Geyser:	include	"_maps/Lava Geyser.asm"
 Map_LWall:	include	"_maps/Wall of Lava.asm"
 		include	"_incObj/40 Badnik - Moto Bug.asm" ; includes "_incObj/sub RememberState.asm" subroutine
-	if UnusedOptimization=0
 		include	"_incObj/4F Unused - Splats.asm" ; this was Splats in the prototype
-	endif
 		include	"_incObj/50 Badnik - Yadrin.asm"
 		include	"_incObj/sub SolidObject.asm"
 		include	"_incObj/51 MZ Smashable Green Block.asm"
@@ -4273,16 +4085,12 @@ Map_LWall:	include	"_maps/Wall of Lava.asm"
 ; >>> Various unique objects
 		include	"_incObj/0A LZ Drowning Countdown.asm" ; includes ResumeMusic
 		include	"_incObj/38 Shield and Invincibility.asm"
-	if UnusedOptimization=0
 		include	"_incObj/4A Unused - Special Stage Entry.asm"
-	endif
 		include	"_incObj/08 LZ Water Splash.asm"
 		include	"_anim/Shield and Invincibility.asm"
 Map_Shield:	include	"_maps/Shield and Invincibility.asm"
-	if UnusedOptimization=0
 		include	"_anim/Special Stage Entry (Unused).asm"
 Map_Vanish:	include	"_maps/Special Stage Entry (Unused).asm"
-	endif
 		include	"_anim/Water Splash.asm"
 Map_Splash:	include	"_maps/Water Splash.asm"
 
@@ -4291,9 +4099,7 @@ Map_Splash:	include	"_maps/Water Splash.asm"
 ; >>> Collision subroutines for Sonic and other objects
 		include	"_incObj/Sonic AnglePos.asm"
 		include	"_incObj/sub FindNearestTile & FindFloor & FindWall.asm"
-	if UnusedOptimization=0
 		include "_inc/ConvertCollisionArray (Unused).asm"
-	endif
 		include	"_incObj/Sonic Collision.asm"
 
 
@@ -4355,10 +4161,8 @@ Map_SS_Chaos:	include	"_maps/SS Chaos Emeralds.asm"
 
 
 ; ===========================================================================
-	if UnusedOptimization=0
 ; >>> Deleted, blank object that is randomly mixed in here
 		include	"_incObj/10 Unused - Animation Test.asm" ; this was an animation test object for Sonic in the prototype
-	endif
 
 ; ===========================================================================
 ; >>> Subroutine for in-place level animations in VRAM
@@ -4398,12 +4202,10 @@ Art_LivesNums:	binclude "artunc/Lives Counter Numbers.unc" ; 8x8 pixel numbers o
 		; - in rev00, it starts at $1DC00, which amounts to $EE bytes
 		; - in rev01/rev02, it starts at $1E700, which amounts to $48E bytes
 		; From a technical standpoint, this padding serves no purpose.
-	if PaddingOptimization=0
 		align	$200
 		if Revision<>0
 			dcb.b	$300,$FF
 		endif
-	endif
 
 ; ===========================================================================
 ; ---------------------------------------------------------------------------
@@ -4450,7 +4252,7 @@ Art_Sonic:	binclude	"artunc/Sonic.unc"
 ; ---------------------------------------------------------------------------
 ; Compressed graphics - various
 ; ---------------------------------------------------------------------------
-	if (Revision=0)&(UnusedOptimization=0)
+	if Revision=0
 Nem_Smoke:	binclude	"artnem/Unused - Smoke.nem"
 		even
 Nem_SyzSparkle:	binclude	"artnem/Unused - SYZ Sparkles.nem"
@@ -4462,7 +4264,7 @@ Nem_Shield:	binclude	"artnem/Shield.nem"
 Nem_Stars:	binclude	"artnem/Invincibility Stars.nem"
 		even
 
-	if (Revision=0)&(UnusedOptimization=0)
+	if Revision=0
 Nem_LzSonic:	binclude	"artnem/Unused - LZ Sonic.nem" ; Sonic holding his breath
 		even
 Nem_UnkFire:	binclude	"artnem/Unused - Fireball.nem" ; unused fireball
@@ -4532,18 +4334,14 @@ Nem_Swing:	binclude	"artnem/GHZ Swinging Platform.nem"
 		even
 Nem_Bridge:	binclude	"artnem/GHZ Bridge.nem"
 		even
-	if UnusedOptimization=0
 Nem_GhzUnkBlock:binclude	"artnem/Unused - GHZ Block.nem"
 		even
-	endif
 Nem_Ball:	binclude	"artnem/GHZ Giant Ball.nem"
 		even
 Nem_Spikes:	binclude	"artnem/Spikes.nem"
 		even
-	if UnusedOptimization=0
 Nem_GhzLog:	binclude	"artnem/Unused - GHZ Log.nem"
 		even
-	endif
 Nem_SpikePole:	binclude	"artnem/GHZ Spiked Log.nem"
 		even
 Nem_PplRock:	binclude	"artnem/GHZ Purple Rock.nem"
@@ -4598,20 +4396,16 @@ Nem_MzSwitch:	binclude	"artnem/MZ Switch.nem"
 		even
 Nem_MzGlass:	binclude	"artnem/MZ Green Glass Block.nem"
 		even
-	if UnusedOptimization=0
 Nem_UnkGrass:	binclude	"artnem/Unused - Grass.nem"
 		even
-	endif
 Nem_MzFire:	binclude	"artnem/Fireballs.nem"
 		even
 Nem_Lava:	binclude	"artnem/MZ Lava.nem"
 		even
 Nem_MzBlock:	binclude	"artnem/MZ Green Pushable Block.nem"
 		even
-	if UnusedOptimization=0
 Nem_MzUnkBlock:	binclude	"artnem/Unused - MZ Background.nem"
 		even
-	endif
 
 ; ---------------------------------------------------------------------------
 ; Compressed graphics - SLZ stuff
@@ -4686,10 +4480,8 @@ Nem_Crabmeat:	binclude	"artnem/Enemy Crabmeat.nem"
 		even
 Nem_Buzz:	binclude	"artnem/Enemy Buzz Bomber.nem"
 		even
-	if UnusedOptimization=0
 Nem_UnkExplode:	binclude	"artnem/Unused - Explosion.nem"
 		even
-	endif
 Nem_Burrobot:	binclude	"artnem/Enemy Burrobot.nem"
 		even
 Nem_Chopper:	binclude	"artnem/Enemy Chopper.nem"
@@ -4706,10 +4498,8 @@ Nem_Yadrin:	binclude	"artnem/Enemy Yadrin.nem"
 		even
 Nem_Basaran:	binclude	"artnem/Enemy Basaran.nem"
 		even
-	if UnusedOptimization=0
 Nem_Splats:	binclude	"artnem/Enemy Splats.nem"
 		even
-	endif
 Nem_Bomb:	binclude	"artnem/Enemy Bomb.nem"
 		even
 Nem_Orbinaut:	binclude	"artnem/Enemy Orbinaut.nem"
@@ -4857,7 +4647,7 @@ Nem_EndSonic:	binclude	"artnem/Ending - Sonic.nem"
 		even
 Nem_TryAgain:	binclude	"artnem/Ending - Try Again.nem"
 		even
-	if (Revision=0)&(UnusedOptimization=0)
+	if Revision=0
 Nem_EndEggman:
 		binclude	"artnem/Unused - Eggman Ending.nem"
 		even
@@ -4876,13 +4666,11 @@ Nem_EndStH:	binclude	"artnem/Ending - StH Logo.nem"
 		; AngleMap starts at $62900 in all revisions, which amounts
 		; to $104 bytes of padding for rev00 and $40 for rev01/rev02.
 		; From a technical standpoint, this padding serves no purpose.
-	if PaddingOptimization=0
 		if Revision=0
 			dcb.b	$104,$FF
 		else
 			dcb.b	$40,$FF
 		endif
-	endif
 
 ; ---------------------------------------------------------------------------
 ; Collision data
@@ -5089,9 +4877,7 @@ Art_BigRing_size:	equ	*-Art_BigRing
 		; ObjPos_Index starts at $6B000 in all revisions, which amounts
 		; to $9C bytes of padding for rev00 and $DC for rev01/rev02.
 		; From a technical standpoint, this padding serves no purpose.
-	if PaddingOptimization=0
 		align	$100
-	endif
 
 ; ---------------------------------------------------------------------------
 ; Sprite locations index
@@ -5263,13 +5049,11 @@ ObjPos_Null:	dc.b $FF, $FF, 0, 0, 0,	0
 		; It appears to be placed in such a way that the sound driver
 		; ends right on the $80000 mark in the ROM in all revisions.
 		; From a technical standpoint, this padding serves no purpose.
-	if PaddingOptimization=0
 		if Revision=0
 			dcb.b	$62A,$FF
 		else
 			dcb.b	$63C,$FF
 		endif
-	endif
 
 ; ---------------------------------------------------------------------------
 

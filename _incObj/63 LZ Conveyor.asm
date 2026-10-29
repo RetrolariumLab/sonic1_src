@@ -122,15 +122,7 @@ LCon_Main_Spawner:
 		andi.w	#$7F,d0					; mask out spawner bit 7
 		lea	(v_obj63).w,a2				; load flags storing the "conveyor group loaded" states per set
 		bset	#0,(a2,d0.w)				; set flag that this conveyor group has been loaded
-	if FixBugs
-		; Avoid returning to LabyrinthConvey to prevent a
-		; display-and-delete bug.
-		beq.s	.spawn					; if it wasn't already set, branch
-		addq.l	#4,sp					; skip returning to "LabyrinthConvey"
-		bra.w	DeleteObject				; delete spawner object
-	else
 		bne.w	DeleteObject				; if it was already set, don't create platform group again
-	endif
 ; ---------------------------------------------------------------------------
 
 .spawn:
@@ -154,14 +146,7 @@ LCon_Main_Spawner:
 ; ---------------------------------------------------------------------------
 
 .loopMakePlatforms:
-	if FixBugs
-		; If an object is allocated before the parent object, then
-		; when the child is deleted, it will have already been queued
-		; for display, which is a display-and-delete bug.
-		bsr.w	FindNextFreeObj				; find next free object RAM slot
-	else
 		bsr.w	FindFreeObj				; find any free object RAM slot
-	endif
 		bne.s	.next					; if object RAM is full, branch
 
 	.makePlatform:

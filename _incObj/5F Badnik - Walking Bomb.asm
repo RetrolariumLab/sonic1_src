@@ -169,11 +169,6 @@ Bom_BurnFuseAndExplode:
 ; ---------------------------------------------------------------------------
 
 .fuseExpired:
-	if FixBugs
-		; Avoid returning to Bom_Fuse to prevent display-and-delete
-		; and double-delete bugs.
-		addq.l	#4,sp					; skip returning to Bom_Fuse
-	endif
 		clr.w	bom_time(a0)				; clear fuse timer
 		clr.b	obRoutine(a0)				; clear routine counter (redundant here)
 		move.w	bom_origY(a0),obY(a0)			; restore initial Y-position of bomb

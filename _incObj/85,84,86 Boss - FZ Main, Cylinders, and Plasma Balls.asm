@@ -59,18 +59,10 @@ BossFinal_ObjData2:
 		; routine num, animation, sprite priority, width, height
 		dc.b 2,	0, 4, 64/2, 50/2
 		dc.b 4,	0, 1, 36/2, 16/2
-	if FixBugs
-		; Legs, cockpit, and flame were not given width or height, so sprite culling is iffy
-		dc.b 6,	0, 3, 40/2, 24/2
-		dc.b 8,	0, 3, 64/2, 56/2
-		dc.b $A, 0, 3, 64/2, 64/2
-		dc.b $C, 0, 3, 16/2, 6/2
-	else
 		dc.b 6,	0, 3, 0, 0
 		dc.b 8,	0, 3, 0, 0
 		dc.b $A, 0, 3, 64/2, 64/2
 		dc.b $C, 0, 3, 0, 0
-	endif
 ; ===========================================================================
 
 BossFinal_Main:	; Routine 0
@@ -247,11 +239,6 @@ BossFinal_Eggman_Crush:
 		move.w	d0,(v_player+obVelX).w			; bounce Sonic back
 		tst.b	BossFinal_HitFlash(a0)			; is the boss currently flashing?
 		bne.s	.updateFlash				; if yes, branch
-	if FixBugs
-		; Fix underflowing hit counter to 255 on defeat
-		tst.b	obBossHits(a0)				; has the boss been defeated?
-		beq.s	.animate				; if so, don't let it be hit again
-	endif
 		subq.b	#1,obBossHits(a0) 			; decrement hits remaining
 		move.b	#100,BossFinal_HitFlash(a0)		; set a flash timer for 100 frames
 		move.w	#sfx_HitBoss,d0
@@ -266,10 +253,6 @@ BossFinal_Eggman_Crush:
 ; ===========================================================================
 
 .updateAnim:
-	if FixBugs
-		tst.b	obBossHits(a0)				; has the boss been defeated?
-		beq.s	.animate				; if so, don't reset to laugh animation
-	endif
 		move.b	#1,obAnim(a0)
 
 ; loc_19F9C:
@@ -523,14 +506,6 @@ BossFinal_Eggman_Escape:
 		bpl.s	.setCollision				; if not, branch
 		move.w	#$60,obVelY(a0)				; set a slow downward descent
 
-	if FixBugs
-		; While this bug isn't obvious due to the bugfix below, it is technically still there.
-		; A condition can be met where the exploding cockpit disappears, which then means the explosions do.
-		; This allows for the hit sound to start playing every 30 seconds again audibly, since now collision has been disabled
-		; and every time we fall through the above checks, we reset the timer and let it decrement, and there are no explosions to
-		; override the hit sound. The timer can be forced to always be -1 which will only cause it to decrement from 30 to 0 one time.
-		move.w	#-1,BossFinal_EscapeTimer(a0) 		; disable timer
-	endif
 		bra.s	.watchEggman
 ; ===========================================================================
 
@@ -562,10 +537,6 @@ BossFinal_Eggman_Escape:
 		tst.b	obRender(a0)				; is Eggman fully off screen?
 		bmi.s	.exit					; if not, branch
 		move.b	#id_Ending,(v_gamemode).w		; set game mode to Ending
-	if FixBugs
-		; Avoid returning to BossFinal_Eggman to prevent a display-and-delete bug.
-		addq.l	#4,sp
-	endif
 		bra.w	BossFinal_Delete
 ; ===========================================================================
 
@@ -641,7 +612,6 @@ BossFinal_Cockpit: ; Routine 8
 
 ; loc_1A312:
 .explode:
-	if FixBugs=0
 		; If you let Eggman go off screen, then move to the right, his cockpit is missing.
 		; This is the only one of his sub objects to test for render flags to delete, since
 		; his ship stays alive no matter what until it has reached the rightmost part of the level
@@ -649,7 +619,6 @@ BossFinal_Cockpit: ; Routine 8
 		; fixes this bug as well as Eggman getting hidden off screen way too early
 		tst.b	obRender(a0)				; has the cockpit left the screen?
 		bpl.w	BossFinal_Delete			; if so, branch
-	endif
 		bsr.w	BossDefeated				; spawn explosions
 		move.b	#2,obPriority(a0)			; set priority to 2 in order to overwrite old cockpit, but re-use a few un-damaged cockpit tiles in the middle of the ship
 		move.b	#0,obAnim(a0)				; set object animation to 0
@@ -772,12 +741,10 @@ EggmanCylinder_Main:	; Routine 0
 		move.w	(a1)+,obX(a0)				; copy position and increment
 		move.w	(a1),obY(a0)				; copy Y and don't increment yet
 		move.w	(a1)+,EggmanCylinder_BaseY(a0)		; store same Y as a base position and increment
-	if FixBugs=0
 		; These are likely the result of the developers fumbling obWidth and
 		; obActWidth, which wasn't completely fixed until REV01.
 		move.b	#64/2,obHeight(a0)
 		move.b	#192/2,obWidth(a0)
-	endif
 		move.b	#64/2,obActWid(a0)
 		move.b	#192/2,obHeight(a0)
 		move.b	#3,obPriority(a0)			; set priority
@@ -1045,12 +1012,10 @@ BossPlasma_MakeBalls:; Routine 4
 		beq.w	.checkStatus				; if not, branch
 		clr.b	BossFinal_ChildCmd(a0)			; clear flag so it only runs once
 
-	if UnusedOptimization=0
 ; Seemingly dead code here as a2 is never used anywhere, possibly an old table lookup?
 		add.w	BossPlasma_TargetX(a0),d0
 		andi.w	#$1E,d0
 		adda.w	d0,a2
-	endif
 
 		addq.w	#4,BossPlasma_TargetX(a0)		; increment spread offset (to spread the ball out horizontally when spawning)
 		clr.w	BossFinal_ChildCounter(a0)		; clear ball counter
@@ -1076,12 +1041,7 @@ BossPlasma_MakeBalls:; Routine 4
 		move.l	a0,BossFinal_ParentObj(a1)		; copy parent object address
 		jsr	(RandomNumber).l
 		move.w	BossFinal_ChildCounter(a0),d1		; copy back since RandomNumber also uses d1
-	if FixBugs
-		; compensation for the fix in BossPlasma_Drop
-		muls.w	#-$59,d1				; spacing for balls
-	else
 		muls.w	#-$4F,d1
-	endif
 		addi.w	#boss_fz_x+$128,d1			; start at the rightmost position
 		andi.w	#$1F,d0					; AND to keep 5 bits of the random number (0-31)
 		subi.w	#$10,d0					; subtract by 16 to center it
@@ -1152,13 +1112,9 @@ BossPlasma_Drop:
 		sub.w	BossPlasma_TargetX(a0),d0		; subtract current X from target X
 		bcc.s	.aim					; have we reached the target starting X? if not, branch (moving from right to left so if there is no carry, then too far left)
 		clr.w	obVelX(a0)				; target reached, stop
-	if FixBugs
-		sub.w	d0,obX(a0)
-	else
 		; this is intended to keep the leftmost energy ball in bounds,
 		; but it actually pushes it FURTHER to the left
 		add.w	d0,obX(a0)
-	endif
 		movea.l	BossFinal_ParentObj(a0),a1
 		subq.w	#1,BossFinal_ChildCounter(a1)
 
@@ -1196,10 +1152,6 @@ BossPlasma_Move:
 .deleteChild:
 		movea.l	BossFinal_ParentObj(a0),a1		; copy ball launcher's address
 		subq.w	#1,BossPlasma_BallsAlive(a1)		; decrement ball count
-	if FixBugs
-		; Avoid returning to BossPlasma_Balls to prevent a display-and-delete bug.
-		addq.l	#4,sp
-	endif
 		bra.w	EggmanCylinder_Delete
 ; ===========================================================================
 

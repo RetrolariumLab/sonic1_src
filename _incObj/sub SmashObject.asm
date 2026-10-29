@@ -23,14 +23,7 @@ SmashObject:
 ; ===========================================================================
 
 .loopFragments:
-	if FixBugs
-		; If an object is allocated before the parent object, then
-		; when the child is deleted, it will have already been queued
-		; for display, which is a display-and-delete bug.
-		bsr.w	FindNextFreeObj				; find a free object slot after the previous one
-	else
 		bsr.w	FindFreeObj				; find a free object slot
-	endif
 		bne.s	.playSmashSound				; if object RAM is full, abort process
 		addq.w	#5,a3					; advance to next sprite piece in mappings (each piece is 5 bytes)
 
@@ -48,7 +41,6 @@ SmashObject:
 		move.w	(a4)+,obVelX(a1)			; load next X-speed from input array
 		move.w	(a4)+,obVelY(a1)			; load next Y-speed from input array
 
-	if FixBugs=0
 		; This check ensures that fragments that are loaded earlier in RAM than
 		; the first fragment will still be handled on the frame they are spawned in,
 		; because ExecuteObjects has already gone past that RAM location.
@@ -62,7 +54,6 @@ SmashObject:
 		movea.l	(sp)+,a0				; restore parent object
 		bsr.w	DisplaySprite2				; render child fragment
 	.ramLocationOkay:
-	endif
 		dbf	d1,.loopFragments			; loop until all fragments have been spawned
 
 .playSmashSound:

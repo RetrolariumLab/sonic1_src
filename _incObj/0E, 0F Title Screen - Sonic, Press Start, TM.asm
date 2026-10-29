@@ -17,12 +17,7 @@ TSon_Index:	dc.w TSon_Main-TSon_Index
 
 TSon_Main:	; Routine 0
 		addq.b	#2,obRoutine(a0)			; advance to TSon_Delay
-	if FixBugs
-		; Fix horizontal title screen position
-		move.w	#$80+$78,obX(a0)			; +8px
-	else
 		move.w	#$80+$70,obX(a0)			; original X-position
-	endif
 		move.w	#$80+$5E,obScreenY(a0)			; set initial Y-position
 		move.l	#Map_TSon,obMap(a0)			; set mappings
 		move.w	#ArtTile_Title_Sonic|Tile_Pal2,obGfx(a0) ; set art tile and palette line
@@ -82,12 +77,7 @@ PSB_Main:	; Routine 0
 		; (see the code around ".isjap" in "GM_Title").
 
 		addq.b	#2,obRoutine(a0)			; advance to PSB_PrsStart (animate)
-	if FixBugs
-		; Fix horizontal title screen position
-		move.w	#$80+$58,obX(a0)			; +8px
-	else
 		move.w	#$80+$50,obX(a0)			; original X-position
-	endif
 		move.w	#$80+$B0,obScreenY(a0)			; set Y-position
 		move.l	#Map_PSB,obMap(a0)			; set mappings
 		move.w	#ArtTile_Title_Foreground,obGfx(a0)	; set art tile (PSB tiles are inside the foreground emblem's graphics)
@@ -101,12 +91,7 @@ PSB_Main:	; Routine 0
 		bne.s	PSB_Exit				; if not, branch (object is masking sprites)
 
 		move.w	#ArtTile_Title_Trademark|Tile_Pal2,obGfx(a0) ; "TM" specific art tile
-	if FixBugs
-		; Fix horizontal title screen position
-		move.w	#$80+$F8,obX(a0)			; +8px
-	else
 		move.w	#$80+$F0,obX(a0)			; original X-position
-	endif
 		move.w	#$80+$78,obScreenY(a0)			; set Y-position for TM
 ; ---------------------------------------------------------------------------
 

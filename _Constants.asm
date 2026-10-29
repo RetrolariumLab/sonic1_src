@@ -82,10 +82,6 @@ mapper_bank_7:		equ $A130FF
 security_addr:		equ $A14000
 security_flag:		equ $A14101
 
-; SRAM
-sram_start:		equ $200000+(AddressSRAM&1)
-sram_end:		equ $210000
-
 ; VDP registers
 vreg_mode1:		equ $8000				; mode 1 options register
 vreg_mode2:		equ $8100				; mode 2 options register

@@ -112,7 +112,6 @@ tracenum := (tracenum+1)
     endm
 tracenum := 0
 
-    if ZeroOffsetOptimization=0
     ; disable a space optimization in AS so we can build a bit-perfect ROM
     ; (the hard way, but it requires no modification of AS itself)
 
@@ -188,32 +187,6 @@ _tst	macro
 		insn1op tst.ATTRIBUTE, ALLARGS
 	endm
 
-	else
-
-	; regular meaning to the assembler; better but unlike original
-_move	macro
-		!move.ATTRIBUTE ALLARGS
-	endm
-_add	macro
-		!add.ATTRIBUTE ALLARGS
-	endm
-_addq	macro
-		!addq.ATTRIBUTE ALLARGS
-	endm
-_cmp	macro
-		!cmp.ATTRIBUTE ALLARGS
-	endm
-_cmpi	macro
-		!cmpi.ATTRIBUTE ALLARGS
-	endm
-_clr	macro
-		!clr.ATTRIBUTE ALLARGS
-	endm
-_tst	macro
-		!tst.ATTRIBUTE ALLARGS
-	endm
-
-    endif
 
 roundFloatToInteger function float,INT(float+0.5)
 min function a,b,b!((a!b)&(-(a<b)))

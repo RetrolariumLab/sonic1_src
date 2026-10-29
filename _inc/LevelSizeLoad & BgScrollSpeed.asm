@@ -10,10 +10,6 @@ LevelSizeLoad:
 		move.b	d0,(v_unused9).w			; ''
 		move.b	d0,(v_unused10).w			; ''
 		move.b	d0,(v_dle_routine).w			; reset DynamicLevelEvents routine
-	if FixBugs
-		; Fix title screen not always scrolling after a game over
-		move.b	d0,(f_nobgscroll).w			; clear no-background scroll flag
-	endif
 
 		move.w	(v_zone_act).w,d0			; get current zone and act
 		lsl.b	#6,d0					; align act ID bits next to zone ID
@@ -86,17 +82,6 @@ LevSz_InitScreenAndPlayerStart:
 ; ===========================================================================
 
 LevSz_StartLoc:
-	if FixBugs
-		; Fix title screen position to specific position to avoid
-		; conflicts when GHZ1's start location gets changed.
-		cmpi.b	#id_Title,(v_gamemode).w		; is this the title screen?
-		bne.s	.getStartLocEntry			; if not, branch
-		move.w	#$0050,d1				; X coordinate (this also dictates the little delay before the title screen starts scrolling)
-		move.w	#$03B0,d0				; Y coordinate
-		move.w	d1,(v_player+obX).w			; set X coordinate
-		move.w	d0,(v_player+obY).w			; set Y coordinate
-		bra.s	LevSz_InitCameraPositions		; skip normal Sonic's start location logic
-	endif
 
 	.getStartLocEntry:
 		move.w	(v_zone_act).w,d0			; get current zone and act
@@ -209,10 +194,8 @@ StartLocArray:	binclude	"startpos/ghz1.bin"
 
 		binclude	"startpos/end1.bin"
 		binclude	"startpos/end2.bin"
-	if UnusedOptimization=0
 		unused_startloc
 		unused_startloc
-	endif
 
 ; ===========================================================================
 ; ---------------------------------------------------------------------------
@@ -284,11 +267,6 @@ BgScrollSpeed:
 		bne.s	.setupZone				; if yes, do not alter background positions
 		move.w	d0,(v_bgscreenposy).w			; set background Y-position
 		move.w	d0,(v_bg2screenposy).w			; ''
-	if FixBugs
-		; This is also saved/restored for lampposts, but not for initial level loads.
-		; It's technically not really needed, but should be here for consistency.
-		move.w	d0,(v_bg3screenposy).w			; ''
-	endif
 		move.w	d1,(v_bgscreenposx).w			; set background X-position
 		move.w	d1,(v_bg2screenposx).w			; ''
 		move.w	d1,(v_bg3screenposx).w			; ''
@@ -387,7 +365,6 @@ BgScroll_End:
 		move.w	#$1E,(v_bg2screenposy).w		; ''
 		rts						; return
 
-	if UnusedOptimization=0
 		; Dead code that also sets the BG X-positions.
 		; This may have been used during the development of the ending sequence
 		; to quickly spawn Sonic much closer to the left for convenience, as
@@ -399,7 +376,6 @@ BgScroll_End:
 		move.w	#$FFC0,(v_bg2screenposx).w		; hardcoded bottom BG X-position (bottom mounts/water)
 		move.w	#$1E,(v_bg2screenposy).w		; hardcoded BG Y-position
 		rts						; return
-	endif
 	else
 		move.w	(v_screenposx).w,d0			; get starting FG X-position
 		asr.w	#1,d0					; divide by 2

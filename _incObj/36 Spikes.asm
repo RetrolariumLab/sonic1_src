@@ -66,25 +66,11 @@ Spikes_SideWays:
 		addq.w	#1,d3					; secondary height is +1
 		move.w	obX(a0),d4				; set base X-position for collision detection
 		bsr.w	SolidObject				; check if Sonic touched the sideways spikes
-	if FixBugs
-		; Fix Spikes Backside Damage in Sonic 1
-		; https://info.sonicretro.org/SCHG_How-to:Fix_Spikes_Backside_Damage_in_Sonic_1
-		ble.w	Spikes_Display				; branch if not touched at all (0) or top/bottom touched (-1)
-		move.w	(v_player+obX).w,d0			; load Sonic's X position into d0
-		sub.w	obX(a0),d0				; subtract spikes' X position
-		btst	#status_xflip_bit,obStatus(a0)		; are spikes facing left? (X-flip flag clear)
-		beq.s	.chkHurt				; if yes, branch
-		neg.w	d0					; invert difference to check opposite end for right spikes
-.chkHurt:	tst.w	d0					; is Sonic touching the "pointy" end of the spikes?
-		bgt.s	Spikes_Display				; if not, make spike harmless (backside touched)
-		bra.s	Spikes_Hurt				; otherwise, trigger damage
-	else
 		btst	#status_on_object_bit,obStatus(a0)	; is Sonic standing on top of the sideways spikes?
 		bne.s	Spikes_Display				; if yes, treat as solid platform (no damage)
 		cmpi.w	#1,d4					; has Sonic touched the side of the spikes?
 		beq.s	Spikes_Hurt				; if yes, trigger damage
 		bra.s	Spikes_Display				; otherwise, make spikes harmless
-	endif
 ; ===========================================================================
 
 Spikes_Upright:
@@ -96,43 +82,21 @@ Spikes_Upright:
 		move.w	#(32/2)+1,d3				; secondary collision height is +1
 		move.w	obX(a0),d4				; set base X-position for collision detection
 		bsr.w	SolidObject				; check if Sonic touched the spikes
-	if FixBugs
-		; Fix Spikes Backside Damage in Sonic 1
-		; https://info.sonicretro.org/SCHG_How-to:Fix_Spikes_Backside_Damage_in_Sonic_1
-		btst	#status_on_object_bit,obStatus(a0)	; does Sonic stand on the spikes? (landing on it after taking damage)
-		bne.s	.chkAnyway				; if yes, check for collision anyway
-		tst.w	d4					; check response value from SolidObject
-		bge.s	Spikes_Display				; branch if not touched at all (0) or touched from the sides (+1)
-.chkAnyway:	move.w	(v_player+obY).w,d0			; load Sonic's Y position into d0
-		sub.w	obY(a0),d0				; subtract spikes' Y position
-		btst	#status_yflip_bit,obStatus(a0)		; are spikes facing up? (Y-flip flag clear)
-		beq.s	.chkHurt				; if yes, branch
-		neg.w	d0					; invert difference to check opposite end for upside-down spikes
-.chkHurt:	tst.w	d0					; is Sonic touching the "pointy" end of the spikes?
-		bgt.s	Spikes_Display				; if not, make spike harmless (backside touched)
-	else
 		btst	#status_on_object_bit,obStatus(a0)	; is Sonic standing on top of the spikes?
 		bne.s	Spikes_Hurt				; if yes, trigger damage
 		tst.w	d4					; check response value from SolidObject
 		bpl.s	Spikes_Display				; branch if not touched at all (0) or touched from the sides (+1)
-	endif
 
 Spikes_Hurt:
 		tst.b	(v_invinc).w				; is Sonic invincible?
 		bne.s	Spikes_Display				; if so, skip getting hurt
-	if FixBugs
-		; (Proper) Spike Bug Fix
-		; https://info.sonicretro.org/SCHG_How-to:Change_Spike_behavior_in_Sonic_1
-		tst.w	(v_player+flashtime).w			; is Sonic flashing after being hurt?
-		bne.s	Spikes_Display				; if so, skip getting hurt
-	endif
 		move.l	a0,-(sp)				; backup spikes RAM location
 		movea.l	a0,a2					; move spikes RAM location to a2 (input for HurtSonic)
 		lea	(v_player).w,a0				; load Sonic player object to a0
 		cmpi.b	#4,obRoutine(a0)			; is Sonic currently in a hurt state or dying?
 		bhs.s	Spikes_NoHurt				; if yes, avoid taking damage (restore a0 first)
 
-	if Revision<>2|FixBugs
+	if Revision<>2
 		move.l	obY(a0),d3				; get Sonic's Y-position (with subpixels)
 		move.w	obVelY(a0),d0				; get Sonic's Y-velocity
 		ext.l	d0					; extend velocity to longword
@@ -158,16 +122,9 @@ Spikes_NoHurt:
 		movea.l	(sp)+,a0				; restore spikes RAM location to a0
 
 Spikes_Display:
-	if FixBugs
-		; Objects shouldn't call DisplaySprite and DeleteObject in
-		; the same frame or else cause a null-pointer dereference.
-		out_of_range.w	DeleteObject,spikes_origX(a0)	; check if spikes are offscreen and delete them if so
-		bra.w	DisplaySprite				; display spikes sprite
-	else
 		bsr.w	DisplaySprite				; display spikes sprite
 		out_of_range.w	DeleteObject,spikes_origX(a0)	; check if spikes are offscreen and delete them if so
 		rts						; return
-	endif
 
 
 ; ===========================================================================

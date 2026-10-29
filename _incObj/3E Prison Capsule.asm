@@ -189,31 +189,22 @@ Pri_Animals:	; Routine $C
 		subq.w	#1,obTimeFrame(a0)			; decrement timer until checking if animals have gone offscreen
 		bne.s	.return					; if time remains, branch (probably to avoid lag frames)
 		addq.b	#2,obRoutine(a0)			; advance to Pri_EndAct
-	if FixBugs=0
 		; This is a remnant from the prototype, which waited an additional second
 		; (3 seconds here) before the results appeared. The final game instead
 		; checks if all animals have despawned, making this line useless.
 		move.w	#3*60,obTimeFrame(a0)			; (unused) set time delay to 3 seconds
-	endif
 
 	.return:
 		rts						; return
 ; ===========================================================================
 
 Pri_EndAct:	; Routine $E
-	if FixBugs
-		moveq	#(v_lvlobjend-v_lvlobjspace)/object_size-1,d0 ; number of objects to check
-		moveq	#id_Animals,d1				; set object ID to check
-		moveq	#object_size,d2				; set increment value per object to check
-		lea	(v_lvlobjspace).w,a1			; start dynamic object RAM space
-	else
 		; Nonsensical length, it only covers the first half of object RAM.
 		; Also, dynamic object allocations begin at v_lvlobjspace, not v_objspace.
 		moveq	#(v_objspace_end-(v_objspace+object_size*1))/object_size/2-1,d0 ; number of objects to check (nonsensical)
 		moveq	#id_Animals,d1				; set object ID to check
 		moveq	#object_size,d2				; set increment value per object to check
 		lea	(v_objspace+object_size*1).w,a1		; start object RAM space (nonsensical)
-	endif
 
 .loopFindAnimals:
 		cmp.b	obID(a1),d1				; has animal object been deleted?
@@ -222,11 +213,6 @@ Pri_EndAct:	; Routine $E
 		dbf	d0,.loopFindAnimals			; repeat for entire object RAM space
 
 		jsr	(GotThroughAct).l			; all animal objects have been deleted, launch end-of-level title cards (object 3A)
-	if FixBugs
-		; Avoid returning to Prison to prevent display-and-delete
-		; and double-delete bugs.
-		addq.l	#4,sp					; don't return to Prison to avoid DisplaySprite
-	endif
 		jmp	(DeleteObject).l			; delete prison switch object
 
 	.return:

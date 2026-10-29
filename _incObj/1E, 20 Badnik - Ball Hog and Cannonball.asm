@@ -35,11 +35,6 @@ Hog_Main:	; Routine 0
 		addq.b	#2,obRoutine(a0)			; advance to Hog_Action
 	.hide:
 
-	if FixBugs
-		; Fix badnik invisibly falling forever if it doesn't have a floor beneath it
-		cmpi.w	#$7FF,obY(a0)				; has object fallen below max level height?
-		bhi.w	DeleteObject				; if yes, delete it
-	endif
 		rts						; return (and do NOT display sprite yet)
 ; ===========================================================================
 
@@ -151,7 +146,6 @@ CBal_ChkExplode:
 		subq.w	#1,CBal_time(a0)			; decrement explosion timer
 		bpl.s	CBal_Animate				; if time remains, branch
 
-	if UnusedOptimization=0
 		; This is a leftover from the front-facing prototype Ball Hogs, where the
 		; dropped cannonballs would spawn a small explosion instead of the regular one.
 		; However, after setting the ID, it immediately gets replaced again with the
@@ -160,7 +154,6 @@ CBal_ChkExplode:
 		; but also goes completely unused because the relevant flag is never set
 		; and no graphics are ever loaded into VRAM (would be "Nem_UnkExplode").
 		_move.b	#id_UnusedExplosion,obID(a0)		; change cannonball into to small explosion ($24)
-	endif
 		_move.b	#id_Explosion,obID(a0)			; change cannonball into a normal explosion ($3F)
 		move.b	#0,obRoutine(a0)			; reset routine counter
 		bra.w	Explosion				; jump to explosion code
@@ -173,13 +166,6 @@ CBal_Animate:
 		bchg	#0,obFrame(a0)				; alternate between frame ID 4 and 5 (black and red ball)
 
 .display:
-	if FixBugs
-		move.w	(v_limitbtm2).w,d0			; get current lower level boundary
-		addi.w	#224,d0					; add screen height
-		cmp.w	obY(a0),d0				; has cannonball fallen off the level?
-		blo.w	DeleteObject				; if yes, delete it
-		bra.w	DisplaySprite				; otherwise, keep displaying sprite
-	else
 		; Moved to prevent a display-and-delete bug.
 		bsr.w	DisplaySprite				; display cannonball sprite
 		move.w	(v_limitbtm2).w,d0			; get current lower level boundary
@@ -187,4 +173,3 @@ CBal_Animate:
 		cmp.w	obY(a0),d0				; has cannonball fallen off the level?
 		blo.w	DeleteObject				; if yes, delete it
 		rts						; return
-	endif

@@ -449,14 +449,12 @@ Hud_Write_8x16Digits_WithLeading:
 	.digitfound:
 		add.l	d3,d1					; undo last decrement
 
-	if UnusedOptimization=0
 		; This appears to be a leftover from a dirty copy-paste job of Hud_Write_8x16Digits_SkipLeading,
 		; as it still checks for leading zeroes, but doesn't do anything with that information.
 		tst.w	d2					; was resulting target digit 0?
 		beq.s	.skipleadingzeroes			; if yes, branch
 		move.w	#1,d4					; set flag that first non-zero digit was found (unused)
 	.skipleadingzeroes:
-	endif
 
 		lsl.w	#6,d2					; multiply by $40 (tile_size*2)
 		move.l	d0,4(a6)				; set VRAM address to next digit

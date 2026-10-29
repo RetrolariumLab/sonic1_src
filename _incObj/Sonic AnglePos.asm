@@ -121,7 +121,6 @@ Sonic_BelowFloor:
 		rts
 
 ; ===========================================================================
-	if UnusedOptimization=0
 		; dead code
 		move.l	obX(a0),d2
 		move.w	obVelX(a0),d0
@@ -135,7 +134,6 @@ Sonic_BelowFloor:
 		sub.l	d0,d3
 		move.l	d3,obY(a0)
 		rts
-	endif
 ; ===========================================================================
 
 ; locret_1470A:
@@ -143,7 +141,6 @@ Sonic_InsideWall:
 		rts
 
 ; ===========================================================================
-	if UnusedOptimization=0
 		; dead code
 		move.l	obY(a0),d3
 		move.w	obVelY(a0),d0
@@ -171,7 +168,6 @@ Sonic_InsideWall:
 		move.l	d2,obX(a0)
 		move.l	d3,obY(a0)
 		rts
-	endif
 ; End of function Sonic_AnglePos
 
 ; ===========================================================================

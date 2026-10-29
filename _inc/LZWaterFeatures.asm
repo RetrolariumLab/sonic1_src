@@ -299,13 +299,7 @@ DynWater_LZ3_Routine3:
 ; ===========================================================================
 
 DynWater_LZ3_Routine4:
-	if FixBugs
-		; If Sonic is able to stay on the left side of the tunnel while going up,
-		; it's possible to go through the boss battle without raising the water at all.
-		cmpi.w	#$1DA0,d0				;  has the screen passed $1DA0 (left side of the tunnel)?
-	else
 		cmpi.w	#$1E00,d0				; has the screen passed $1E00 (right side of the tunnel)?
-	endif
 		blo.s	.return					; if not, branch
 		move.w	#$128,(v_waterpos3).w			; set water destination to the top of the level, so the water rises slowly in the boss area
 
@@ -360,18 +354,10 @@ LZWindTunnels:
 		bhs.w	.notInTunnel				; branch if Sonic is right of wind tunnel
 
 		move.w	obY(a1),d2				; get Sonic's current Y-position
-	if FixBugs
-		; Needed to fix an out-of-range error for the below bugfix.
-		cmp.w	2(a2),d2				; compare with top boundary of wind tunnel
-		blo.w	.notInTunnel				; branch if Sonic is above wind tunnel
-		cmp.w	6(a2),d2				; compare with bottom boundary of wind tunnel
-		bhs.w	.notInTunnel				; branch if Sonic is below wind tunnel
-	else
 		cmp.w	2(a2),d2				; compare with top boundary of wind tunnel
 		blo.s	.notInTunnel				; branch if Sonic is above wind tunnel
 		cmp.w	6(a2),d2				; compare with bottom boundary of wind tunnel
 		bhs.s	.notInTunnel				; branch if Sonic is below wind tunnel
-	endif
 
 		move.b	(v_vblank_byte).w,d0			; get current VBlank counter
 		andi.b	#$3F,d0					; only play water sound every $40 frames
@@ -386,12 +372,6 @@ LZWindTunnels:
 		bhs.s	.disableTunnel				; if yes, branch
 		move.b	#1,(f_wtunnelmode).w			; set flag that Sonic is in a wind tunnel
 
-	if FixBugs
-		; d0 was overwritten earlier but here it's used as if it wasn't!
-		; Luckily, the upper byte of Sonic's X-position remains mostly in d0,
-		; so the routine luckily still mostly works out of sheer, dumb luck.
-		move.w	obX(a1),d0				; get Sonic's current X-position again
-	endif
 		subi.w	#128,d0					; move trigger zone for left side 128px further to the left
 		cmp.w	(a2),d0					; is Sonic within 128px before the left side of the tunnel? ("suction")
 		bhs.s	.moveSonic				; if not, branch
@@ -408,22 +388,10 @@ LZWindTunnels:
 		move.w	#0,obVelY(a1)				; clear vertical movement
 		move.b	#id_Float2,obAnim(a1)			; use floating animation
 		bset	#status_in_air_bit,obStatus(a1)		; set Sonic's in-air flag
-	if FixBugs
-		; Knuckles in Sonic 2 added this.
-		bclr	#status_rolljumping_bit,obStatus(a1)	; clear roll-jump flag
-	endif
 
 	.chkUp:
 		btst	#bitUp,(v_jpadhold2).w			; is up button being held?
 		beq.s	.chkDown				; if not, branch
-	if FixBugs
-		; Knuckles in Sonic 2 prevents players from going above wind-tunnels,
-		; likely due to how strange it looked. This isn't a problem in Sonic 1,
-		; due to them being enclosed, but we may as well add it in for consistency.
-		move.w	obY(a1),d2				; get Sonic's Y-position
-		cmp.w	2(a2),d2				; is Sonic about to go above the wind tunnel?
-		bls.s	.chkDown				; if yes, branch
-	endif
 		subq.w	#1,obY(a1)				; move Sonic up in tunnel
 
 	.chkDown:

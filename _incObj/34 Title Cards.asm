@@ -94,17 +94,8 @@ Card_MoveIn:	; Routine 2
 		move.w	obX(a0),d0				; get current x-position of card
 		bmi.s	.return					; if it's negative, don't display card
 		cmpi.w	#$80+320+64,d0				; has card moved beyond $200 on x-axis (to the right)?
-	if FixBugs
-		; This stops the title cards from briefly appearing on the
-		; opposite side of the screen if they happen to be long,
-		; such as with Spring Yard. Taken from Knuckles in Sonic 2.
-		bgt.s	.return					; if yes, branch
-		cmpi.w	#$80-64+16,d0				; has card moved beyond $50 on the x-axis (to the left)?
-		bgt.w	DisplaySprite				; if not, display card
-	else
 		bhs.s	.return					; if yes, branch
 		bra.w	DisplaySprite				; display card
-	endif
 
 	; locret_C3D8:
 	.return:
@@ -137,15 +128,8 @@ Card_MoveOut:
 		move.w	obX(a0),d0				; get current x-position of card
 		bmi.s	.return					; if it's negative, don't display
 		cmpi.w	#$80+320+64,d0				; has card moved beyond $200 on x-axis (to the right)?
-	if FixBugs
-		; See above.
-		bgt.s	.return					; if yes, branch
-		cmpi.w	#$80-64+16,d0				; has card moved beyond $50 on the x-axis (to the left)?
-		bgt.w	DisplaySprite				; if not, display card
-	else
 		bhs.s	.return					; if yes, branch
 		bra.w	DisplaySprite				; display card
-	endif
 
 	; locret_C412:
 	.return:

@@ -92,11 +92,7 @@ Gar_AniFire:	; Routine 6
 		moveq	#-8,d3					; check 8px ahead to the left
 		bsr.w	ObjHitWallLeft				; get distance to nearest left wall
 		tst.w	d1					; has fireball hit a wall to the left?
-	if FixBugs
-		bmi.s	.delete					; if yes, delete it
-	else
 		bmi.w	DeleteObject				; if yes, delete it
-	endif
 		rts						; return
 ; ---------------------------------------------------------------------------
 
@@ -104,21 +100,10 @@ Gar_AniFire:	; Routine 6
 		moveq	#8,d3					; check 8px ahead to the right
 		bsr.w	ObjHitWallRight				; get distance to nearest right wall
 		tst.w	d1					; has fireball hit a wall to the right?
-	if FixBugs
-		bmi.s	.delete					; if yes, delete it
-	else
 		bmi.w	DeleteObject				; if yes, delete it
-	endif
 		rts						; return
 ; ---------------------------------------------------------------------------
 
-	if FixBugs
-		; Avoid returning to Gargoyle to prevent display-and-delete
-		; and double-delete bugs.
-	.delete:
-		addq.l	#4,sp					; skip returning to "Gargoyle:" code
-		bra.w	DeleteObject				; delete fireball
-	endif
 
 ; ===========================================================================
 
