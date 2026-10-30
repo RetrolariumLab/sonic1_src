@@ -24,14 +24,18 @@ class PrivateDataTests(unittest.TestCase):
         (ROOT / "build").mkdir(exist_ok=True)
         with tempfile.TemporaryDirectory(dir=ROOT / "build", prefix="audit-test-") as directory:
             root = Path(directory)
+
             def git(*args):
                 return subprocess.check_output(["git", "-C", directory, *args], stderr=subprocess.STDOUT)
+
             git("init", "-b", "main")
             git("config", "user.name", "Daniel Oranguthang")
             git("config", "user.email", "75395800+oranguthang@users.noreply.github.com")
             raw = b"synthetic private fixture"
             (root / "notes.txt").write_bytes(raw)
-            git("add", "notes.txt"); git("commit", "-m", "Add synthetic fixture")
-            git("rm", "notes.txt"); git("commit", "-m", "Remove synthetic fixture")
+            git("add", "notes.txt")
+            git("commit", "-m", "Add synthetic fixture")
+            git("rm", "notes.txt")
+            git("commit", "-m", "Remove synthetic fixture")
             with self.assertRaisesRegex(ValueError, "private manifest asset"):
                 audit_history(root, {sha1(raw)}, {})

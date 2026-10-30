@@ -1,4 +1,5 @@
 """Public build commands; profile metadata stays in JSON rather than Make."""
+
 import argparse
 from pathlib import Path
 import shutil
@@ -8,12 +9,19 @@ from scripts.build.project import ROOT, load, profiles, read_rom
 
 def main() -> int:
     parser = argparse.ArgumentParser(description=__doc__)
-    parser.add_argument("action", choices=("split", "check-assets", "inputs", "build", "verify", "verify-all", "verify-toolchain", "clean"))
+    parser.add_argument(
+        "action",
+        choices=("split", "check-assets", "inputs", "build", "verify", "verify-all", "verify-toolchain", "clean"),
+    )
     parser.add_argument("--profile", default=load("config/revision_profiles.json")["default"])
     parser.add_argument("--rom-dir", type=Path, default=Path("."))
     parser.add_argument("--all", action="store_true")
     args = parser.parse_args()
-    ids = [item["id"] for item in profiles()] if args.all or args.action in ("split", "verify-all", "inputs") else [args.profile]
+    ids = (
+        [item["id"] for item in profiles()]
+        if args.all or args.action in ("split", "verify-all", "inputs")
+        else [args.profile]
+    )
     try:
         if args.action == "split":
             split_assets.split(ids, args.rom_dir)

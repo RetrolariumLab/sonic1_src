@@ -1,4 +1,5 @@
 """Resolve Kit's checked tool suite and pin the executable actually invoked."""
+
 import platform
 import subprocess
 from pathlib import Path
@@ -6,12 +7,17 @@ from scripts.build.project import load, sha256
 
 
 def resolve() -> dict[str, Path]:
-    host = "windows-x86_64" if platform.system() == "Windows" and platform.machine().lower() in ("amd64", "x86_64") else "unsupported"
+    host = (
+        "windows-x86_64"
+        if platform.system() == "Windows" and platform.machine().lower() in ("amd64", "x86_64")
+        else "unsupported"
+    )
     specification = load("config/toolchain.json")
     if host not in specification["hosts"]:
         raise ValueError(f"Preservation toolchain is not yet pinned for host {host}")
     status = subprocess.check_output(["rltool", "build-tools", "status"], text=True)
     import json
+
     if json.loads(status)["release"] != specification["kit"]["release"]:
         raise ValueError("Kit build-tool release differs from the manifest")
     result = {}

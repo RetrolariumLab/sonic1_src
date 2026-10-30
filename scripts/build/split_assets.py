@@ -1,4 +1,5 @@
 """Extract direct ROM ranges through Kit, then decode the private DAC container."""
+
 from pathlib import Path
 from scripts.authoring.kosinski import decode
 from scripts.build.project import ROOT, atomic_write, checked_path, command, load, read_rom, sha1
@@ -26,7 +27,7 @@ def split(profile_ids: list[str], rom_directory: Path) -> None:
             start, size = item["offset"], item["size"]
             if start < 0 or size <= 0 or start + size > len(decoded.data):
                 raise ValueError(f"Derived range exceeds DAC container: {item['path']}")
-            raw = decoded.data[start:start + size]
+            raw = decoded.data[start : start + size]
             if sha1(raw) != item["sha1"]:
                 raise ValueError(f"Derived sample hash differs: {item['path']}")
             atomic_write(checked_path("data/" + item["path"]), raw)

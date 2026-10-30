@@ -1,11 +1,29 @@
 """Reject private payloads and unapproved binary files across reachable history."""
+
 from __future__ import annotations
 import argparse
 from pathlib import Path
 import subprocess
 from scripts.build.project import ROOT, load, sha1, sha256
 
-BINARY_SUFFIXES = {".bin", ".gen", ".smd", ".mdf", ".wav", ".pcm", ".dpcm", ".nem", ".eni", ".kos", ".unc", ".pcx", ".png", ".jpg", ".zip", ".exe"}
+BINARY_SUFFIXES = {
+    ".bin",
+    ".gen",
+    ".smd",
+    ".mdf",
+    ".wav",
+    ".pcm",
+    ".dpcm",
+    ".nem",
+    ".eni",
+    ".kos",
+    ".unc",
+    ".pcx",
+    ".png",
+    ".jpg",
+    ".zip",
+    ".exe",
+}
 PRIVATE_PREFIXES = ("data/", "assets/generated/", "content/workspace/", "build/")
 
 
@@ -37,13 +55,17 @@ def audit_history(root: Path, asset_hashes: set[str], allowlist: dict[str, str])
             metadata, path = record.split(b"\t", 1)
             oid = metadata.split()[1].decode()
             entries.setdefault(oid, set()).add(path.decode())
-    data = subprocess.check_output(["git", "-C", str(root), "cat-file", "--batch"], input="".join(key + "\n" for key in entries).encode())
+    data = subprocess.check_output(
+        ["git", "-C", str(root), "cat-file", "--batch"], input="".join(key + "\n" for key in entries).encode()
+    )
     position = count = 0
     for oid, paths in entries.items():
         end = data.index(b"\n", position)
         header = data[position:end].split()
-        size = int(header[2]); position = end + 1
-        raw = data[position:position + size]; position += size + 1
+        size = int(header[2])
+        position = end + 1
+        raw = data[position : position + size]
+        position += size + 1
         if header[1] != b"blob":
             continue
         for path in paths:

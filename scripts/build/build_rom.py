@@ -1,9 +1,21 @@
 """Assemble one preservation profile and flatten its authentic DAC compression."""
+
 from pathlib import Path
 import json
 import subprocess
 from scripts.build import toolchain
-from scripts.build.project import ROOT, atomic_write, checked_path, command, image, load, profile, read_rom, sha1, sha256
+from scripts.build.project import (
+    ROOT,
+    atomic_write,
+    checked_path,
+    command,
+    image,
+    load,
+    profile,
+    read_rom,
+    sha1,
+    sha256,
+)
 from scripts.build.split_assets import check
 
 
@@ -12,7 +24,7 @@ def fix_header(raw: bytes) -> bytes:
         raise ValueError("Mega Drive image must have a header and an even byte size")
     result = bytearray(raw)
     result[0x1A4:0x1A8] = (len(result) - 1).to_bytes(4, "big")
-    checksum = sum(int.from_bytes(result[i:i + 2], "big") for i in range(0x200, len(result), 2)) & 0xFFFF
+    checksum = sum(int.from_bytes(result[i : i + 2], "big") for i in range(0x200, len(result), 2)) & 0xFFFF
     result[0x18E:0x190] = checksum.to_bytes(2, "big")
     return bytes(result)
 
@@ -38,13 +50,32 @@ def build(profile_id: str, *, source_root: Path = ROOT, output_root: Path | None
     log = output / "build.log"
     atomic_write(log, b"")
     try:
-        command([str(tools["asl"]), "-xx", "-n", "-q", "-A", "-L", "-U", "-E",
-                 "-i", source_root.relative_to(ROOT).as_posix(), "-i", f"data/{profile_id}", entry.relative_to(ROOT).as_posix()], output=log)
+        command(
+            [
+                str(tools["asl"]),
+                "-xx",
+                "-n",
+                "-q",
+                "-A",
+                "-L",
+                "-U",
+                "-E",
+                "-i",
+                source_root.relative_to(ROOT).as_posix(),
+                "-i",
+                f"data/{profile_id}",
+                entry.relative_to(ROOT).as_posix(),
+            ],
+            output=log,
+        )
     except subprocess.CalledProcessError as error:
         raise ValueError(f"AS failed; read {entry.with_suffix('.log').relative_to(ROOT)}") from error
     if not obj.is_file():
         raise ValueError(f"AS produced no object; read {log.relative_to(ROOT)}")
-    command([str(tools["p2bin"]), "-p=FF", "-z=0,kosinski,Size_of_DAC_driver_guess,after", str(obj), str(target)], output=log)
+    command(
+        [str(tools["p2bin"]), "-p=FF", "-z=0,kosinski,Size_of_DAC_driver_guess,after", str(obj), str(target)],
+        output=log,
+    )
     atomic_write(target, fix_header(target.read_bytes()))
     print(f"[OK] Built {profile_id}: {target.relative_to(ROOT)}")
     return target

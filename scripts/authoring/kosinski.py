@@ -3,6 +3,7 @@
 The 68000 decoder reloads its descriptor immediately after consuming bit 16,
 before reading that token's bytes. Returned consumption excludes trailing data.
 """
+
 from __future__ import annotations
 from dataclasses import dataclass
 

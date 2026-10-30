@@ -2,9 +2,9 @@
 ; Animation script - Jaws enemy (LZ)
 ; ---------------------------------------------------------------------------
 
-Ani_Jaws:	dc.w .swim-Ani_Jaws
+Ani_Jaws:   dc.w    .swim-Ani_Jaws
 
-.swim:		dc.b 7
-		dc.b 0, 1, 2, 3
-		dc.b afEnd
-		even
+.swim:   dc.b    7
+                dc.b    0, 1, 2, 3
+                dc.b    afEnd
+                even

@@ -3,11 +3,11 @@
 ; (It's just a small blob that moves around in a circle. The disc itself is
 ; part of the level tiles.)
 ; ---------------------------------------------------------------------------
-Map_Disc_internal:	mappingsTable
-	mappingsTableEntry.w	.spot
+Map_Disc_internal:   mappingsTable
+                mappingsTableEntry.w .spot
 
-.spot:	spriteHeader
-	spritePiece	-8, -8, 2, 2, 0, 0, 0, 0, 0
+.spot:   spriteHeader
+                spritePiece -8, -8, 2, 2, 0, 0, 0, 0, 0
 .spot_End
 
-	even
+                even

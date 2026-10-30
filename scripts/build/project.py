@@ -1,4 +1,5 @@
 """Manifest ownership, checked paths and atomic output for preservation tools."""
+
 from __future__ import annotations
 import hashlib
 import json
@@ -72,5 +73,4 @@ def command(arguments: list[str], *, output: Path | None = None) -> None:
         subprocess.run(arguments, cwd=ROOT, env=environment, check=True)
     else:
         with output.open("ab") as stream:
-            subprocess.run(arguments, cwd=ROOT, env=environment, check=True,
-                           stdout=stream, stderr=subprocess.STDOUT)
+            subprocess.run(arguments, cwd=ROOT, env=environment, check=True, stdout=stream, stderr=subprocess.STDOUT)

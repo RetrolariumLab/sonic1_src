@@ -1,9 +1,9 @@
 # Contributing
 
 Keep tracked source, comments, documentation and commit messages in English.
-Never add ROMs, extracted assets, screenshots, samples or editor projects to Git.
-Use the ignored `build/` directory for scratch work and generated outputs, and
-`data/` for extracted private assets. Do not add GUI editors.
+Never add ROMs, extracted assets, screenshots, samples or editor projects to
+Git. Use the ignored `build/` directory for scratch work and generated outputs,
+and `data/` for extracted private assets. Do not add GUI editors.
 
 Run `make test`, `make audit-private` and `make verify-all` against your own
 accepted inputs before committing. Mechanical formatting and source movement
