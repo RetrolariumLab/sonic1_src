@@ -28,15 +28,15 @@ with the input before checking both output hashes.
 ## Extraction and assembly
 
 `make split` calls `rltool assets split` for the ROM ranges declared by the
-manifest. Each profile has its own subtree under the ignored `data/` root.
-The DAC container is then decoded as Kosinski; its decompressed hash and every
-sample's bounds and hash are checked before the DPCM files are written.
-SEGA PCM is a direct ROM slice. No WAV conversion is needed.
+manifest. Each profile has its own subtree under the ignored `data/` root. The
+DAC container is then decoded as Kosinski; its decompressed hash and every
+sample's bounds and hash are checked before the DPCM files are written. SEGA PCM
+is a direct ROM slice. No WAV conversion is needed.
 
-AS resolves binary includes through the selected `data/<profile>/` include
-root. Text includes resolve through the source root. A small generated entry
-supplies manifest-owned defines, then includes the shared source. Every object,
-listing, error log and ROM is under `build/artifacts/<profile>/`.
+AS resolves binary includes through the selected `data/<profile>/` include root.
+Text includes resolve through the source root. A small generated entry supplies
+manifest-owned defines, then includes the shared source. Every object, listing,
+error log and ROM is under `build/artifacts/<profile>/`.
 
 The pipeline is AS, p2bin with authentic Kosinski compression, then the ROM end
 address and checksum update. The Z80 DAC driver remains assembler source. Its
@@ -56,10 +56,16 @@ this checkout does not yet claim a completed release.
 
 ## Kit style integration
 
-Kit's AS linter currently selects `.s` and `.inc` files. This source retains
-its imported `.asm` extension until semantic reorganisation. The project
-validation adapter selects every tracked source named by `config/lint.json`,
-stages `.s` copies under `build/lint-stage/` and calls `rltool lint` on those
-copies. Only an explicit format operation copies formatting back. General
-tracked text and code use `rltool lint` and `rltool format` directly.
-No copy is a build input and no Kit or Core source is changed.
+Kit's AS linter currently selects `.s` and `.inc` files. This source retains its
+imported `.asm` extension until semantic reorganisation. The project validation
+adapter selects every tracked source named by `config/lint.json`, stages `.s`
+copies under `build/lint-stage/` and calls `rltool lint` on those copies. Only
+an explicit format operation copies formatting back. General tracked text and
+code use `rltool lint` and `rltool format` directly. No copy is a build input
+and no Kit or Core source is changed.
+
+The same projection protects AS column-zero declaration fields (assignments,
+functions, structs and local labels) that the current Kit formatter does not
+recognise. Disposable explicit labels make the CLI preserve their field role;
+the exact original declaration tokens are restored before copying formatting
+back. Byte identity remains a separate mandatory check after formatting.
