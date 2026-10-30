@@ -69,3 +69,8 @@ functions, structs and local labels) that the current Kit formatter does not
 recognise. Disposable explicit labels make the CLI preserve their field role;
 the exact original declaration tokens are restored before copying formatting
 back. Byte identity remains a separate mandatory check after formatting.
+
+`make lint` checks assembly, text, code and private-data policy without changing
+tracked files. `make format` applies formatting and always follows with lint; a
+second invocation is required to leave the tracked tree unchanged.
+`.git-blame-ignore-revs` names the isolated mechanical formatting commit.

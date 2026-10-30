@@ -8,12 +8,12 @@ BUILD = $(RUN) build.cli
 SELECT = $(if $(PROFILE),--profile "$(PROFILE)")
 INPUT = --rom-dir "$(ROM_DIR)"
 
-.PHONY: help split check-assets check-inputs build verify verify-all verify-toolchain test audit-private clean
+.PHONY: help split check-assets check-inputs build verify verify-all verify-toolchain test audit-private clean lint format format-check
 help:
 	@echo Sonic 1 preservation source
 	@echo "Inputs: split, check-assets, check-inputs"
 	@echo "Build: build, verify, verify-all, verify-toolchain"
-	@echo "Validation: test, audit-private"
+	@echo "Validation: lint, format, format-check, test, audit-private"
 	@echo "Cleanup: clean"
 	@echo "Selectors: ROM_DIR=folder, PROFILE=profile-id (default from JSON)"
 split:
@@ -36,3 +36,11 @@ audit-private:
 	$(RUN) validation.private_data
 clean:
 	$(BUILD) clean
+
+lint:
+	$(RUN) validation.lint_project
+	$(RUN) validation.private_data
+format:
+	$(RUN) validation.lint_project --fix
+	$(MAKE) lint
+format-check: lint
