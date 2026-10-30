@@ -417,4 +417,4 @@ BossSpikeball_MoveFrag:                                       ; Routine $A
                 rts
 ; ===========================================================================
 
-Map_BSBall:   include "src/rendering/mappings/slz_boss_spikeball.s"
+Map_BSBall:   include "src/rendering/mappings/bosses/slz_boss_spikeball.s"

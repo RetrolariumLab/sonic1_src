@@ -231,5 +231,5 @@ Crab_BallMove:                                       ; Routine 8
                 bra.w   DeleteObject                    ; delete balls
 ; ===========================================================================
 
-                include "src/rendering/animation/crabmeat.s"
-Map_Crab:   include "src/rendering/mappings/crabmeat.s"
+                include "src/rendering/animation/enemies/crabmeat.s"
+Map_Crab:   include "src/rendering/mappings/enemies/crabmeat.s"

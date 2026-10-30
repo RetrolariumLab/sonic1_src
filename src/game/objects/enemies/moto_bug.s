@@ -130,5 +130,5 @@ Moto_Smoke_Delete:                                       ; Routine 6
 
 ; ===========================================================================
 
-                include "src/rendering/animation/moto_bug.s"
-Map_Moto:   include "src/rendering/mappings/moto_bug.s"
+                include "src/rendering/animation/enemies/moto_bug.s"
+Map_Moto:   include "src/rendering/mappings/enemies/moto_bug.s"

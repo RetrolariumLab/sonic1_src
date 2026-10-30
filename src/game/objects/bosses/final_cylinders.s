@@ -228,7 +228,7 @@ EggmanCylinder_Top:
                 rts
 ; ===========================================================================
 
-Map_EggCyl:   include "src/rendering/mappings/fz_eggmans_cylinders.s"
+Map_EggCyl:   include "src/rendering/mappings/bosses/fz_eggmans_cylinders.s"
 
 ; ===========================================================================
 ; ---------------------------------------------------------------------------

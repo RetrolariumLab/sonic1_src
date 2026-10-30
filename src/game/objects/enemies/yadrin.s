@@ -131,5 +131,5 @@ Yad_Action_Move:
 
 ; ===========================================================================
 
-                include "src/rendering/animation/yadrin.s"
-Map_Yad:   include "src/rendering/mappings/yadrin.s"
+                include "src/rendering/animation/enemies/yadrin.s"
+Map_Yad:   include "src/rendering/mappings/enemies/yadrin.s"

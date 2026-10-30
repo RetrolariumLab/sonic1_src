@@ -104,10 +104,10 @@ PSB_PrsStart:                                       ; Routine 2
 
 ; ===========================================================================
 
-                include "src/rendering/animation/title_screen_sonic.s"
-                include "src/rendering/animation/press_start_and_tm.s"
+                include "src/rendering/animation/ui/title_screen_sonic.s"
+                include "src/rendering/animation/ui/press_start_and_tm.s"
 
                 include "src/rendering/animate_sprite.s"  ; mixed in here, this was probably the first use of it
 
-Map_PSB:   include "src/rendering/mappings/press_start_and_tm.s"
-Map_TSon:   include "src/rendering/mappings/title_screen_sonic.s"
+Map_PSB:   include "src/rendering/mappings/ui/press_start_and_tm.s"
+Map_TSon:   include "src/rendering/mappings/ui/title_screen_sonic.s"

@@ -18,7 +18,7 @@
   "delta_history": {
     "base_commit": "9459c137efac1bd010bd08cc1b0d54c9d63fb3cd",
     "tip": "release-commit",
-    "commit_count": 4
+    "commit_count": 5
   },
   "included_scope": [
     "semantic_source_owners",
@@ -78,6 +78,12 @@
       "id": "source_filename_conventions",
       "kind": "source",
       "summary": "Normalize source basenames and processor-oriented suffixes while preserving symbolic labels, include order and cartridge bytes.",
+      "commits": ["1ba3e0dd46717b5ff29258eb081c9e17bc1ce53c"]
+    },
+    {
+      "id": "source_owner_subdirectories",
+      "kind": "source",
+      "summary": "Group environment source by zone and graphics declarations by semantic owner; separate attract and ending inputs without changing include order or emitted data.",
       "commits": ["release-commit"]
     }
   ],

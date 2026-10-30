@@ -182,5 +182,5 @@ Burro_CheckDistanceAndFaceSonic:
 ; End of function Burro_CheckDistanceAndFaceSonic
 ; ===========================================================================
 
-                include "src/rendering/animation/burrobot.s"
-Map_Burro:   include "src/rendering/mappings/burrobot.s"
+                include "src/rendering/animation/enemies/burrobot.s"
+Map_Burro:   include "src/rendering/mappings/enemies/burrobot.s"

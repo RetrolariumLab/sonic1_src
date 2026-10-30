@@ -56,5 +56,5 @@ Chop_ChgSpeed:                                       ; Routine 2
 
 ; ===========================================================================
 
-                include "src/rendering/animation/chopper.s"
-Map_Chop:   include "src/rendering/mappings/chopper.s"
+                include "src/rendering/animation/enemies/chopper.s"
+Map_Chop:   include "src/rendering/mappings/enemies/chopper.s"

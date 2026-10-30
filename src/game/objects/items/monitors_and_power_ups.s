@@ -442,5 +442,5 @@ Mon_SolidSides:
 
 ; ===========================================================================
 
-                include "src/rendering/animation/monitor.s"
-Map_Monitor:   include "src/rendering/mappings/monitor.s"
+                include "src/rendering/animation/items/monitor.s"
+Map_Monitor:   include "src/rendering/mappings/items/monitor.s"

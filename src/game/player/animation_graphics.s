@@ -196,7 +196,7 @@ Sonic_Animate:
 ; ---------------------------------------------------------------------------
 ; Animation scripts - Sonic (also includes constants for frame IDs)
 ; SonicAniData:
-                include "src/rendering/animation/sonic.s"
+                include "src/rendering/animation/player/sonic.s"
 ; ---------------------------------------------------------------------------
 
 ; ===========================================================================

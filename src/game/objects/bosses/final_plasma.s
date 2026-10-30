@@ -216,7 +216,7 @@ BossPlasma_Move:
                 bra.w   EggmanCylinder_Delete
 ; ===========================================================================
 
-                include "src/rendering/animation/plasma_ball_launcher.s"
-Map_PLaunch:   include "src/rendering/mappings/plasma_ball_launcher.s"
-                include "src/rendering/animation/plasma_balls.s"
-Map_Plasma:   include "src/rendering/mappings/plasma_balls.s"
+                include "src/rendering/animation/bosses/plasma_ball_launcher.s"
+Map_PLaunch:   include "src/rendering/mappings/bosses/plasma_ball_launcher.s"
+                include "src/rendering/animation/bosses/plasma_balls.s"
+Map_Plasma:   include "src/rendering/mappings/bosses/plasma_balls.s"

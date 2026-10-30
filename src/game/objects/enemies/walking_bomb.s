@@ -221,5 +221,5 @@ Bom_ShrSpeed:                                       ; X-vel  Y-vel
                 dc.w    $100, -$200                     ; 4th shrapnel
 ; ===========================================================================
 
-                include "src/rendering/animation/bomb_enemy.s"
-Map_Bomb:   include "src/rendering/mappings/bomb_enemy.s"
+                include "src/rendering/animation/enemies/bomb_enemy.s"
+Map_Bomb:   include "src/rendering/mappings/enemies/bomb_enemy.s"

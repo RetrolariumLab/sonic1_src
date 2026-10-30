@@ -186,8 +186,8 @@ SEgg_SwDisplay:
                 jmp     (DisplaySprite).l
 ; ===========================================================================
 
-                include "src/rendering/animation/eggman_scrap_brain_2_and_final.s"
-Map_SEgg:   include "src/rendering/mappings/eggman_scrap_brain_2.s"
+                include "src/rendering/animation/bosses/eggman_scrap_brain_2_and_final.s"
+Map_SEgg:   include "src/rendering/mappings/bosses/eggman_scrap_brain_2.s"
 
 ; ===========================================================================
 ; ---------------------------------------------------------------------------
@@ -375,4 +375,4 @@ FFloor_FragPos:   dc.w    -8, -8
                 dc.w    $10, $10
 ; ===========================================================================
 
-Map_FFloor:   include "src/rendering/mappings/sbz_eggmans_crumbling_floor.s"
+Map_FFloor:   include "src/rendering/mappings/environment/sbz/sbz_eggmans_crumbling_floor.s"

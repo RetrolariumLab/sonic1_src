@@ -219,5 +219,5 @@ Pri_EndAct:                                       ; Routine $E
                 rts                                     ; return to display
 ; ===========================================================================
 
-                include "src/rendering/animation/prison_capsule.s"
-Map_Pri:   include "src/rendering/mappings/prison_capsule.s"
+                include "src/rendering/animation/items/prison_capsule.s"
+Map_Pri:   include "src/rendering/mappings/items/prison_capsule.s"

@@ -439,4 +439,4 @@ Ani_Cat:
 
 ; ===========================================================================
 
-Map_Cat:   include "src/rendering/mappings/caterkiller.s"
+Map_Cat:   include "src/rendering/mappings/enemies/caterkiller.s"

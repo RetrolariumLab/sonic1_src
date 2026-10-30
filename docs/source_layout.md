@@ -79,3 +79,27 @@ Z80 driver and its DPCM include wrappers retain `.asm`. The PCM logo sample
 belongs to the 68000 source. These are project naming conventions, not processor
 restrictions imposed by the assembler. Preservation origins continue to name the
 original files at the accepted predecessor commit.
+
+## Owner subdirectories
+
+Environment objects are grouped under `src/game/objects/environment/` by `ghz`,
+`lz`, `mz`, `slz`, `syz` and `sbz`. Cross-zone implementations belong to
+`common`; preserved unused implementations belong to `unused`.
+
+Mappings under `src/rendering/mappings/` use `player`, `enemies`, `bosses`,
+`items`, `environment`, `special_stage`, `ui` and `unused` owner groups. The
+environment group has the same zone/common split; mapping macros remain at the
+mappings root. A descriptive imported filename alone is not proof of exclusive
+zone ownership: the swinging-platform mapping named `ghz` also serves Marble and
+therefore belongs to `environment/common`.
+
+Animation declarations under `src/rendering/animation/` use corresponding owner
+groups. The fireball script shared by boss and environment consumers belongs to
+`shared`. Player animations retain their primary player owner even when other
+engine paths read their frame definitions. Debug-mode references do not turn
+enemy and environment mappings into UI-owned data.
+
+Recorded inputs under `src/game/demos/` separate `attract` and `ending`. The
+preserved unused demo remains at that root. These directory changes do not
+change include order, data sharing, source origins or profile ranges. The
+largest immediate source directory contains 17 files in this layout.

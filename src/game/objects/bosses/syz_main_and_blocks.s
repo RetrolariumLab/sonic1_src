@@ -870,4 +870,4 @@ BossBlock_FragPos:
                 dc.w    $10, $10                        ; bottom right
 ; ===========================================================================
 
-Map_BossBlock:   include "src/rendering/mappings/syz_boss_blocks.s"
+Map_BossBlock:   include "src/rendering/mappings/bosses/syz_boss_blocks.s"

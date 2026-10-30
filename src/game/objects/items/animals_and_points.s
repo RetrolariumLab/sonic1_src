@@ -564,7 +564,7 @@ Poi_Slower:                                       ; Routine 2
 
 ; ===========================================================================
 
-Map_Animal1:   include "src/rendering/mappings/animals_1.s"
-Map_Animal2:   include "src/rendering/mappings/animals_2.s"
-Map_Animal3:   include "src/rendering/mappings/animals_3.s"
-Map_Points:   include "src/rendering/mappings/points.s"
+Map_Animal1:   include "src/rendering/mappings/items/animals_1.s"
+Map_Animal2:   include "src/rendering/mappings/items/animals_2.s"
+Map_Animal3:   include "src/rendering/mappings/items/animals_3.s"
+Map_Points:   include "src/rendering/mappings/items/points.s"

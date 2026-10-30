@@ -55,5 +55,5 @@ Jaws_Swim:                                       ; Routine 2
                 bra.w   RememberState                   ; display sprite, or delete when offscreen
 ; ===========================================================================
 
-                include "src/rendering/animation/jaws.s"
-Map_Jaws:   include "src/rendering/mappings/jaws.s"
+                include "src/rendering/animation/enemies/jaws.s"
+Map_Jaws:   include "src/rendering/mappings/enemies/jaws.s"

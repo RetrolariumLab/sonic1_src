@@ -3,7 +3,7 @@
   "method": "Duplicate terminal RTS/RTE in an isolated source copy; preserve original instruction timing and sample-bank geometry.",
   "include_moves": [
     {
-      "owner": "src/game/objects/environment/swinging_platforms.s",
+      "owner": "src/game/objects/environment/common/swinging_platforms.s",
       "include": "src/game/player/mv_sonic_on_ptfm.s",
       "placement": "end",
       "reason": "Keep both SolidObject BSR.w callers within signed word reach without changing their opcodes or cycles."

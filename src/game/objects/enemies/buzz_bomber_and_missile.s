@@ -246,7 +246,7 @@ Msl_FromNewt_Animate:
                 rts                                     ; return
 ; ===========================================================================
 
-                include "src/rendering/animation/buzz_bomber.s"
-                include "src/rendering/animation/buzz_bomber_missile.s"
-Map_Buzz:   include "src/rendering/mappings/buzz_bomber.s"
-Map_Missile:   include "src/rendering/mappings/buzz_bomber_missile.s"
+                include "src/rendering/animation/enemies/buzz_bomber.s"
+                include "src/rendering/animation/enemies/buzz_bomber_missile.s"
+Map_Buzz:   include "src/rendering/mappings/enemies/buzz_bomber.s"
+Map_Missile:   include "src/rendering/mappings/enemies/buzz_bomber_missile.s"

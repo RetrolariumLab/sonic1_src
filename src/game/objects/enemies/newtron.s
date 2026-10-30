@@ -188,5 +188,5 @@ Newt_GreenDelete:                                       ; Routine 4 (Called by g
                 bra.w   DeleteObject                    ; delete green Newtron
 ; ===========================================================================
 
-                include "src/rendering/animation/newtron.s"
-Map_Newt:   include "src/rendering/mappings/newtron.s"
+                include "src/rendering/animation/enemies/newtron.s"
+Map_Newt:   include "src/rendering/mappings/enemies/newtron.s"

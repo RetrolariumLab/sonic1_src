@@ -105,10 +105,10 @@ SignpostArtLoad:
 
 ; ===========================================================================
 ; >>> Demo inputs for title screen demos
-Demo_GHZ:   include "src/game/demos/intro_ghz.s"
-Demo_MZ:   include "src/game/demos/intro_mz.s"
-Demo_SYZ:   include "src/game/demos/intro_syz.s"
-Demo_SS:   include "src/game/demos/intro_special_stage.s"
+Demo_GHZ:   include "src/game/demos/attract/intro_ghz.s"
+Demo_MZ:   include "src/game/demos/attract/intro_mz.s"
+Demo_SYZ:   include "src/game/demos/attract/intro_syz.s"
+Demo_SS:   include "src/game/demos/attract/intro_special_stage.s"
 
 ; ===========================================================================
 ; ---------------------------------------------------------------------------

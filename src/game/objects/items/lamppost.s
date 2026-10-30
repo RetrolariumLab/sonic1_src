@@ -229,4 +229,4 @@ Lamp_LoadInfo:
 ; End of function Lamp_LoadInfo
 ; ===========================================================================
 
-Map_Lamp:   include "src/rendering/mappings/lamppost.s"
+Map_Lamp:   include "src/rendering/mappings/items/lamppost.s"

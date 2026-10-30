@@ -183,5 +183,5 @@ Roll_Action_StopAndUnfold:
 
 ; ===========================================================================
 
-                include "src/rendering/animation/roller.s"
-Map_Roll:   include "src/rendering/mappings/roller.s"
+                include "src/rendering/animation/enemies/roller.s"
+Map_Roll:   include "src/rendering/mappings/enemies/roller.s"

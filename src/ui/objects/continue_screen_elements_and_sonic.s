@@ -194,5 +194,5 @@ CSon_RunRight:                                       ; Routine 6
 
 ; ===========================================================================
 
-                include "src/rendering/animation/continue_screen_sonic.s"
-Map_ContScr:   include "src/rendering/mappings/continue_screen.s"
+                include "src/rendering/animation/ui/continue_screen_sonic.s"
+Map_ContScr:   include "src/rendering/mappings/ui/continue_screen.s"

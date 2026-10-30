@@ -199,5 +199,5 @@ Orb_FiredSpikeball:                                       ; Routine 8
                 bra.w   DisplaySprite                   ; keep displaying spikeball
 ; ===========================================================================
 
-                include "src/rendering/animation/orbinaut.s"
-Map_Orb:   include "src/rendering/mappings/orbinaut.s"
+                include "src/rendering/animation/enemies/orbinaut.s"
+Map_Orb:   include "src/rendering/mappings/enemies/orbinaut.s"

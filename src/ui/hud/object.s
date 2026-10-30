@@ -44,4 +44,4 @@ HUD_Flash:                                       ; Routine 2
                 jmp     (DisplaySprite).l               ; display HUD
 ; ===========================================================================
 
-Map_HUD:   include "src/rendering/mappings/hud.s"
+Map_HUD:   include "src/rendering/mappings/ui/hud.s"

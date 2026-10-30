@@ -42,4 +42,4 @@ Cred_Display:                                       ; Routine 2
                 jmp     (DisplaySprite).l               ; just display credits sprite
 ; ===========================================================================
 
-Map_Cred:   include "src/rendering/mappings/credits.s"
+Map_Cred:   include "src/rendering/mappings/ui/credits.s"

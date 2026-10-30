@@ -214,5 +214,5 @@ Spring_ResetDown:
 ; ===========================================================================
 ; ===========================================================================
 
-                include "src/rendering/animation/springs.s"
-Map_Spring:   include "src/rendering/mappings/springs.s"
+                include "src/rendering/animation/items/springs.s"
+Map_Spring:   include "src/rendering/mappings/items/springs.s"

@@ -201,5 +201,5 @@ Bas_CheckDistanceAndFaceSonic:
 
 ; ===========================================================================
 
-                include "src/rendering/animation/basaran.s"
-Map_Bas:   include "src/rendering/mappings/basaran.s"
+                include "src/rendering/animation/enemies/basaran.s"
+Map_Bas:   include "src/rendering/mappings/enemies/basaran.s"

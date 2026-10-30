@@ -68,14 +68,14 @@ TryAg_Exit:                                       ; exit end screen and restart 
 ; Ending sequence demos
 ; ---------------------------------------------------------------------------
 
-Demo_EndGHZ1:   include "src/game/demos/ending_ghz1.s"
-Demo_EndMZ:   include "src/game/demos/ending_mz.s"
-Demo_EndSYZ:   include "src/game/demos/ending_syz.s"
-Demo_EndLZ:   include "src/game/demos/ending_lz.s"
-Demo_EndSLZ:   include "src/game/demos/ending_slz.s"
-Demo_EndSBZ1:   include "src/game/demos/ending_sbz1.s"
-Demo_EndSBZ2:   include "src/game/demos/ending_sbz2.s"
-Demo_EndGHZ2:   include "src/game/demos/ending_ghz2.s"
+Demo_EndGHZ1:   include "src/game/demos/ending/ending_ghz1.s"
+Demo_EndMZ:   include "src/game/demos/ending/ending_mz.s"
+Demo_EndSYZ:   include "src/game/demos/ending/ending_syz.s"
+Demo_EndLZ:   include "src/game/demos/ending/ending_lz.s"
+Demo_EndSLZ:   include "src/game/demos/ending/ending_slz.s"
+Demo_EndSBZ1:   include "src/game/demos/ending/ending_sbz1.s"
+Demo_EndSBZ2:   include "src/game/demos/ending/ending_sbz2.s"
+Demo_EndGHZ2:   include "src/game/demos/ending/ending_ghz2.s"
 
 ; ===========================================================================
 ; ---------------------------------------------------------------------------
