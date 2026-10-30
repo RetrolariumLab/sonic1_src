@@ -100,3 +100,21 @@ class ProcessOwnershipTests(unittest.TestCase):
         self.assertEqual(owned_leftovers(reused, owned), [])
         unrelated = [{"ProcessId": 11, "Created": "time-one", "Ancestors": [99]}]
         self.assertEqual(owned_leftovers(unrelated, owned), [])
+
+
+class SequentialSlotTests(unittest.TestCase):
+    def test_no_emulator_slot_is_claimed_while_another_run_is_active(self):
+        from unittest.mock import patch
+        from scripts.runtime import movies
+
+        with (
+            patch.object(movies, "processes", side_effect=[[{}], [{}], []]),
+            patch.object(movies.time, "sleep") as sleep,
+        ):
+            movies.wait_until_idle()
+            self.assertEqual(sleep.call_count, 2)
+        with (
+            patch.object(movies, "processes", return_value=[{}]),
+            self.assertRaisesRegex(ValueError, "no concurrent emulator"),
+        ):
+            movies.wait_until_idle(timeout=0)

@@ -1,0 +1,284 @@
+{
+  "schema_version": 1,
+  "symbols": [
+    {
+      "symbol": "v_ram_start",
+      "address_space": "m68000_ram",
+      "addresses": {
+        "rev00": 16711680,
+        "rev01": 16711680,
+        "revxb": 16711680
+      }
+    },
+    {
+      "symbol": "v_256x256",
+      "address_space": "m68000_ram",
+      "addresses": {
+        "rev00": 16711680,
+        "rev01": 16711680,
+        "revxb": 16711680
+      }
+    },
+    {
+      "symbol": "v_256x256_end",
+      "address_space": "m68000_ram",
+      "addresses": {
+        "rev00": 16753664,
+        "rev01": 16753664,
+        "revxb": 16753664
+      }
+    },
+    {
+      "symbol": "v_lvllayout",
+      "address_space": "m68000_ram",
+      "addresses": {
+        "rev00": 16753664,
+        "rev01": 16753664,
+        "revxb": 16753664
+      }
+    },
+    {
+      "symbol": "v_lvllayout_end",
+      "address_space": "m68000_ram",
+      "addresses": {
+        "rev00": 16754688,
+        "rev01": 16754688,
+        "revxb": 16754688
+      }
+    },
+    {
+      "symbol": "v_objspace",
+      "address_space": "m68000_ram",
+      "addresses": {
+        "rev00": 16764928,
+        "rev01": 16764928,
+        "revxb": 16764928
+      }
+    },
+    {
+      "symbol": "v_objspace_end",
+      "address_space": "m68000_ram",
+      "addresses": {
+        "rev00": 16773120,
+        "rev01": 16773120,
+        "revxb": 16773120
+      }
+    },
+    {
+      "symbol": "v_gamemode",
+      "address_space": "m68000_ram",
+      "addresses": {
+        "rev00": 16774656,
+        "rev01": 16774656,
+        "revxb": 16774656
+      }
+    },
+    {
+      "symbol": "v_screenposx",
+      "address_space": "m68000_ram",
+      "addresses": {
+        "rev00": 16774912,
+        "rev01": 16774912,
+        "revxb": 16774912
+      }
+    },
+    {
+      "symbol": "v_screenposy",
+      "address_space": "m68000_ram",
+      "addresses": {
+        "rev00": 16774916,
+        "rev01": 16774916,
+        "revxb": 16774916
+      }
+    },
+    {
+      "symbol": "v_rings",
+      "address_space": "m68000_ram",
+      "addresses": {
+        "rev00": 16776736,
+        "rev01": 16776736,
+        "revxb": 16776736
+      }
+    },
+    {
+      "symbol": "v_score",
+      "address_space": "m68000_ram",
+      "addresses": {
+        "rev00": 16776742,
+        "rev01": 16776742,
+        "revxb": 16776742
+      }
+    },
+    {
+      "symbol": "v_lives",
+      "address_space": "m68000_ram",
+      "addresses": {
+        "rev00": 16776722,
+        "rev01": 16776722,
+        "revxb": 16776722
+      }
+    },
+    {
+      "symbol": "vdp_data_port",
+      "address_space": "hardware",
+      "addresses": {
+        "rev00": 12582912,
+        "rev01": 12582912,
+        "revxb": 12582912
+      }
+    },
+    {
+      "symbol": "vdp_control_port",
+      "address_space": "hardware",
+      "addresses": {
+        "rev00": 12582916,
+        "rev01": 12582916,
+        "revxb": 12582916
+      }
+    },
+    {
+      "symbol": "vdp_counter",
+      "address_space": "hardware",
+      "addresses": {
+        "rev00": 12582920,
+        "rev01": 12582920,
+        "revxb": 12582920
+      }
+    },
+    {
+      "symbol": "psg_input",
+      "address_space": "hardware",
+      "addresses": {
+        "rev00": 12582929,
+        "rev01": 12582929,
+        "revxb": 12582929
+      }
+    },
+    {
+      "symbol": "z80_ram",
+      "address_space": "hardware",
+      "addresses": {
+        "rev00": 10485760,
+        "rev01": 10485760,
+        "revxb": 10485760
+      }
+    },
+    {
+      "symbol": "z80_bus_request",
+      "address_space": "hardware",
+      "addresses": {
+        "rev00": 10555648,
+        "rev01": 10555648,
+        "revxb": 10555648
+      }
+    },
+    {
+      "symbol": "z80_reset",
+      "address_space": "hardware",
+      "addresses": {
+        "rev00": 10555904,
+        "rev01": 10555904,
+        "revxb": 10555904
+      }
+    },
+    {
+      "symbol": "Vectors",
+      "address_space": "m68000_rom",
+      "addresses": {
+        "rev00": 0,
+        "rev01": 0,
+        "revxb": 0
+      }
+    },
+    {
+      "symbol": "CartridgeHeader",
+      "address_space": "m68000_rom",
+      "addresses": {
+        "rev00": 256,
+        "rev01": 256,
+        "revxb": 256
+      }
+    },
+    {
+      "symbol": "EndOfHeader",
+      "address_space": "m68000_rom",
+      "addresses": {
+        "rev00": 512,
+        "rev01": 512,
+        "revxb": 512
+      }
+    },
+    {
+      "symbol": "EntryPoint",
+      "address_space": "m68000_rom",
+      "addresses": {
+        "rev00": 518,
+        "rev01": 518,
+        "revxb": 518
+      }
+    },
+    {
+      "symbol": "GameProgram",
+      "address_space": "m68000_rom",
+      "addresses": {
+        "rev00": 768,
+        "rev01": 768,
+        "revxb": 768
+      }
+    },
+    {
+      "symbol": "GM_Sega",
+      "address_space": "m68000_rom",
+      "addresses": {
+        "rev00": 11792,
+        "rev01": 11730,
+        "revxb": 11730
+      }
+    },
+    {
+      "symbol": "GM_Title",
+      "address_space": "m68000_rom",
+      "addresses": {
+        "rev00": 12056,
+        "rev01": 12020,
+        "revxb": 12020
+      }
+    },
+    {
+      "symbol": "GM_Level",
+      "address_space": "m68000_rom",
+      "addresses": {
+        "rev00": 14242,
+        "rev01": 14238,
+        "revxb": 14238
+      }
+    },
+    {
+      "symbol": "AngleMap",
+      "address_space": "m68000_rom",
+      "addresses": {
+        "rev00": 403712,
+        "rev01": 403712,
+        "revxb": 403712
+      }
+    },
+    {
+      "symbol": "SoundDriver",
+      "address_space": "m68000_rom",
+      "addresses": {
+        "rev00": 465296,
+        "rev01": 465296,
+        "revxb": 465296
+      }
+    },
+    {
+      "symbol": "EndOfRom",
+      "address_space": "m68000_rom",
+      "addresses": {
+        "rev00": 524288,
+        "rev01": 524288,
+        "revxb": 524288
+      }
+    }
+  ]
+}

@@ -9,9 +9,11 @@ from pathlib import Path
 import re
 import subprocess
 import shutil
+import time
 from scripts.build.project import ROOT, atomic_write, checked_path, image, load, profile, profiles, read_rom, sha256
 from scripts.build.project import file_sha256
 from scripts.build.listing import symbols
+from scripts.runtime.matrix import validate as validate_matrix
 from scripts.validation import relocation
 from scripts.validation.lint_project import source_paths
 
@@ -58,6 +60,18 @@ def owned_leftovers(rows: list[dict], owned: dict[int, str]) -> list[dict]:
     return [item for item in rows if owned.get(int(item["ProcessId"])) == item["Created"]]
 
 
+def wait_until_idle(timeout: float = 3600) -> None:
+    deadline = time.monotonic() + timeout
+    announced = False
+    while processes():
+        if not announced:
+            print("[WAIT] Another MAME run is active; waiting for the sequential runtime slot", flush=True)
+            announced = True
+        if time.monotonic() >= deadline:
+            raise ValueError("MAME remained busy; no concurrent emulator was started")
+        time.sleep(min(5, max(0.01, deadline - time.monotonic())))
+
+
 def emulator(named: Path | None) -> Path:
     value = str(named) if named else os.environ.get("RETROLARIUM_MAME")
     if not value:
@@ -66,8 +80,7 @@ def emulator(named: Path | None) -> Path:
     expected = load("config/toolchain.json")["emulator"]["sha256"]
     if not path.is_file() or file_sha256(path) != expected:
         raise ValueError("MAME executable does not match config/toolchain.json")
-    if processes():
-        raise ValueError("MAME is already active; refusing a concurrent runtime environment")
+    wait_until_idle()
     staged = checked_path("build/emulator/consoles.exe")
     if not staged.is_file() or file_sha256(staged) != expected:
         staged.parent.mkdir(parents=True, exist_ok=True)
@@ -190,8 +203,7 @@ def validate_check(spec: dict, scenario: dict) -> None:
 
 
 def invoke(action: str, rom: Path, check_path: Path, mame: Path, log: Path) -> None:
-    if processes():
-        raise ValueError("A MAME process is already active; runtime checks must run one at a time")
+    wait_until_idle()
     # Core runs MAME from the executable's parent. Only the exact copied binary
     # survives between runs, so cfg, NVRAM, states and ini files cannot leak in.
     stage = checked_path("build/emulator")
@@ -224,8 +236,6 @@ def invoke(action: str, rom: Path, check_path: Path, mame: Path, log: Path) -> N
                 stdout=stream,
                 stderr=subprocess.STDOUT,
             )
-            import time
-
             deadline = time.monotonic() + 3700
             while True:
                 remember_owned(processes(), result.pid, owned)
@@ -277,6 +287,7 @@ def verify_relocated(profile_id: str) -> Path:
 
 def run(action: str, profile_id: str, selected: str | None, directory: Path, mame: Path) -> None:
     matrix = load("scenarios/runtime_matrix.json")
+    validate_matrix(matrix)
     scenarios = {item["id"]: item for item in matrix["scenarios"]}
     row = next(item for item in matrix["profiles"] if item["profile"] == profile_id)
     for entry in row["scenarios"]:

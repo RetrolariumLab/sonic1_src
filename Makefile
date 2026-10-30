@@ -9,7 +9,7 @@ BUILD = $(RUN) build.cli
 SELECT = $(if $(PROFILE),--profile "$(PROFILE)")
 INPUT = --rom-dir "$(ROM_DIR)"
 
-.PHONY: help split check-assets check-inputs build verify verify-all verify-toolchain test audit-private clean lint format format-check build-relocated build-relocated-all audit-symbolic verify-layout runtime-golden runtime-check trace
+.PHONY: help split check-assets check-inputs build verify verify-all verify-toolchain test audit-private clean lint format format-check build-relocated build-relocated-all audit-symbolic verify-layout runtime-golden runtime-check trace release-check release-audit
 help:
 	@echo Sonic 1 preservation source
 	@echo "Inputs: split, check-assets, check-inputs"
@@ -17,6 +17,7 @@ help:
 	@echo "Validation: lint, format, format-check, test, audit-private, audit-symbolic, verify-layout"
 	@echo "Relocation: build-relocated, build-relocated-all"
 	@echo "Runtime: runtime-golden, runtime-check, trace"
+	@echo "Release: release-check, release-audit"
 	@echo "Cleanup: clean"
 	@echo "Selectors: ROM_DIR=folder, PROFILE=profile-id (default from JSON), SCENARIO=attract or ending"
 split:
@@ -34,7 +35,7 @@ verify-all:
 verify-toolchain:
 	$(BUILD) verify-toolchain
 test:
-	$(PYTHON) -B -m unittest discover -s tests -v
+	$(RUN) validation.test_runner
 audit-private:
 	$(RUN) validation.private_data
 clean:
@@ -51,3 +52,5 @@ format-check: lint
 
 include mk/validation.mk
 include mk/runtime.mk
+
+include mk/release.mk

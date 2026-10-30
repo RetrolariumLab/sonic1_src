@@ -1,0 +1,386 @@
+{
+  "schema_version": 1,
+  "release_line": "1.0",
+  "release": {
+    "name": "Source Reconstruction 1.0",
+    "version": "1.0"
+  },
+  "release_kind": "preservation",
+  "tag": "source-reconstruction-1.0",
+  "status": "tag-ready",
+  "predecessor": null,
+  "included_scope": [
+    "canonical_roms",
+    "all_cpu_source",
+    "symbolic_pointers",
+    "private_asset_extraction",
+    "moved_source_probe",
+    "direct_runtime_evidence",
+    "baseline_documentation"
+  ],
+  "excluded_scope": [
+    {
+      "id": "content_authoring",
+      "status": "planned",
+      "reason": "Complete format models and authoring round trips belong to the next stage.",
+      "registry": "DATA-001"
+    },
+    {
+      "id": "all_gameplay_paths",
+      "status": "partial",
+      "reason": "Only declared attract, special-stage, ending and credits paths are observed.",
+      "registry": "RUN-001"
+    },
+    {
+      "id": "other_hosts",
+      "status": "unsupported",
+      "reason": "Executable tool hashes and runtime gates have been validated only on Windows x86_64."
+    },
+    {
+      "id": "additional_versions",
+      "status": "not_applicable",
+      "reason": "Prototypes, remakes, other platforms, community mods and lock-on software are outside the accepted game profiles."
+    }
+  ],
+  "delta": [
+    {
+      "id": "fresh_text_import",
+      "kind": "source",
+      "summary": "Import the public AS source snapshot into an independent text-only history; remove binary content, audio content, editor projects and bundled tools.",
+      "evidence": ["source_boundary", "private_inputs", "provenance_and_unknowns"]
+    },
+    {
+      "id": "private_inputs_and_build",
+      "kind": "tooling",
+      "summary": "Extract profile-owned ROM assets and decoded DPCM samples, pin Kit tools and verify all official revisions byte for byte; specialize community-only switches to original behavior.",
+      "evidence": ["canonical_identity", "reproducible_build"]
+    },
+    {
+      "id": "style_and_relocation",
+      "kind": "tooling",
+      "summary": "Apply Kit formatting through a reversible AS-field adapter, classify numeric operands, declare hardware boundaries and build timing-preserving moved-source probes.",
+      "evidence": ["baseline_validation", "symbolic_pointers"]
+    },
+    {
+      "id": "runtime_and_release",
+      "kind": "evidence",
+      "summary": "Record original-input goldens for every profile and enforce sequential relocated checks, current documentation, provenance and the complete clean-tree aggregate gate.",
+      "evidence": ["runtime_coverage", "baseline_documentation", "release_contract"]
+    }
+  ],
+  "requirements": {
+    "canonical_identity": {
+      "status": "satisfied",
+      "evidence": {
+        "targets": ["verify-all"],
+        "files": ["assets/manifest.json", "scripts/build/build_rom.py"]
+      }
+    },
+    "reproducible_build": {
+      "status": "satisfied",
+      "evidence": {
+        "targets": ["verify-toolchain"],
+        "files": ["config/toolchain.json", "config/revision_profiles.json"]
+      }
+    },
+    "source_boundary": {
+      "status": "satisfied",
+      "evidence": {
+        "targets": ["audit-private", "audit-symbolic"],
+        "files": ["sonic.asm", "sound/z80.asm", "config/reconstruction/address_policy.json"]
+      }
+    },
+    "provenance_and_unknowns": {
+      "status": "satisfied",
+      "evidence": {
+        "targets": ["release-audit"],
+        "files": ["docs/provenance.md", "docs/unknowns.md"]
+      }
+    },
+    "baseline_documentation": {
+      "status": "satisfied",
+      "evidence": {
+        "targets": ["release-audit"],
+        "files": [
+          "README.md",
+          "CONTRIBUTING.md",
+          "docs/index.md",
+          "docs/build.md",
+          "docs/architecture.md",
+          "docs/memory_map.md",
+          "docs/verification.md",
+          "docs/relocation.md",
+          "docs/runtime.md",
+          "docs/unknowns.md",
+          "docs/provenance.md"
+        ]
+      }
+    },
+    "baseline_validation": {
+      "status": "satisfied",
+      "evidence": {
+        "targets": ["lint", "test"],
+        "files": ["scripts/validation/lint_project.py", "tests/"]
+      }
+    },
+    "release_contract": {
+      "status": "satisfied",
+      "evidence": {
+        "targets": ["release-audit"],
+        "files": ["config/source_reconstruction_1_0.json", "scripts/validation/release_audit.py"]
+      }
+    },
+    "private_inputs": {
+      "status": "satisfied",
+      "evidence": {
+        "targets": ["audit-private", "check-assets"],
+        "files": [".gitignore", "assets/manifest.json"]
+      }
+    },
+    "generated_outputs": {
+      "status": "satisfied",
+      "evidence": {
+        "targets": ["clean"],
+        "files": [".gitignore"]
+      }
+    },
+    "claims_need_evidence": {
+      "status": "satisfied",
+      "evidence": {
+        "targets": ["release-audit"],
+        "files": ["scenarios/runtime_matrix.json", "docs/unknowns.md"]
+      }
+    },
+    "symbolic_pointers": {
+      "status": "satisfied",
+      "evidence": {
+        "targets": ["audit-symbolic", "build-relocated-all", "verify-layout"],
+        "files": ["config/relocation/probe.json"]
+      }
+    },
+    "runtime_coverage": {
+      "status": "satisfied",
+      "evidence": {
+        "targets": ["runtime-check"],
+        "files": ["scenarios/runtime_matrix.json", "config/runtime/cells.json"]
+      }
+    },
+    "licensing_and_provenance": {
+      "status": "satisfied",
+      "evidence": {
+        "targets": ["release-audit"],
+        "files": ["docs/provenance.md"]
+      }
+    },
+    "commit_history": {
+      "status": "satisfied",
+      "evidence": {
+        "targets": ["release-audit"],
+        "files": ["scripts/validation/release_audit.py"]
+      }
+    }
+  },
+  "profiles": [
+    {
+      "id": "rev00",
+      "status": "supported",
+      "artifact": "sonic1_rev00",
+      "identity": "byte-identical",
+      "input": "rev00",
+      "entrypoint": "sonic.asm"
+    },
+    {
+      "id": "rev01",
+      "status": "supported",
+      "artifact": "sonic1_rev01",
+      "identity": "byte-identical",
+      "input": "rev01",
+      "entrypoint": "sonic.asm"
+    },
+    {
+      "id": "revxb",
+      "status": "supported",
+      "artifact": "sonic1_revxb",
+      "identity": "byte-identical",
+      "input": "revxb",
+      "entrypoint": "sonic.asm"
+    }
+  ],
+  "runtime_coverage": [
+    {
+      "profile_id": "rev00",
+      "mode": "direct",
+      "scenarios": ["attract", "ending"],
+      "manifest": "scenarios/runtime_matrix.json"
+    },
+    {
+      "profile_id": "rev01",
+      "mode": "direct",
+      "scenarios": ["attract", "ending"],
+      "manifest": "scenarios/runtime_matrix.json"
+    },
+    {
+      "profile_id": "revxb",
+      "mode": "direct",
+      "scenarios": ["attract", "ending"],
+      "manifest": "scenarios/runtime_matrix.json"
+    }
+  ],
+  "toolchain": {
+    "manifest": "config/toolchain.json",
+    "verification": "make verify-toolchain",
+    "hosts": [
+      {
+        "os": "windows",
+        "architecture": "x86_64",
+        "shell": "PowerShell 7.6.5",
+        "language_versions": {
+          "python": "3.14.6",
+          "minimum_python": "3.11"
+        },
+        "make": "GNU Make 4.4.1",
+        "supported_status": "supported"
+      }
+    ]
+  },
+  "artifacts": [
+    {
+      "id": "sonic1_rev00",
+      "profile": "rev00",
+      "build_target": "verify-all",
+      "path": "build/artifacts/rev00/sonic1.bin",
+      "size": 524288,
+      "sha1": "6ddb7de1e17e7f6cdb88927bd906352030daa194",
+      "sha256": "46160baa06362c711c9f1a5017cb7371026444936c8af5e93a78996cf32ff2a6",
+      "tracked": false
+    },
+    {
+      "id": "sonic1_rev01",
+      "profile": "rev01",
+      "build_target": "verify-all",
+      "path": "build/artifacts/rev01/sonic1.bin",
+      "size": 524288,
+      "sha1": "69e102855d4389c3fd1a8f3dc7d193f8eee5fe5b",
+      "sha256": "1b7f6635bd713f37f3c2f44f302b872c2e3c5f56e63637918dad4637146900fd",
+      "tracked": false
+    },
+    {
+      "id": "sonic1_revxb",
+      "profile": "revxb",
+      "build_target": "verify-all",
+      "path": "build/artifacts/revxb/sonic1.bin",
+      "size": 524288,
+      "sha1": "95b6aac7e11bb2d908aafa06973ffeb45817a992",
+      "sha256": "94a5379fa0bd6760cb0606b77f705a85b6af1724da99e8c765b34ba2ab825e1a",
+      "tracked": false
+    }
+  ],
+  "aggregate_gates": {
+    "pre_tag": ["make release-check"],
+    "post_tag": ["make release-audit AUDIT_MODE=--post-tag"]
+  },
+  "layout_deviations": [
+    {
+      "rule_id": "src_entrypoint",
+      "actual_path": "sonic.asm",
+      "reason": "The preservation stage retains imported include paths and historical module sizes; semantic ownership is the following stage.",
+      "equivalent_control": "Every source is checked by Kit, identity builds and the moved-source probe; architecture.md maps subsystem owners."
+    },
+    {
+      "rule_id": "linker_configuration",
+      "actual_path": "config/reconstruction/address_policy.json",
+      "reason": "AS and p2bin emit a flat cartridge image without a separate linker.",
+      "equivalent_control": "Fixed regions, actual listing landmarks and byte identity are independently checked."
+    }
+  ],
+  "licensing": [
+    {
+      "component": "reconstructed_game_source",
+      "category": "reconstructed_game_source",
+      "origin": "Sonic the Hedgehog cartridge code and data",
+      "license_id_or_status": "license_not_granted",
+      "redistribution": "not_permitted",
+      "notes": "No game licence is implied by reconstruction."
+    },
+    {
+      "component": "upstream_annotations",
+      "category": "imported_materials",
+      "origin": "sonicretro/s1disasm AS snapshot",
+      "license_id_or_status": "license_not_granted",
+      "redistribution": "unknown",
+      "notes": "Only the upstream disclaimer accompanies the source; retained verbatim in README."
+    },
+    {
+      "component": "project_tools_and_docs",
+      "category": "own_project_tools",
+      "origin": "Written for this project",
+      "license_id_or_status": "unknown",
+      "redistribution": "unknown",
+      "notes": "The owner has not selected a separate publication licence."
+    },
+    {
+      "component": "roms_and_extracted_content",
+      "category": "private_user_supplied",
+      "origin": "Owner-supplied accepted dumps",
+      "license_id_or_status": "private_user_supplied",
+      "redistribution": "not_permitted",
+      "notes": "Only hashes and extraction recipes are tracked."
+    },
+    {
+      "component": "public_dependencies",
+      "category": "external_dependencies",
+      "origin": "Retrolarium Kit, Core, AS and MAME",
+      "license_id_or_status": "external_licenses",
+      "redistribution": "not_bundled",
+      "notes": "Versions and source provenance are pinned in config/toolchain.json; no executable is tracked."
+    }
+  ],
+  "provenance": {
+    "references": ["docs/provenance.md", "docs/unknowns.md", "assets/manifest.json"],
+    "private_inputs_tracked": false,
+    "private_dependencies": [
+      {
+        "id": "rev00",
+        "size": 524288,
+        "sha256": "46160baa06362c711c9f1a5017cb7371026444936c8af5e93a78996cf32ff2a6"
+      },
+      {
+        "id": "rev01",
+        "size": 524288,
+        "sha256": "1b7f6635bd713f37f3c2f44f302b872c2e3c5f56e63637918dad4637146900fd"
+      },
+      {
+        "id": "revxb",
+        "size": 524288,
+        "sha256": "94a5379fa0bd6760cb0606b77f705a85b6af1724da99e8c765b34ba2ab825e1a"
+      }
+    ]
+  },
+  "required_documents": [
+    "README.md",
+    "CONTRIBUTING.md",
+    "docs/index.md",
+    "docs/build.md",
+    "docs/architecture.md",
+    "docs/memory_map.md",
+    "docs/verification.md",
+    "docs/relocation.md",
+    "docs/runtime.md",
+    "docs/unknowns.md",
+    "docs/provenance.md"
+  ],
+  "release_commands": [
+    "lint",
+    "test",
+    "check-inputs",
+    "clean",
+    "split",
+    "verify-all",
+    "audit-symbolic",
+    "verify-layout",
+    "build-relocated-all",
+    "runtime-check",
+    "release-audit"
+  ],
+  "known_limits": ["SEM-001", "RUN-001", "DATA-001", "LEG-001"]
+}

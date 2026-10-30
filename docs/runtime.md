@@ -57,3 +57,8 @@ clears only the generated contents beside that copy, so MAME configuration,
 NVRAM and save-state defaults start clean and remain inside the project build
 root. The configured external executable is read and hash-checked, then kept out
 of the execution path. Golden metadata records this environment boundary.
+
+The runner waits up to one hour for an already active MAME process before
+starting a check. It never terminates another task's process to obtain the slot.
+A busy timeout is a failed gate; it is not a skipped scenario or successful
+runtime result. Every owned process is checked again after each run.

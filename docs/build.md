@@ -7,8 +7,11 @@ profile. The default is REV01. All three share `sonic.asm`.
 
 Install Python 3.11 or later, GNU Make and Retrolarium Kit with build-tool
 release 2026.10.11. This checkout currently pins the Windows x86_64 assembler
-and p2bin executables. `make verify-toolchain` verifies their SHA-256 before
-assembly; unsupported hosts fail explicitly rather than use an unpinned tool.
+and p2bin executables. Retrolarium Core's Python package must be importable by
+the selected Python interpreter; a source installation can supply its `python/`
+directory through `PYTHONPATH`. `make verify-toolchain` verifies their SHA-256
+before assembly; unsupported hosts fail explicitly rather than use an unpinned
+tool.
 
 Place your legally obtained dumps under their manifest filenames in the project
 root, or pass `ROM_DIR` pointing to their folder:
@@ -48,12 +51,12 @@ only checked artifact, relocation and runtime directories under `build/`, and
 leaves original inputs and extracted assets alone. All temporary files and
 reports are ignored. Nothing in the build requires a previous output.
 
-## Current validation boundary
+## Aggregate validation
 
-The preservation build, private-data audit, symbolic address checks, relocation
-probe and direct runtime matrix are implemented. The aggregate release gate and
-complete baseline documentation are being completed; this checkout does not yet
-claim a completed release.
+`make release-check ROM_DIR="path/to/dumps"` runs the complete preservation
+gate, including clean extraction/builds, all runtime checks and a clean tracked
+tree. See [verification](verification.md) for order and evidence. The candidate
+must be committed before the clean-clone and tag-ready checks can succeed.
 
 ## Kit style integration
 
