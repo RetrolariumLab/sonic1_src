@@ -1,0 +1,191 @@
+{
+  "schema_version": 1,
+  "scenarios": [
+    {
+      "id": "attract",
+      "machine": "genesis",
+      "frames": 15000,
+      "checkpoint_step": 60,
+      "cells": [
+        "mode",
+        "zone",
+        "act",
+        "camera_x",
+        "camera_y",
+        "sonic_x",
+        "sonic_y",
+        "rings",
+        "score",
+        "lives",
+        "frames",
+        "demo",
+        "credits"
+      ],
+      "setup": {
+        "kind": "power_on_idle",
+        "controller_input": "none",
+        "ram_patches": [],
+        "save_states": []
+      },
+      "required_states": [
+        {
+          "mode": 8,
+          "zone": 0,
+          "act": 0
+        },
+        {
+          "mode": 8,
+          "zone": 2,
+          "act": 0
+        },
+        {
+          "mode": 8,
+          "zone": 4,
+          "act": 0
+        },
+        {
+          "mode": 16
+        }
+      ]
+    },
+    {
+      "id": "ending",
+      "machine": "megadrij",
+      "frames": 18000,
+      "checkpoint_step": 60,
+      "cells": [
+        "mode",
+        "zone",
+        "act",
+        "camera_x",
+        "camera_y",
+        "sonic_x",
+        "sonic_y",
+        "rings",
+        "score",
+        "lives",
+        "frames",
+        "demo",
+        "credits",
+        "level_select",
+        "credits_cheat",
+        "dpad_count",
+        "c_count",
+        "menu_row",
+        "sound_test"
+      ],
+      "setup": {
+        "kind": "recorded_original_title_inputs",
+        "purpose": "Japanese NTSC title inputs enable original level-select and credits shortcuts, then select sound 9F to enter the ending and its credits demos.",
+        "ram_patches": [],
+        "save_states": []
+      },
+      "required_states": [
+        {
+          "mode": 24,
+          "zone": 6
+        },
+        {
+          "mode": 28
+        },
+        {
+          "mode": 8,
+          "demo": 32769,
+          "zone": 0,
+          "act": 0,
+          "credits": 1
+        },
+        {
+          "mode": 8,
+          "demo": 32769,
+          "zone": 2,
+          "act": 1,
+          "credits": 2
+        },
+        {
+          "mode": 8,
+          "demo": 32769,
+          "zone": 4,
+          "act": 2,
+          "credits": 3
+        },
+        {
+          "mode": 8,
+          "demo": 32769,
+          "zone": 1,
+          "act": 2,
+          "credits": 4
+        },
+        {
+          "mode": 8,
+          "demo": 32769,
+          "zone": 3,
+          "act": 2,
+          "credits": 5
+        },
+        {
+          "mode": 8,
+          "demo": 32769,
+          "zone": 5,
+          "act": 0,
+          "credits": 6
+        },
+        {
+          "mode": 8,
+          "demo": 32769,
+          "zone": 5,
+          "act": 1,
+          "credits": 7
+        },
+        {
+          "mode": 8,
+          "demo": 32769,
+          "zone": 0,
+          "act": 0,
+          "credits": 8
+        }
+      ]
+    }
+  ],
+  "profiles": [
+    {
+      "profile": "rev00",
+      "scenarios": [
+        {
+          "id": "attract",
+          "check": "scenarios/rev00-attract.check.json"
+        },
+        {
+          "id": "ending",
+          "check": "scenarios/rev00-ending.check.json"
+        }
+      ]
+    },
+    {
+      "profile": "rev01",
+      "scenarios": [
+        {
+          "id": "attract",
+          "check": "scenarios/rev01-attract.check.json"
+        },
+        {
+          "id": "ending",
+          "check": "scenarios/rev01-ending.check.json"
+        }
+      ]
+    },
+    {
+      "profile": "revxb",
+      "scenarios": [
+        {
+          "id": "attract",
+          "check": "scenarios/revxb-attract.check.json"
+        },
+        {
+          "id": "ending",
+          "check": "scenarios/revxb-ending.check.json"
+        }
+      ]
+    }
+  ]
+}

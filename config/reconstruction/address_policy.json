@@ -1,0 +1,136 @@
+{
+  "schema_version": 1,
+  "classified_literals": [
+    {
+      "owners": ["_incObj/Sonic AnglePos.asm", "_incObj/Sonic Collision.asm", "_incObj/sub ObjFloorDist.asm"],
+      "statement": "movea.w #$10,a3",
+      "kind": "scalar",
+      "reason": "A3 holds the 16-pixel collision block height, not a memory address."
+    },
+    {
+      "owners": ["sonic.asm"],
+      "statement": "movea.w #8,a5",
+      "kind": "scalar",
+      "reason": "A5 counts eight Nemesis rows in one tile."
+    },
+    {
+      "owners": ["sonic.asm"],
+      "statement": "dc.l $40000080",
+      "kind": "vdp_command",
+      "reason": "Packed VDP DMA-fill destination command for VRAM address zero."
+    },
+    {
+      "owners": ["sonic.asm"],
+      "statement": "dc.l $C0000000",
+      "kind": "vdp_command",
+      "reason": "Packed VDP CRAM write command."
+    },
+    {
+      "owners": ["sonic.asm"],
+      "statement": "dc.l $40000010",
+      "kind": "vdp_command",
+      "reason": "Packed VDP VSRAM write command for offset zero."
+    },
+    {
+      "owners": ["_incObj/Sonic AnglePos.asm", "_incObj/Sonic Collision.asm"],
+      "statement": "movea.w #-$10,a3",
+      "kind": "scalar",
+      "reason": "A3 holds a negative 16-pixel collision step for reversed floor or ceiling scans."
+    },
+    {
+      "owners": ["_inc/HUD Update.asm"],
+      "statement": "dc.l 100000",
+      "kind": "decimal_divisor",
+      "reason": "HUD decimal digit conversion subtracts this power-of-ten value; it is not a ROM address."
+    },
+    {
+      "owners": ["_inc/HUD Update.asm"],
+      "statement": "dc.l 10000",
+      "kind": "decimal_divisor",
+      "reason": "HUD decimal digit conversion subtracts this power-of-ten value; it is not a ROM address."
+    },
+    {
+      "owners": ["_inc/HUD Update.asm"],
+      "statement": "dc.l 1000",
+      "kind": "decimal_divisor",
+      "reason": "HUD decimal digit conversion subtracts this power-of-ten value; it is not a ROM address."
+    },
+    {
+      "owners": ["_inc/HUD Update.asm"],
+      "statement": "dc.l 100",
+      "kind": "decimal_divisor",
+      "reason": "HUD decimal digit conversion subtracts this power-of-ten value; it is not a ROM address."
+    },
+    {
+      "owners": ["_inc/HUD Update.asm"],
+      "statement": "dc.l 10",
+      "kind": "decimal_divisor",
+      "reason": "HUD decimal digit conversion subtracts this power-of-ten value; it is not a ROM address."
+    },
+    {
+      "owners": ["_inc/HUD Update.asm"],
+      "statement": "dc.l 1",
+      "kind": "decimal_divisor",
+      "reason": "HUD decimal digit conversion subtracts this power-of-ten value; it is not a ROM address."
+    }
+  ],
+  "fixed_regions": [
+    {
+      "id": "exception_vectors",
+      "address_space": "m68000_rom",
+      "first": "Vectors",
+      "last": "CartridgeHeader",
+      "start": 0,
+      "end": 256,
+      "reason": "The processor fetches exception vectors from the cartridge base."
+    },
+    {
+      "id": "cartridge_header",
+      "address_space": "m68000_rom",
+      "first": "CartridgeHeader",
+      "last": "EndOfHeader",
+      "start": 256,
+      "end": 512,
+      "reason": "The console cartridge header occupies the fixed range before executable code."
+    },
+    {
+      "id": "work_ram",
+      "address_space": "m68000_program",
+      "first": "v_ram_start",
+      "last": "v_ram_end",
+      "start": 16711680,
+      "end": 16777216,
+      "reason": "The cartridge header and named RAM declarations describe the physical 64 KiB work RAM."
+    },
+    {
+      "id": "dac_driver_ram",
+      "address_space": "z80",
+      "start": 0,
+      "end": 8192,
+      "reason": "The driver, samples, stack and communication bytes must fit Z80 work RAM.",
+      "symbols": {
+        "z80_stack": 8188,
+        "zDAC_Status": 8189,
+        "zDAC_Sample": 8191
+      },
+      "decoded_end_symbol": "zDACDriver_End"
+    },
+    {
+      "id": "z80_cartridge_window",
+      "address_space": "z80",
+      "first": "zROMWindow",
+      "start": 32768,
+      "end": 65536,
+      "reason": "Banked cartridge samples use the hardware 32 KiB Z80 ROM window."
+    },
+    {
+      "id": "revxb_reserved_vector_patch",
+      "address_space": "m68000_rom",
+      "profiles": ["revxb"],
+      "first": "Rev02_SpikeBugFix",
+      "start": 224,
+      "end": 244,
+      "reason": "The accepted collection image places its spike-bug patch in reserved vector bytes."
+    }
+  ]
+}

@@ -1,0 +1,62 @@
+{
+  "schema_version": 1,
+  "method": "Duplicate terminal RTS/RTE in an isolated source copy; preserve original instruction timing and sample-bank geometry.",
+  "include_moves": [
+    {
+      "owner": "_incObj/15 Swinging Platforms.asm",
+      "include": "_incObj/sub MvSonicOnPtfm.asm",
+      "placement": "end",
+      "reason": "Keep both SolidObject BSR.w callers within signed word reach without changing their opcodes or cycles."
+    },
+    {
+      "owner": "sonic.asm",
+      "include": "_incObj/sub DisplaySprite.asm",
+      "before_include": "_inc/Object Pointers.asm",
+      "reason": "Keep the REV00 ending-object BRA.w within signed word reach."
+    }
+  ],
+  "table_moves": [
+    {
+      "owner": "sonic.asm",
+      "first_label": "LevSel_Ptrs",
+      "last_label": "LevSel_PtrsEnd",
+      "before_label": "LevSel_Level_SS",
+      "reason": "Keep the 68000 PC-indexed level table within its signed 8-bit displacement; move only data into an unreachable gap after RTS."
+    }
+  ],
+  "branch_widths": [
+    {
+      "owner": "_incObj/75, 76 Boss - SYZ Main and Blocks.asm",
+      "target": "BossSpringYard_SetupAnim",
+      "occurrences": 2,
+      "replace_occurrence": 0,
+      "from": "bra.s",
+      "to": "bra.w",
+      "cycles": 10,
+      "cpu": "MC68000",
+      "evidence": "https://github.com/mamedev/mame/blob/c662f9ca1900ed7462dc4fe8d338a98e8e4ce3c3/src/devices/cpu/m68000/m68kops.cpp",
+      "reason": "Both unconditional forms take ten cycles; conditional branches are never widened."
+    }
+  ],
+  "reclaim_padding": {
+    "owner": "sonic.asm",
+    "expressions": ["$104", "$40"],
+    "reason": "Discard only the original non-executable gap before AngleMap, preserving all payload bytes."
+  },
+  "sample_anchor": {
+    "owner": "s1.sounddriver.asm",
+    "before_comment": "; Don't let Sega sample cross $8000-byte boundary",
+    "observation_label": "Probe_SegaPCM_Unaligned",
+    "sample_path": "sound/dac/pcm/sega.pcm",
+    "label": "SegaPCM"
+  },
+  "audio_padding": {
+    "owner": "sonic.asm",
+    "expressions": {
+      "rev00": "$62A",
+      "rev01": "$63C",
+      "revxb": "$63C"
+    },
+    "reason": "Absorb measured growth before the sample, keeping the original ROM length and checksum-loop iteration count."
+  }
+}

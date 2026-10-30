@@ -3,6 +3,7 @@
 from pathlib import Path
 import json
 import subprocess
+import os
 from scripts.build import toolchain
 from scripts.build.project import (
     ROOT,
@@ -41,7 +42,7 @@ def build(profile_id: str, *, source_root: Path = ROOT, output_root: Path | None
     defines = "".join(f"{key} = {value}\n" for key, value in selected["defines"].items())
     # The generated selector contains no engine copy and is never tracked.
     source = checked_path(load("config/revision_profiles.json")["entrypoint"], source_root)
-    entry_text = defines + f'\tinclude "{source.relative_to(ROOT).as_posix()}"\n'
+    entry_text = defines + f'\tinclude "{source.relative_to(source_root).as_posix()}"\n'
     atomic_write(entry, entry_text.encode())
     obj = entry.with_suffix(".p")
     obj.unlink(missing_ok=True)
@@ -61,12 +62,13 @@ def build(profile_id: str, *, source_root: Path = ROOT, output_root: Path | None
                 "-U",
                 "-E",
                 "-i",
-                source_root.relative_to(ROOT).as_posix(),
+                ".",
                 "-i",
-                f"data/{profile_id}",
-                entry.relative_to(ROOT).as_posix(),
+                Path(os.path.relpath(ROOT / "data" / profile_id, source_root)).as_posix(),
+                entry.relative_to(source_root).as_posix(),
             ],
             output=log,
+            cwd=source_root,
         )
     except subprocess.CalledProcessError as error:
         raise ValueError(f"AS failed; read {entry.with_suffix('.log').relative_to(ROOT)}") from error

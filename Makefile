@@ -3,19 +3,22 @@
 PYTHON ?= python
 ROM_DIR ?= .
 PROFILE ?=
+SCENARIO ?=
 RUN = $(PYTHON) scripts/run.py
 BUILD = $(RUN) build.cli
 SELECT = $(if $(PROFILE),--profile "$(PROFILE)")
 INPUT = --rom-dir "$(ROM_DIR)"
 
-.PHONY: help split check-assets check-inputs build verify verify-all verify-toolchain test audit-private clean lint format format-check
+.PHONY: help split check-assets check-inputs build verify verify-all verify-toolchain test audit-private clean lint format format-check build-relocated build-relocated-all audit-symbolic verify-layout runtime-golden runtime-check trace
 help:
 	@echo Sonic 1 preservation source
 	@echo "Inputs: split, check-assets, check-inputs"
 	@echo "Build: build, verify, verify-all, verify-toolchain"
-	@echo "Validation: lint, format, format-check, test, audit-private"
+	@echo "Validation: lint, format, format-check, test, audit-private, audit-symbolic, verify-layout"
+	@echo "Relocation: build-relocated, build-relocated-all"
+	@echo "Runtime: runtime-golden, runtime-check, trace"
 	@echo "Cleanup: clean"
-	@echo "Selectors: ROM_DIR=folder, PROFILE=profile-id (default from JSON)"
+	@echo "Selectors: ROM_DIR=folder, PROFILE=profile-id (default from JSON), SCENARIO=attract or ending"
 split:
 	$(BUILD) split $(INPUT)
 check-assets:
@@ -40,7 +43,11 @@ clean:
 lint:
 	$(RUN) validation.lint_project
 	$(RUN) validation.private_data
+	$(RUN) validation.symbolic_pointers
 format:
 	$(RUN) validation.lint_project --fix
 	$(MAKE) lint
 format-check: lint
+
+include mk/validation.mk
+include mk/runtime.mk

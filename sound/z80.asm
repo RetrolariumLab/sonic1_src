@@ -224,6 +224,7 @@ zDAC_Kick:   include "sound/dac/dpcm/kick.asm"
 zDAC_Snare:   include "sound/dac/dpcm/snare.asm"
 zDAC_Timpani:   include "sound/dac/dpcm/timpani.asm"
 
+                    zDACDriver_End:
                     if      MOMPASS==2
                     if      $ > z80_stack
                     fatal   "The driver is too big; the maximum size it can take is \{z80_stack}h. It currently takes \{$}h bytes. You won't be able to use this thing."

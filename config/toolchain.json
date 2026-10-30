@@ -21,5 +21,14 @@
         }
       }
     }
+  },
+  "emulator": {
+    "source": "https://github.com/mamedev/mame",
+    "source_commit": "c662f9ca1900ed7462dc4fe8d338a98e8e4ce3c3",
+    "version": "0.289 (unknown)",
+    "sha256": "ff35833b41905185cd16dd591a8b1c8652e98c45c2dc5518e566a78ce63400ab",
+    "machines": ["genesis", "megadrij"],
+    "cpu": "MC68000",
+    "host": "windows-x86_64"
   }
 }

@@ -67,10 +67,15 @@ def read_rom(profile_id: str, directory: Path) -> tuple[Path, bytes]:
     return path, raw
 
 
-def command(arguments: list[str], *, output: Path | None = None) -> None:
+def command(arguments: list[str], *, output: Path | None = None, cwd: Path = ROOT) -> None:
     environment = dict(os.environ, PYTHONDONTWRITEBYTECODE="1")
     if output is None:
-        subprocess.run(arguments, cwd=ROOT, env=environment, check=True)
+        subprocess.run(arguments, cwd=cwd, env=environment, check=True)
     else:
         with output.open("ab") as stream:
-            subprocess.run(arguments, cwd=ROOT, env=environment, check=True, stdout=stream, stderr=subprocess.STDOUT)
+            subprocess.run(arguments, cwd=cwd, env=environment, check=True, stdout=stream, stderr=subprocess.STDOUT)
+
+
+def file_sha256(path: Path) -> str:
+    with path.open("rb") as stream:
+        return hashlib.file_digest(stream, "sha256").hexdigest()

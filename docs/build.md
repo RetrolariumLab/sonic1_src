@@ -50,9 +50,10 @@ reports are ignored. Nothing in the build requires a previous output.
 
 ## Current validation boundary
 
-The preservation build and private-data audit are implemented. Relocation,
-runtime scenarios and the aggregate release gates are added in the next stage;
-this checkout does not yet claim a completed release.
+The preservation build, private-data audit, symbolic address checks, relocation
+probe and direct runtime matrix are implemented. The aggregate release gate and
+complete baseline documentation are being completed; this checkout does not yet
+claim a completed release.
 
 ## Kit style integration
 

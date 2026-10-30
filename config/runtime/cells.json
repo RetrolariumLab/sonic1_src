@@ -1,0 +1,83 @@
+{
+  "schema_version": 1,
+  "cells": {
+    "mode": {
+      "symbol": "v_gamemode",
+      "length": 1
+    },
+    "zone": {
+      "symbol": "v_zone",
+      "length": 1
+    },
+    "act": {
+      "symbol": "v_act",
+      "length": 1
+    },
+    "camera_x": {
+      "symbol": "v_screenposx",
+      "length": 4
+    },
+    "camera_y": {
+      "symbol": "v_screenposy",
+      "length": 4
+    },
+    "sonic_x": {
+      "symbol": "v_player",
+      "length": 4,
+      "offset_symbol": "obX"
+    },
+    "sonic_y": {
+      "symbol": "v_player",
+      "length": 4,
+      "offset_symbol": "obY"
+    },
+    "rings": {
+      "symbol": "v_rings",
+      "length": 2
+    },
+    "score": {
+      "symbol": "v_score",
+      "length": 4
+    },
+    "lives": {
+      "symbol": "v_lives",
+      "length": 1
+    },
+    "frames": {
+      "symbol": "v_framecount",
+      "length": 2
+    },
+    "demo": {
+      "symbol": "f_demo",
+      "length": 2
+    },
+    "credits": {
+      "symbol": "v_creditsnum",
+      "length": 2
+    },
+    "level_select": {
+      "symbol": "f_levselcheat",
+      "length": 1
+    },
+    "credits_cheat": {
+      "symbol": "f_creditscheat",
+      "length": 1
+    },
+    "dpad_count": {
+      "symbol": "v_title_dcount",
+      "length": 2
+    },
+    "c_count": {
+      "symbol": "v_title_ccount",
+      "length": 2
+    },
+    "menu_row": {
+      "symbol": "v_levselitem",
+      "length": 2
+    },
+    "sound_test": {
+      "symbol": "v_levselsound",
+      "length": 2
+    }
+  }
+}

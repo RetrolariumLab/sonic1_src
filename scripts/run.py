@@ -7,7 +7,13 @@ import sys
 
 sys.dont_write_bytecode = True
 os.environ["PYTHONDONTWRITEBYTECODE"] = "1"
-sys.path.insert(0, str(Path(__file__).resolve().parents[1]))
+ROOT = Path(__file__).resolve().parents[1]
+TEMPORARY = ROOT / "build/tmp"
+if not TEMPORARY.resolve().is_relative_to(ROOT):
+    raise SystemExit("Temporary directory escapes the project")
+TEMPORARY.mkdir(parents=True, exist_ok=True)
+os.environ.update(TEMP=str(TEMPORARY), TMP=str(TEMPORARY), TMPDIR=str(TEMPORARY))
+sys.path.insert(0, str(ROOT))
 if __name__ == "__main__":
     if len(sys.argv) < 2:
         raise SystemExit("usage: python scripts/run.py <package.module> [arguments]")

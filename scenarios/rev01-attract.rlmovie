@@ -1,0 +1,6 @@
+# retrolarium movie 1
+platform megadrive
+source mame
+title Attract preservation scenario
+---
+15000 00 00

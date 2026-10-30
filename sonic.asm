@@ -125,6 +125,7 @@ Vectors:
                 dc.l    ErrorTrap                       ; Unused (reserved)
                 dc.l    ErrorTrap                       ; Unused (reserved)
 
+CartridgeHeader:
                 dc.b    "SEGA MEGA DRIVE "              ; Hardware system ID (Console name)
                 dc.b    "(C)SEGA 1991.APR"              ; Copyright holder and release date (generally year)
                 rept    2
@@ -148,8 +149,8 @@ Checksum:                                       ; Checksum is hardcoded to make 
                 dc.b    "J               "              ; I/O support
                 dc.l    StartOfRom                      ; Start address of ROM
 RomEndLoc:   dc.l    EndOfRom-1                  ; End address of ROM
-                dc.l    $FF0000                         ; Start address of RAM
-                dc.l    $FFFFFF                         ; End address of RAM
+                dc.l    v_ram_start                     ; Start address of RAM
+                dc.l    (v_ram_end-1)&$FFFFFF           ; End address of RAM
                 dc.b    "    "
                 dc.b    "    "
                 dc.b    "    "
