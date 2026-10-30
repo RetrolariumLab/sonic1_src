@@ -5,6 +5,7 @@ import json
 import subprocess
 import os
 from scripts.build import toolchain
+from scripts.build.sources import fingerprint
 from scripts.build.project import (
     ROOT,
     atomic_write,
@@ -30,9 +31,23 @@ def fix_header(raw: bytes) -> bytes:
     return bytes(result)
 
 
-def build(profile_id: str, *, source_root: Path = ROOT, output_root: Path | None = None) -> Path:
+def build(
+    profile_id: str, *, source_root: Path = ROOT, asset_root: Path | None = None, output_root: Path | None = None
+) -> Path:
     selected = profile(profile_id)
+    inputs = fingerprint(source_root)
     check([profile_id])
+    asset_root = asset_root or ROOT / "data"
+    owners = [
+        row
+        for manifest in ("assets/manifest.json", "config/build/derived_assets.json")
+        for row in load(manifest)["assets"]
+        if row["image"] == profile_id
+    ]
+    asset_hashes = {row["path"]: sha256(checked_path(row["path"], asset_root).read_bytes()) for row in owners}
+    for row in owners:
+        if checked_path(row["path"], asset_root).read_bytes() != checked_path(row["path"], ROOT / "data").read_bytes():
+            raise ValueError("Preservation export differs from its extracted input")
     tools = toolchain.resolve()
     output = output_root or ROOT / "build/artifacts" / profile_id
     if not output.resolve().is_relative_to((ROOT / "build").resolve()):
@@ -64,7 +79,7 @@ def build(profile_id: str, *, source_root: Path = ROOT, output_root: Path | None
                 "-i",
                 ".",
                 "-i",
-                Path(os.path.relpath(ROOT / "data" / profile_id, source_root)).as_posix(),
+                Path(os.path.relpath(asset_root / profile_id, source_root)).as_posix(),
                 entry.relative_to(source_root).as_posix(),
             ],
             output=log,
@@ -79,6 +94,11 @@ def build(profile_id: str, *, source_root: Path = ROOT, output_root: Path | None
         output=log,
     )
     atomic_write(target, fix_header(target.read_bytes()))
+    if {row["path"]: sha256(checked_path(row["path"], asset_root).read_bytes()) for row in owners} != asset_hashes:
+        raise ValueError("Private assets changed during assembly")
+    if fingerprint(source_root) != inputs:
+        raise ValueError("Preservation inputs changed during assembly")
+    atomic_write(output / "inputs.json", (json.dumps(inputs, indent=2) + "\n").encode())
     print(f"[OK] Built {profile_id}: {target.relative_to(ROOT)}")
     return target
 

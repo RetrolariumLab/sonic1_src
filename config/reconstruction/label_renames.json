@@ -1,0 +1,20 @@
+{
+  "schema_version": 1,
+  "baseline": {
+    "repository": "sonicretro/s1disasm",
+    "commit": "89c0e0e06b51fd9ebac44d988e4a89bd643fd031"
+  },
+  "renames": [],
+  "project_additions": [
+    {
+      "name": "CartridgeHeader",
+      "path": "src/system/cartridge.asm",
+      "reason": "Name the fixed header boundary for layout checks."
+    },
+    {
+      "name": "zDACDriver_End",
+      "path": "src/audio/z80.asm",
+      "reason": "Name the decoded code/sample end for the Z80 capacity check."
+    }
+  ]
+}

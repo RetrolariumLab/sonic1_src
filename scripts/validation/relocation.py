@@ -23,6 +23,7 @@ PIPELINE_INPUTS = (
     "config/lint.json",
     "config/relocation/probe.json",
     "scripts/build/build_rom.py",
+    "scripts/build/sources.py",
     "scripts/build/listing.py",
     "scripts/build/project.py",
     "scripts/build/toolchain.py",

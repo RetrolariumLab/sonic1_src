@@ -6,3 +6,7 @@ audit-symbolic:
 	$(RUN) validation.symbolic_pointers
 verify-layout:
 	$(RUN) validation.layout
+
+.PHONY: source-layout-check
+source-layout-check:
+	$(RUN) validation.source_layout

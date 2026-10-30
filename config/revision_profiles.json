@@ -1,7 +1,7 @@
 {
   "schema_version": 1,
   "default": "rev01",
-  "entrypoint": "sonic.asm",
+  "entrypoint": "src/main.asm",
   "profiles": [
     {
       "id": "rev00",

@@ -13,22 +13,7 @@ from pathlib import Path
 import shutil
 import subprocess
 from scripts.build.project import ROOT, atomic_write, command, load
-
-
-def source_paths() -> list[Path]:
-    roots = load("config/lint.json")["assembly"]["paths"]
-    tracked = subprocess.check_output(["git", "-C", str(ROOT), "ls-files", "-z"])
-    selected = []
-    for raw in tracked.split(b"\0"):
-        if not raw:
-            continue
-        name = raw.decode()
-        path = Path(name)
-        if path.suffix not in (".asm", ".s", ".inc"):
-            continue
-        if any(name == owner or name.startswith(owner.rstrip("/") + "/") for owner in roots):
-            selected.append(path)
-    return selected
+from scripts.build.sources import source_paths
 
 
 def protect_fields(text: str) -> tuple[str, dict[str, str]]:

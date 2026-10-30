@@ -5,8 +5,8 @@ and private data extracted from your legally obtained cartridge images. It
 supports REV00, REV01 and the collection REVXB, with REV01 as the default.
 Canonical builds are byte-identical; moved-source builds are checked against
 original-ROM attract and ending RAM traces. The 1.0 release candidate is checked
-by the aggregate gate; release tags belong to the owner. Semantic source layout
-and comprehensive content authoring belong to the following stage.
+by the aggregate gate; release tags belong to the owner. Semantic modules live
+under `src/`; comprehensive content authoring belongs to the following stage.
 
 Supply the three dumps named in `assets/manifest.json`. No ROM, extracted
 payload, music, sound effect or sample is distributed here. Install Python

@@ -87,7 +87,7 @@
       "status": "satisfied",
       "evidence": {
         "targets": ["audit-private", "audit-symbolic"],
-        "files": ["sonic.asm", "sound/z80.asm", "config/reconstruction/address_policy.json"]
+        "files": ["src/main.asm", "src/audio/z80.asm", "config/reconstruction/address_policy.json"]
       }
     },
     "provenance_and_unknowns": {
@@ -187,7 +187,7 @@
       "artifact": "sonic1_rev00",
       "identity": "byte-identical",
       "input": "rev00",
-      "entrypoint": "sonic.asm"
+      "entrypoint": "src/main.asm"
     },
     {
       "id": "rev01",
@@ -195,7 +195,7 @@
       "artifact": "sonic1_rev01",
       "identity": "byte-identical",
       "input": "rev01",
-      "entrypoint": "sonic.asm"
+      "entrypoint": "src/main.asm"
     },
     {
       "id": "revxb",
@@ -203,7 +203,7 @@
       "artifact": "sonic1_revxb",
       "identity": "byte-identical",
       "input": "revxb",
-      "entrypoint": "sonic.asm"
+      "entrypoint": "src/main.asm"
     }
   ],
   "runtime_coverage": [
@@ -280,12 +280,6 @@
     "post_tag": ["make release-audit AUDIT_MODE=--post-tag"]
   },
   "layout_deviations": [
-    {
-      "rule_id": "src_entrypoint",
-      "actual_path": "sonic.asm",
-      "reason": "The preservation stage retains imported include paths and historical module sizes; semantic ownership is the following stage.",
-      "equivalent_control": "Every source is checked by Kit, identity builds and the moved-source probe; architecture.md maps subsystem owners."
-    },
     {
       "rule_id": "linker_configuration",
       "actual_path": "config/reconstruction/address_policy.json",

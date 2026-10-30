@@ -16,3 +16,6 @@
 
 The 1.0 boundary is recorded in `config/source_reconstruction_1_0.json`.
 Format-level authoring and semantic source ownership are the following stage.
+
+- [Source layout](source_layout.md): semantic owners, provenance and exclusive
+  ranges.

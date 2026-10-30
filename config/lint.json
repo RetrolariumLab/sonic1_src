@@ -3,21 +3,7 @@
   "schema_version": 1,
   "assembly": {
     "dialect": "asl",
-    "paths": [
-      "sonic.asm",
-      "MacroSetup.asm",
-      "Macros.asm",
-      "_Constants.asm",
-      "_Variables.asm",
-      "s1.sounddriver.asm",
-      "s1.sounddriver.ram.asm",
-      "_inc",
-      "_incObj",
-      "_maps",
-      "_anim",
-      "demodata",
-      "sound"
-    ]
+    "paths": ["src"]
   },
   "text": {
     "json": "valid"
