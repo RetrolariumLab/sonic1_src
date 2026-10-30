@@ -1,0 +1,114 @@
+{
+  "schema_version": 1,
+  "release_line": "2.0",
+  "release_kind": "baseline",
+  "release": {
+    "name": "Source Reconstruction 2.0",
+    "version": "2.0"
+  },
+  "tag": "source-reconstruction-2.0",
+  "status": "draft",
+  "predecessor": {
+    "manifest": "config/source_reconstruction_1_0.json",
+    "tag": "source-reconstruction-1.0",
+    "commit": "9459c137efac1bd010bd08cc1b0d54c9d63fb3cd",
+    "gate": "release-check",
+    "tagging": "owner_external"
+  },
+  "delta_history": {
+    "base_commit": "9459c137efac1bd010bd08cc1b0d54c9d63fb3cd",
+    "tip": "release-commit",
+    "commit_count": null
+  },
+  "included_scope": [
+    "semantic_source_owners",
+    "shared_revision_source",
+    "bounded_content_codecs",
+    "every_owner_roundtrip",
+    "zero_edit_export_rebuild",
+    "direct_relocated_runtime"
+  ],
+  "excluded_scope": [
+    {
+      "id": "expanded_or_edited_rom_composer",
+      "status": "unsupported",
+      "reason": "Encoders return checked payloads; canonical builds remain byte-identical preservation builds."
+    },
+    {
+      "id": "gui_editors",
+      "status": "not_applicable",
+      "reason": "Headless models and specifications are intended for Retrolarium."
+    },
+    {
+      "id": "other_platforms_and_prototypes",
+      "status": "unsupported",
+      "reason": "Only the accepted original Mega Drive profiles are reconstructed."
+    },
+    {
+      "id": "byte_exact_historical_recompression",
+      "status": "partial",
+      "reason": "Nemesis and Kosinski use semantic re-encoding with unchanged original-stream retention."
+    },
+    {
+      "id": "all_gameplay_paths",
+      "status": "partial",
+      "reason": "Only the declared direct attract and ending matrix is observed."
+    }
+  ],
+  "delta": [
+    {
+      "id": "semantic_layout",
+      "kind": "source",
+      "summary": "Move original procedures and content into semantic subsystem modules with exclusive CPU-space ownership.",
+      "commits": ["8c5edef2d3f07fbf9d4550cd495ca23f5a37ceaa"]
+    },
+    {
+      "id": "content_models",
+      "kind": "tooling",
+      "summary": "Describe and validate every accepted extracted and compiled content owner with profile-bound encoders and zero-edit export builds.",
+      "commits": []
+    },
+    {
+      "id": "corpus_and_gates",
+      "kind": "documentation",
+      "summary": "Review thematic source/content documentation and add the inherited complete aggregate gate.",
+      "commits": []
+    }
+  ],
+  "owners": {
+    "profiles": "config/revision_profiles.json",
+    "source_layout": "config/reconstruction/source_layout.json",
+    "label_renames": "config/reconstruction/label_renames.json",
+    "formats": "config/authoring/data_formats.json",
+    "authoring_toolchain": "config/authoring/toolchain.json",
+    "runtime": "scenarios/runtime_matrix.json"
+  },
+  "required_documents": [
+    "README.md",
+    "CONTRIBUTING.md",
+    "docs/architecture.md",
+    "docs/architecture_decisions.md",
+    "docs/authoring_toolchain.md",
+    "docs/build.md",
+    "docs/data_formats.md",
+    "docs/development.md",
+    "docs/index.md",
+    "docs/memory_map.md",
+    "docs/provenance.md",
+    "docs/relocation.md",
+    "docs/resolved_unknowns.md",
+    "docs/revisions.md",
+    "docs/runtime.md",
+    "docs/source_layout.md",
+    "docs/unknowns.md",
+    "docs/verification.md"
+  ],
+  "release_commands": [
+    "release-check",
+    "scaffold-check",
+    "source-layout-check",
+    "check-content-zero-edit",
+    "source-2-audit"
+  ],
+  "layout_deviations": []
+}

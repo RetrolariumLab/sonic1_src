@@ -18,6 +18,8 @@ help:
 	@echo "Relocation: build-relocated, build-relocated-all"
 	@echo "Runtime: runtime-golden, runtime-check, trace"
 	@echo "Release: release-check, release-audit"
+	@echo "Content: roundtrip-formats, check-content-zero-edit, source-layout-check"
+	@echo "Source: scaffold-check, source-2-check, source-2-audit"
 	@echo "Cleanup: clean"
 	@echo "Selectors: ROM_DIR=folder, PROFILE=profile-id (default from JSON), SCENARIO=attract or ending"
 split:
@@ -54,3 +56,13 @@ include mk/validation.mk
 include mk/runtime.mk
 
 include mk/release.mk
+
+include mk/authoring.mk
+
+.PHONY: scaffold-check source-2-check source-2-audit
+scaffold-check:
+	$(RUN) validation.source_2 --scaffold
+source-2-audit:
+	$(RUN) validation.source_2
+source-2-check:
+	$(RUN) validation.source_2_gate $(INPUT)

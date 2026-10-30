@@ -31,13 +31,14 @@ short boot Z80 program embedded in startup is also source instructions.
 
 `assets/manifest.json` owns direct cartridge extraction and hashes.
 `config/build/derived_assets.json` owns decoded sample ranges.
-`config/reconstruction/source_layout.json` owns source regions. The title-card
-mapping family shares frames across result-screen consumers; source ranges
-remain exclusive.
+`config/reconstruction/source_layout.json` owns source regions.
+`config/authoring/data_formats.json` binds content views to those authorities
+without becoming a second extraction-offset ledger. The title-card mapping
+family has an explicit shared child view; source ranges remain exclusive.
 
 The build updates ROM-end and checksum fields after flattening. Byte identity,
 source ownership, symbolic pointers, relocated probes, bounded content encoding
 and original-input runtime observations are independent controls. See
-[relocation](relocation.md) and [runtime](runtime.md) for their actual
-guarantees. Imported semantic names and unobserved gameplay remain in
-[unknowns](unknowns.md).
+[relocation](relocation.md), [data formats](data_formats.md) and
+[runtime](runtime.md) for their actual guarantees. Imported semantic names and
+unobserved gameplay remain in [unknowns](unknowns.md).

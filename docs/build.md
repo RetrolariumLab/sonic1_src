@@ -78,3 +78,9 @@ back. Byte identity remains a separate mandatory check after formatting.
 tracked files. `make format` applies formatting and always follows with lint; a
 second invocation is required to leave the tracked tree unchanged.
 `.git-blame-ignore-revs` names the isolated mechanical formatting commit.
+
+Content round trips additionally require the hash-pinned Core CLI described in
+[authoring toolchain](authoring_toolchain.md). `make scaffold-check` does not
+need ROMs or that executable. Full `make source-2-check` requires all accepted
+inputs, the CLI, the pinned assembler suite and MAME; it never skips a
+dependency.

@@ -273,6 +273,26 @@ def clean_tree() -> None:
         raise ValueError("Tag-ready audit requires a clean tracked and untracked tree")
 
 
+def active_tag(spec: dict) -> str:
+    candidate = ROOT / "config/source_reconstruction_2_0.json"
+    if not candidate.is_file():
+        return spec["tag"]
+    source = load("config/source_reconstruction_2_0.json")
+    if source.get("status") not in ("tag-ready", "tagged"):
+        return spec["tag"]
+    from scripts.validation.source_2 import manifest
+
+    manifest(source, ready=True)
+    predecessor = source["predecessor"]
+    tag = predecessor["tag"]
+    exists = subprocess.run(["git", "show-ref", "--verify", "--quiet", f"refs/tags/{tag}"], cwd=ROOT).returncode == 0
+    if exists and (
+        git("cat-file", "-t", f"refs/tags/{tag}") != "tag" or git("rev-parse", f"{tag}^{{}}") != predecessor["commit"]
+    ):
+        raise ValueError("Owner-created predecessor tag differs from the accepted commit")
+    return source["tag"]
+
+
 def main() -> int:
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("--post-tag", action="store_true")
@@ -289,7 +309,7 @@ def main() -> int:
             cwd=ROOT,
             check=True,
         )
-        tag = spec["tag"]
+        tag = active_tag(spec)
         local = subprocess.run(["git", "show-ref", "--verify", "--quiet", f"refs/tags/{tag}"], cwd=ROOT).returncode == 0
         if args.post_tag:
             if (

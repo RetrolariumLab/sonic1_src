@@ -3,10 +3,10 @@
 This repository reconstructs the original Mega Drive game from assembler source
 and private data extracted from your legally obtained cartridge images. It
 supports REV00, REV01 and the collection REVXB, with REV01 as the default.
-Canonical builds are byte-identical; moved-source builds are checked against
-original-ROM attract and ending RAM traces. The 1.0 release candidate is checked
-by the aggregate gate; release tags belong to the owner. Semantic modules live
-under `src/`; comprehensive content authoring belongs to the following stage.
+Canonical builds are compared byte for byte; moved-source builds use
+original-ROM attract and ending RAM traces. Semantic source modules and checked
+content codecs are prepared as a draft. The complete release gates and a clean
+clone must pass before acceptance; release tags belong to the owner.
 
 Supply the three dumps named in `assets/manifest.json`. No ROM, extracted
 payload, music, sound effect or sample is distributed here. Install Python
@@ -19,11 +19,15 @@ make verify-all ROM_DIR="path/to/dumps"
 make test
 ```
 
-The one command for full preservation verification is:
+The complete source/content candidate gate is:
 
 ```sh
-make release-check ROM_DIR="path/to/dumps"
+make source-2-check ROM_DIR="path/to/dumps"
 ```
+
+It first executes the full preservation `make release-check`, then source
+ownership, format round trips, a zero-edit export rebuild and the final audit.
+`make scaffold-check` checks the source/content structure without private ROMs.
 
 Bare `make` shows commands. Extracted payloads live in ignored `data/`; all
 outputs and temporary files live in ignored `build/`. Start with the

@@ -9,7 +9,13 @@
       "defines": {
         "Revision": 0
       },
-      "status": "preservation"
+      "status": "preservation",
+      "abi_reference": "config/revision_profiles.json#/abi",
+      "layout": "config/reconstruction/source_layout.json",
+      "inputs": "assets/manifest.json",
+      "outputs": "config/source_reconstruction_1_0.json#/artifacts",
+      "capabilities": ["canonical_identity", "direct_runtime", "fixed_slot_content_models"],
+      "content_registry": "config/authoring/data_formats.json"
     },
     {
       "id": "rev01",
@@ -17,7 +23,13 @@
       "defines": {
         "Revision": 1
       },
-      "status": "preservation"
+      "status": "preservation",
+      "abi_reference": "config/revision_profiles.json#/abi",
+      "layout": "config/reconstruction/source_layout.json",
+      "inputs": "assets/manifest.json",
+      "outputs": "config/source_reconstruction_1_0.json#/artifacts",
+      "capabilities": ["canonical_identity", "direct_runtime", "fixed_slot_content_models"],
+      "content_registry": "config/authoring/data_formats.json"
     },
     {
       "id": "revxb",
@@ -25,7 +37,14 @@
       "defines": {
         "Revision": 2
       },
-      "status": "preservation"
+      "status": "preservation",
+      "abi_reference": "config/revision_profiles.json#/abi",
+      "layout": "config/reconstruction/source_layout.json",
+      "inputs": "assets/manifest.json",
+      "outputs": "config/source_reconstruction_1_0.json#/artifacts",
+      "capabilities": ["canonical_identity", "direct_runtime", "fixed_slot_content_models"],
+      "content_registry": "config/authoring/data_formats.json"
     }
-  ]
+  ],
+  "abi": "sonic1-md"
 }

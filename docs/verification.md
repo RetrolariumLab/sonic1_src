@@ -26,8 +26,12 @@ primary attract check uses `genesis`.
 profile/artifact facts, actual source landmarks, runtime reports and Git
 history. It rejects missing or stale identity/relocation/runtime evidence, empty
 commits, wrong attribution, non-English new text, private payloads and a dirty
-tree. The future release tag is an owner action; it must not already exist when
-the pre-tag gate is run. This repository has no configured publishing remote.
+tree. The active future release tag is an owner action; it must not already
+exist when the pre-tag gate is run. A ready source/content manifest binds its
+accepted preservation predecessor; if the owner has created that predecessor
+tag, it must be annotated and point to the bound commit. The inherited
+preservation gate then checks the active source/content tag. A draft does not
+change this policy. This repository has no configured publishing remote.
 
 Reports stay under `build/release/`, `build/audits/`, `build/artifacts/`,
 `build/relocated/` and `build/runtime/`. They are recomputed and not public
@@ -45,3 +49,36 @@ The opt-in integration contract test executes this exact Make target in a fresh
 local clone when `RUN_RELEASE_SMOKE=1` and `ROM_DIR` are supplied. Its child
 removes that opt-in variable to avoid recursive integration runs. It requires a
 committed candidate, since a clone cannot test uncommitted source.
+
+## Source and content candidate
+
+`make source-2-check ROM_DIR="path/to/dumps"` first executes the complete
+preservation gate above. It then runs ROM-independent `scaffold-check`, actual
+`source-layout-check`, the complete `check-content-zero-edit` (including every
+owner round trip and all three export rebuilds), and `source-2-audit`.
+`roundtrip-formats` is the focused public round-trip command. The aggregate
+checks current inputs again at the end and requires a clean Git tree.
+
+The source layout proves disjoint and complete ownership of ROM and decoded Z80
+bytes separately. Compiled content views require a current byte-identical AS
+build. Content reports bind codec and manifest hashes, validate every
+profile/ABI/capacity, and distinguish genuine re-encoding from unchanged
+original compressed storage. The final audit checks those reports and each
+export image. A missing predecessor commit or draft manifest cannot pass the
+final audit.
+
+The current draft is not an accepted baseline. In particular, successful
+isolated identity/content checks do not replace the required clean-clone
+aggregate gate or make an uncorrected reachable history releasable.
+
+The delta maps each substantive commit since the accepted predecessor exactly
+once. The final metadata commit is named `release-commit` in its own delta row,
+which resolves to current HEAD during the audit and avoids a hash
+self-reference. This token does not permit an empty commit or an unlisted
+intermediate change.
+
+The predecessor commit must also contain the complete preservation manifest,
+including every accepted artifact identity, requirement and full gate sequence.
+An arbitrary older source snapshot cannot stand in for that release boundary.
+This metadata check supplements the actual inherited gate and source-origin
+checks; it does not turn a declaration into proof of a past successful run.
