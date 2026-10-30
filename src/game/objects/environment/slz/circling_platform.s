@@ -128,4 +128,4 @@ Circ_Clockwise:
 
 ; ===========================================================================
 
-Map_Circ:   include "src/rendering/mappings/environment/slz/slz_circling_platform.s"
+Map_Circ:   include "src/rendering/mappings/environment/slz/circling_platform.s"

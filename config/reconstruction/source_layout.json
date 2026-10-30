@@ -132,7 +132,7 @@
       }
     },
     {
-      "path": "src/game/demos/ending/ending_ghz1.s",
+      "path": "src/game/demos/ending/ghz1.s",
       "owner": "src/game/demos/ending",
       "responsibility": "Original controller demo input: Ending - GHZ1",
       "kind": "data_or_declarations",
@@ -174,7 +174,7 @@
       }
     },
     {
-      "path": "src/game/demos/ending/ending_ghz2.s",
+      "path": "src/game/demos/ending/ghz2.s",
       "owner": "src/game/demos/ending",
       "responsibility": "Original controller demo input: Ending - GHZ2",
       "kind": "data_or_declarations",
@@ -216,7 +216,7 @@
       }
     },
     {
-      "path": "src/game/demos/ending/ending_lz.s",
+      "path": "src/game/demos/ending/lz.s",
       "owner": "src/game/demos/ending",
       "responsibility": "Original controller demo input: Ending - LZ",
       "kind": "data_or_declarations",
@@ -258,7 +258,7 @@
       }
     },
     {
-      "path": "src/game/demos/ending/ending_mz.s",
+      "path": "src/game/demos/ending/mz.s",
       "owner": "src/game/demos/ending",
       "responsibility": "Original controller demo input: Ending - MZ",
       "kind": "data_or_declarations",
@@ -296,7 +296,7 @@
       }
     },
     {
-      "path": "src/game/demos/ending/ending_sbz1.s",
+      "path": "src/game/demos/ending/sbz1.s",
       "owner": "src/game/demos/ending",
       "responsibility": "Original controller demo input: Ending - SBZ1",
       "kind": "data_or_declarations",
@@ -338,7 +338,7 @@
       }
     },
     {
-      "path": "src/game/demos/ending/ending_sbz2.s",
+      "path": "src/game/demos/ending/sbz2.s",
       "owner": "src/game/demos/ending",
       "responsibility": "Original controller demo input: Ending - SBZ2",
       "kind": "data_or_declarations",
@@ -380,7 +380,7 @@
       }
     },
     {
-      "path": "src/game/demos/ending/ending_slz.s",
+      "path": "src/game/demos/ending/slz.s",
       "owner": "src/game/demos/ending",
       "responsibility": "Original controller demo input: Ending - SLZ",
       "kind": "data_or_declarations",
@@ -422,7 +422,7 @@
       }
     },
     {
-      "path": "src/game/demos/ending/ending_syz.s",
+      "path": "src/game/demos/ending/syz.s",
       "owner": "src/game/demos/ending",
       "responsibility": "Original controller demo input: Ending - SYZ",
       "kind": "data_or_declarations",
@@ -464,7 +464,7 @@
       }
     },
     {
-      "path": "src/game/demos/attract/intro_ghz.s",
+      "path": "src/game/demos/attract/ghz.s",
       "owner": "src/game/demos/attract",
       "responsibility": "Original controller demo input: Intro - GHZ",
       "kind": "data_or_declarations",
@@ -502,7 +502,7 @@
       }
     },
     {
-      "path": "src/game/demos/attract/intro_mz.s",
+      "path": "src/game/demos/attract/mz.s",
       "owner": "src/game/demos/attract",
       "responsibility": "Original controller demo input: Intro - MZ",
       "kind": "data_or_declarations",
@@ -540,7 +540,7 @@
       }
     },
     {
-      "path": "src/game/demos/attract/intro_special_stage.s",
+      "path": "src/game/demos/attract/special_stage.s",
       "owner": "src/game/demos/attract",
       "responsibility": "Original controller demo input: Intro - Special Stage",
       "kind": "data_or_declarations",
@@ -578,7 +578,7 @@
       }
     },
     {
-      "path": "src/game/demos/attract/intro_syz.s",
+      "path": "src/game/demos/attract/syz.s",
       "owner": "src/game/demos/attract",
       "responsibility": "Original controller demo input: Intro - SYZ",
       "kind": "data_or_declarations",
@@ -1240,7 +1240,7 @@
       }
     },
     {
-      "path": "src/rendering/animation/bosses/eggman_scrap_brain_2_and_final.s",
+      "path": "src/rendering/animation/bosses/eggman_cutscene.s",
       "owner": "src/rendering/animation/bosses",
       "responsibility": "Animation scripts for Eggman - Scrap Brain 2 & Final",
       "kind": "data_or_declarations",
@@ -1518,7 +1518,7 @@
       }
     },
     {
-      "path": "src/rendering/animation/bosses/fz_eggman_in_ship.s",
+      "path": "src/rendering/animation/bosses/eggman_escape.s",
       "owner": "src/rendering/animation/bosses",
       "responsibility": "Animation scripts for FZ Eggman in Ship",
       "kind": "data_or_declarations",
@@ -1922,7 +1922,7 @@
       }
     },
     {
-      "path": "src/rendering/animation/ui/press_start_and_tm.s",
+      "path": "src/rendering/animation/ui/title_prompts.s",
       "owner": "src/rendering/animation/ui",
       "responsibility": "Animation scripts for Press Start and TM",
       "kind": "data_or_declarations",
@@ -2132,7 +2132,7 @@
       }
     },
     {
-      "path": "src/rendering/animation/environment/sbz_spin_platform_conveyor.s",
+      "path": "src/rendering/animation/environment/sbz_conveyor_platforms.s",
       "owner": "src/rendering/animation/environment",
       "responsibility": "Animation scripts for SBZ Spin Platform Conveyor",
       "kind": "data_or_declarations",
@@ -2368,7 +2368,7 @@
       }
     },
     {
-      "path": "src/rendering/animation/special_stage/special_stage_entry_unused.s",
+      "path": "src/rendering/animation/special_stage/entry_unused.s",
       "owner": "src/rendering/animation/special_stage",
       "responsibility": "Animation scripts for Special Stage Entry (Unused)",
       "kind": "data_or_declarations",
@@ -2494,7 +2494,7 @@
       }
     },
     {
-      "path": "src/rendering/animation/ui/try_again_and_end_eggman.s",
+      "path": "src/rendering/animation/ui/ending_eggman.s",
       "owner": "src/rendering/animation/ui",
       "responsibility": "Animation scripts for Try Again & End Eggman",
       "kind": "data_or_declarations",
@@ -2780,7 +2780,7 @@
       }
     },
     {
-      "path": "src/game/world/convert_collision_array_unused.s",
+      "path": "src/game/world/unused_collision_conversion.s",
       "owner": "src/game/world",
       "responsibility": "Subsystem implementation or declarations: ConvertCollisionArray (Unused)",
       "kind": "code",
@@ -2975,7 +2975,7 @@
       }
     },
     {
-      "path": "src/ui/hud/hud_update.s",
+      "path": "src/ui/hud/update.s",
       "owner": "src/ui/hud",
       "responsibility": "Subsystem implementation or declarations: HUD Update",
       "kind": "code",
@@ -3214,7 +3214,7 @@
       }
     },
     {
-      "path": "src/game/world/level_size_load_and_bg_scroll_speed.s",
+      "path": "src/game/world/bounds_scroll_setup.s",
       "owner": "src/game/world",
       "responsibility": "Subsystem implementation or declarations: LevelSizeLoad & BgScrollSpeed",
       "kind": "code",
@@ -3308,7 +3308,7 @@
       }
     },
     {
-      "path": "src/game/player/move_sonic_in_demo.s",
+      "path": "src/game/player/demo_control.s",
       "owner": "src/game/player",
       "responsibility": "Subsystem implementation or declarations: MoveSonicInDemo",
       "kind": "code",
@@ -3688,7 +3688,7 @@
       }
     },
     {
-      "path": "src/game/world/scroll_horiz_and_scroll_vertical.s",
+      "path": "src/game/world/camera_scroll.s",
       "owner": "src/game/world",
       "responsibility": "Subsystem implementation or declarations: ScrollHoriz & ScrollVertical",
       "kind": "code",
@@ -3726,7 +3726,7 @@
       }
     },
     {
-      "path": "src/game/special_stage/special_stage_background_and_palette_cycle.s",
+      "path": "src/game/special_stage/background_palette.s",
       "owner": "src/game/special_stage",
       "responsibility": "Subsystem implementation or declarations: Special Stage Background & Palette Cycle",
       "kind": "code",
@@ -3764,7 +3764,7 @@
       }
     },
     {
-      "path": "src/game/special_stage/special_stage_loading_and_drawing.s",
+      "path": "src/game/special_stage/loading_and_drawing.s",
       "owner": "src/game/special_stage",
       "responsibility": "Subsystem implementation or declarations: Special Stage Loading & Drawing",
       "kind": "code",
@@ -3802,7 +3802,7 @@
       }
     },
     {
-      "path": "src/game/special_stage/special_stage_mappings_and_vram_pointers.s",
+      "path": "src/game/special_stage/block_mappings.s",
       "owner": "src/game/special_stage",
       "responsibility": "Subsystem implementation or declarations: Special Stage Mappings & VRAM Pointers",
       "kind": "code",
@@ -3861,7 +3861,7 @@
       }
     },
     {
-      "path": "src/game/objects/environment/lz/lz_water_splash.s",
+      "path": "src/game/objects/environment/lz/water_splash.s",
       "owner": "src/game/objects/environment/lz",
       "responsibility": "Object implementation: 08 LZ Water Splash",
       "kind": "code",
@@ -3899,7 +3899,7 @@
       }
     },
     {
-      "path": "src/game/player/sonic_in_special_stage.s",
+      "path": "src/game/player/special_stage.s",
       "owner": "src/game/player",
       "responsibility": "Canonical include order for _incObj/09 Sonic in Special Stage.asm",
       "kind": "include_index",
@@ -3920,7 +3920,7 @@
       }
     },
     {
-      "path": "src/game/objects/environment/lz/lz_drowning_countdown.s",
+      "path": "src/game/objects/environment/lz/drowning_countdown.s",
       "owner": "src/game/objects/environment/lz",
       "responsibility": "Object implementation: 0A LZ Drowning Countdown",
       "kind": "code",
@@ -3958,7 +3958,7 @@
       }
     },
     {
-      "path": "src/game/objects/environment/lz/lz_pole_that_breaks.s",
+      "path": "src/game/objects/environment/lz/pole_that_breaks.s",
       "owner": "src/game/objects/environment/lz",
       "responsibility": "Object implementation: 0B LZ Pole that Breaks",
       "kind": "code",
@@ -3996,7 +3996,7 @@
       }
     },
     {
-      "path": "src/game/objects/environment/lz/lz_flapping_door.s",
+      "path": "src/game/objects/environment/lz/flapping_door.s",
       "owner": "src/game/objects/environment/lz",
       "responsibility": "Object implementation: 0C LZ Flapping Door",
       "kind": "code",
@@ -4072,7 +4072,7 @@
       }
     },
     {
-      "path": "src/ui/objects/title_screen_sonic_press_start_tm.s",
+      "path": "src/ui/objects/title_screen.s",
       "owner": "src/ui/objects",
       "responsibility": "Object implementation: 0E, 0F Title Screen - Sonic, Press Start, TM",
       "kind": "code",
@@ -4152,7 +4152,7 @@
       }
     },
     {
-      "path": "src/game/objects/environment/ghz/ghz_bridge.s",
+      "path": "src/game/objects/environment/ghz/bridge.s",
       "owner": "src/game/objects/environment/ghz",
       "responsibility": "Object implementation: 11 GHZ Bridge",
       "kind": "code",
@@ -4226,7 +4226,7 @@
       }
     },
     {
-      "path": "src/game/objects/environment/syz/syz_search_light.s",
+      "path": "src/game/objects/environment/syz/search_light.s",
       "owner": "src/game/objects/environment/syz",
       "responsibility": "Object implementation: 12 SYZ Search Light",
       "kind": "code",
@@ -4264,7 +4264,7 @@
       }
     },
     {
-      "path": "src/game/objects/environment/common/mz_slz_fire_balls_and_maker.s",
+      "path": "src/game/objects/environment/common/fireballs.s",
       "owner": "src/game/objects/environment/common",
       "responsibility": "Object implementation: 13, 14 MZ, SLZ Fire Balls and Maker",
       "kind": "code",
@@ -4358,7 +4358,7 @@
       }
     },
     {
-      "path": "src/game/objects/environment/lz/lz_harpoon.s",
+      "path": "src/game/objects/environment/lz/harpoon.s",
       "owner": "src/game/objects/environment/lz",
       "responsibility": "Object implementation: 16 LZ Harpoon",
       "kind": "code",
@@ -4396,7 +4396,7 @@
       }
     },
     {
-      "path": "src/game/objects/environment/ghz/ghz_spiked_pole_helix.s",
+      "path": "src/game/objects/environment/ghz/spiked_pole_helix.s",
       "owner": "src/game/objects/environment/ghz",
       "responsibility": "Object implementation: 17 GHZ Spiked Pole Helix",
       "kind": "code",
@@ -4472,7 +4472,7 @@
       }
     },
     {
-      "path": "src/game/objects/environment/unused/unused_ghz_ball.s",
+      "path": "src/game/objects/environment/unused/ghz_ball.s",
       "owner": "src/game/objects/environment/unused",
       "responsibility": "Object implementation: 19 Unused - GHZ Ball",
       "kind": "code",
@@ -4514,7 +4514,7 @@
       }
     },
     {
-      "path": "src/game/objects/environment/common/collapsing_ledges_and_floors.s",
+      "path": "src/game/objects/environment/common/collapsing_platforms.s",
       "owner": "src/game/objects/environment/common",
       "responsibility": "Object implementation: 1A, 53 Collapsing Ledges and Floors",
       "kind": "code",
@@ -4552,7 +4552,7 @@
       }
     },
     {
-      "path": "src/game/objects/environment/lz/lz_water_surface.s",
+      "path": "src/game/objects/environment/lz/water_surface.s",
       "owner": "src/game/objects/environment/lz",
       "responsibility": "Object implementation: 1B LZ Water Surface",
       "kind": "code",
@@ -4628,7 +4628,7 @@
       }
     },
     {
-      "path": "src/game/objects/environment/unused/unused_switch.s",
+      "path": "src/game/objects/environment/unused/switch.s",
       "owner": "src/game/objects/environment/unused",
       "responsibility": "Object implementation: 1D Unused - Switch",
       "kind": "code",
@@ -4666,7 +4666,7 @@
       }
     },
     {
-      "path": "src/game/objects/enemies/ball_hog_and_cannonball.s",
+      "path": "src/game/objects/enemies/ball_hog.s",
       "owner": "src/game/objects/enemies",
       "responsibility": "Object implementation: 1E, 20 Badnik - Ball Hog and Cannonball",
       "kind": "code",
@@ -4780,7 +4780,7 @@
       }
     },
     {
-      "path": "src/game/objects/enemies/buzz_bomber_and_missile.s",
+      "path": "src/game/objects/enemies/buzz_bomber.s",
       "owner": "src/game/objects/enemies",
       "responsibility": "Object implementation: 22, 23 Badnik - Buzz Bomber and Missile",
       "kind": "code",
@@ -4818,7 +4818,7 @@
       }
     },
     {
-      "path": "src/game/objects/environment/unused/unused_small_explosion.s",
+      "path": "src/game/objects/environment/unused/small_explosion.s",
       "owner": "src/game/objects/environment/unused",
       "responsibility": "Object implementation: 24 Unused - Small Explosion",
       "kind": "code",
@@ -4894,7 +4894,7 @@
       }
     },
     {
-      "path": "src/game/objects/items/monitors_and_power_ups.s",
+      "path": "src/game/objects/items/monitors.s",
       "owner": "src/game/objects/items",
       "responsibility": "Object implementation: 26, 2E Monitors and Power-Ups",
       "kind": "code",
@@ -5008,7 +5008,7 @@
       }
     },
     {
-      "path": "src/game/objects/environment/sbz/sbz_small_door.s",
+      "path": "src/game/objects/environment/sbz/small_door.s",
       "owner": "src/game/objects/environment/sbz",
       "responsibility": "Object implementation: 2A SBZ Small Door",
       "kind": "code",
@@ -5160,7 +5160,7 @@
       }
     },
     {
-      "path": "src/game/objects/environment/mz/mz_large_grassy_platforms_and_burning_grass.s",
+      "path": "src/game/objects/environment/mz/grass_platforms.s",
       "owner": "src/game/objects/environment/mz",
       "responsibility": "Object implementation: 2F, 35 MZ Large Grassy Platforms and Burning Grass",
       "kind": "code",
@@ -5198,7 +5198,7 @@
       }
     },
     {
-      "path": "src/game/objects/environment/mz/mz_large_green_glass_blocks.s",
+      "path": "src/game/objects/environment/mz/glass_blocks.s",
       "owner": "src/game/objects/environment/mz",
       "responsibility": "Object implementation: 30 MZ Large Green Glass Blocks",
       "kind": "code",
@@ -5236,7 +5236,7 @@
       }
     },
     {
-      "path": "src/game/objects/environment/mz/mz_chained_stompers.s",
+      "path": "src/game/objects/environment/mz/chained_stompers.s",
       "owner": "src/game/objects/environment/mz",
       "responsibility": "Object implementation: 31 MZ Chained Stompers",
       "kind": "code",
@@ -5312,7 +5312,7 @@
       }
     },
     {
-      "path": "src/game/objects/environment/common/mz_lz_pushable_blocks.s",
+      "path": "src/game/objects/environment/common/pushable_blocks.s",
       "owner": "src/game/objects/environment/common",
       "responsibility": "Object implementation: 33 MZ, LZ Pushable Blocks",
       "kind": "code",
@@ -5558,7 +5558,7 @@
       }
     },
     {
-      "path": "src/game/objects/environment/ghz/ghz_purple_rock.s",
+      "path": "src/game/objects/environment/ghz/purple_rock.s",
       "owner": "src/game/objects/environment/ghz",
       "responsibility": "Object implementation: 3B GHZ Purple Rock",
       "kind": "code",
@@ -5596,7 +5596,7 @@
       }
     },
     {
-      "path": "src/game/objects/environment/common/ghz_slz_smashable_wall.s",
+      "path": "src/game/objects/environment/common/smashable_walls.s",
       "owner": "src/game/objects/environment/common",
       "responsibility": "Object implementation: 3C GHZ, SLZ Smashable Wall",
       "kind": "code",
@@ -5652,7 +5652,7 @@
       }
     },
     {
-      "path": "src/game/objects/bosses/ghz_main_and_wrecking_ball.s",
+      "path": "src/game/objects/bosses/ghz_boss.s",
       "owner": "src/game/objects/bosses",
       "responsibility": "Object implementation: 3D, 48 Boss - GHZ Main and Wrecking Ball",
       "kind": "code",
@@ -5916,7 +5916,7 @@
       }
     },
     {
-      "path": "src/game/objects/environment/ghz/ghz_edge_walls.s",
+      "path": "src/game/objects/environment/ghz/edge_walls.s",
       "owner": "src/game/objects/environment/ghz",
       "responsibility": "Object implementation: 44 GHZ Edge Walls",
       "kind": "code",
@@ -5954,7 +5954,7 @@
       }
     },
     {
-      "path": "src/game/objects/environment/unused/unused_mz_sideways_stomper.s",
+      "path": "src/game/objects/environment/unused/mz_sideways_stomper.s",
       "owner": "src/game/objects/environment/unused",
       "responsibility": "Object implementation: 45 Unused - MZ Sideways Stomper",
       "kind": "code",
@@ -5992,7 +5992,7 @@
       }
     },
     {
-      "path": "src/game/objects/environment/mz/mz_bricks.s",
+      "path": "src/game/objects/environment/mz/bricks.s",
       "owner": "src/game/objects/environment/mz",
       "responsibility": "Object implementation: 46 MZ Bricks",
       "kind": "code",
@@ -6030,7 +6030,7 @@
       }
     },
     {
-      "path": "src/game/objects/environment/syz/syz_bumper.s",
+      "path": "src/game/objects/environment/syz/bumper.s",
       "owner": "src/game/objects/environment/syz",
       "responsibility": "Object implementation: 47 SYZ Bumper",
       "kind": "code",
@@ -6068,7 +6068,7 @@
       }
     },
     {
-      "path": "src/game/objects/environment/ghz/ghz_waterfall_sound.s",
+      "path": "src/game/objects/environment/ghz/waterfall_sound.s",
       "owner": "src/game/objects/environment/ghz",
       "responsibility": "Object implementation: 49 GHZ Waterfall Sound",
       "kind": "code",
@@ -6106,7 +6106,7 @@
       }
     },
     {
-      "path": "src/game/special_stage/objects/unused_special_stage_entry.s",
+      "path": "src/game/special_stage/objects/unused_entry.s",
       "owner": "src/game/special_stage/objects",
       "responsibility": "Object implementation: 4A Unused - Special Stage Entry",
       "kind": "code",
@@ -6144,7 +6144,7 @@
       }
     },
     {
-      "path": "src/game/objects/items/giant_ring_and_flash.s",
+      "path": "src/game/objects/items/giant_ring.s",
       "owner": "src/game/objects/items",
       "responsibility": "Object implementation: 4B, 7C Giant Ring and Flash",
       "kind": "code",
@@ -6182,7 +6182,7 @@
       }
     },
     {
-      "path": "src/game/objects/environment/mz/mz_lava_geyser_and_maker.s",
+      "path": "src/game/objects/environment/mz/lava_geyser.s",
       "owner": "src/game/objects/environment/mz",
       "responsibility": "Object implementation: 4C, 4D MZ Lava Geyser and Maker",
       "kind": "code",
@@ -6220,7 +6220,7 @@
       }
     },
     {
-      "path": "src/game/objects/environment/mz/mz_wall_of_lava.s",
+      "path": "src/game/objects/environment/mz/wall_of_lava.s",
       "owner": "src/game/objects/environment/mz",
       "responsibility": "Object implementation: 4E MZ Wall of Lava",
       "kind": "code",
@@ -6258,7 +6258,7 @@
       }
     },
     {
-      "path": "src/game/objects/environment/unused/unused_splats.s",
+      "path": "src/game/objects/environment/unused/splats.s",
       "owner": "src/game/objects/environment/unused",
       "responsibility": "Object implementation: 4F Unused - Splats",
       "kind": "code",
@@ -6338,7 +6338,7 @@
       }
     },
     {
-      "path": "src/game/objects/environment/mz/mz_smashable_green_block.s",
+      "path": "src/game/objects/environment/mz/smashable_green_block.s",
       "owner": "src/game/objects/environment/mz",
       "responsibility": "Object implementation: 51 MZ Smashable Green Block",
       "kind": "code",
@@ -6414,7 +6414,7 @@
       }
     },
     {
-      "path": "src/game/objects/environment/mz/mz_invisible_lava_tag.s",
+      "path": "src/game/objects/environment/mz/invisible_lava_tag.s",
       "owner": "src/game/objects/environment/mz",
       "responsibility": "Object implementation: 54 MZ Invisible Lava Tag",
       "kind": "code",
@@ -6490,7 +6490,7 @@
       }
     },
     {
-      "path": "src/game/objects/environment/common/syz_slz_floating_blocks_and_lz_doors.s",
+      "path": "src/game/objects/environment/common/floating_blocks.s",
       "owner": "src/game/objects/environment/common",
       "responsibility": "Object implementation: 56 SYZ, SLZ Floating Blocks and LZ Doors",
       "kind": "code",
@@ -6528,7 +6528,7 @@
       }
     },
     {
-      "path": "src/game/objects/environment/common/syz_lz_spiked_ball_and_chain.s",
+      "path": "src/game/objects/environment/common/spiked_chains.s",
       "owner": "src/game/objects/environment/common",
       "responsibility": "Object implementation: 57 SYZ, LZ Spiked Ball and Chain",
       "kind": "code",
@@ -6566,7 +6566,7 @@
       }
     },
     {
-      "path": "src/game/objects/environment/syz/syz_big_spiked_ball.s",
+      "path": "src/game/objects/environment/syz/big_spiked_ball.s",
       "owner": "src/game/objects/environment/syz",
       "responsibility": "Object implementation: 58 SYZ Big Spiked Ball",
       "kind": "code",
@@ -6604,7 +6604,7 @@
       }
     },
     {
-      "path": "src/game/objects/environment/slz/slz_elevators.s",
+      "path": "src/game/objects/environment/slz/elevators.s",
       "owner": "src/game/objects/environment/slz",
       "responsibility": "Object implementation: 59 SLZ Elevators",
       "kind": "code",
@@ -6642,7 +6642,7 @@
       }
     },
     {
-      "path": "src/game/objects/environment/slz/slz_circling_platform.s",
+      "path": "src/game/objects/environment/slz/circling_platform.s",
       "owner": "src/game/objects/environment/slz",
       "responsibility": "Object implementation: 5A SLZ Circling Platform",
       "kind": "code",
@@ -6680,7 +6680,7 @@
       }
     },
     {
-      "path": "src/game/objects/environment/slz/slz_staircase.s",
+      "path": "src/game/objects/environment/slz/staircase.s",
       "owner": "src/game/objects/environment/slz",
       "responsibility": "Object implementation: 5B SLZ Staircase",
       "kind": "code",
@@ -6718,7 +6718,7 @@
       }
     },
     {
-      "path": "src/game/objects/environment/slz/slz_foreground_pylon.s",
+      "path": "src/game/objects/environment/slz/foreground_pylon.s",
       "owner": "src/game/objects/environment/slz",
       "responsibility": "Object implementation: 5C SLZ Foreground Pylon",
       "kind": "code",
@@ -6756,7 +6756,7 @@
       }
     },
     {
-      "path": "src/game/objects/environment/slz/slz_fan.s",
+      "path": "src/game/objects/environment/slz/fan.s",
       "owner": "src/game/objects/environment/slz",
       "responsibility": "Object implementation: 5D SLZ Fan",
       "kind": "code",
@@ -6794,7 +6794,7 @@
       }
     },
     {
-      "path": "src/game/objects/environment/slz/slz_seesaw.s",
+      "path": "src/game/objects/environment/slz/seesaw.s",
       "owner": "src/game/objects/environment/slz",
       "responsibility": "Object implementation: 5E SLZ Seesaw",
       "kind": "code",
@@ -6908,7 +6908,7 @@
       }
     },
     {
-      "path": "src/game/objects/environment/lz/lz_blocks.s",
+      "path": "src/game/objects/environment/lz/blocks.s",
       "owner": "src/game/objects/environment/lz",
       "responsibility": "Object implementation: 61 LZ Blocks",
       "kind": "code",
@@ -6946,7 +6946,7 @@
       }
     },
     {
-      "path": "src/game/objects/environment/lz/lz_gargoyle.s",
+      "path": "src/game/objects/environment/lz/gargoyle.s",
       "owner": "src/game/objects/environment/lz",
       "responsibility": "Object implementation: 62 LZ Gargoyle",
       "kind": "code",
@@ -6984,7 +6984,7 @@
       }
     },
     {
-      "path": "src/game/objects/environment/lz/lz_conveyor.s",
+      "path": "src/game/objects/environment/lz/conveyor.s",
       "owner": "src/game/objects/environment/lz",
       "responsibility": "Object implementation: 63 LZ Conveyor",
       "kind": "code",
@@ -7022,7 +7022,7 @@
       }
     },
     {
-      "path": "src/game/objects/environment/lz/lz_air_bubbles.s",
+      "path": "src/game/objects/environment/lz/air_bubbles.s",
       "owner": "src/game/objects/environment/lz",
       "responsibility": "Object implementation: 64 LZ Air Bubbles",
       "kind": "code",
@@ -7060,7 +7060,7 @@
       }
     },
     {
-      "path": "src/game/objects/environment/lz/lz_waterfalls.s",
+      "path": "src/game/objects/environment/lz/waterfalls.s",
       "owner": "src/game/objects/environment/lz",
       "responsibility": "Object implementation: 65 LZ Waterfalls",
       "kind": "code",
@@ -7098,7 +7098,7 @@
       }
     },
     {
-      "path": "src/game/objects/environment/sbz/sbz_rotating_junction.s",
+      "path": "src/game/objects/environment/sbz/rotating_junction.s",
       "owner": "src/game/objects/environment/sbz",
       "responsibility": "Object implementation: 66 SBZ Rotating Junction",
       "kind": "code",
@@ -7136,7 +7136,7 @@
       }
     },
     {
-      "path": "src/game/objects/environment/sbz/sbz_running_disc.s",
+      "path": "src/game/objects/environment/sbz/running_disc.s",
       "owner": "src/game/objects/environment/sbz",
       "responsibility": "Object implementation: 67 SBZ Running Disc",
       "kind": "code",
@@ -7174,7 +7174,7 @@
       }
     },
     {
-      "path": "src/game/objects/environment/sbz/sbz_conveyor_belt.s",
+      "path": "src/game/objects/environment/sbz/conveyor_belt.s",
       "owner": "src/game/objects/environment/sbz",
       "responsibility": "Object implementation: 68 SBZ Conveyor Belt",
       "kind": "code",
@@ -7212,7 +7212,7 @@
       }
     },
     {
-      "path": "src/game/objects/environment/sbz/sbz_spinning_platforms_and_trapdoors.s",
+      "path": "src/game/objects/environment/sbz/spinning_platforms.s",
       "owner": "src/game/objects/environment/sbz",
       "responsibility": "Object implementation: 69 SBZ Spinning Platforms and Trapdoors",
       "kind": "code",
@@ -7250,7 +7250,7 @@
       }
     },
     {
-      "path": "src/game/objects/environment/sbz/sbz_saws_and_pizza_cutters.s",
+      "path": "src/game/objects/environment/sbz/saws_cutters.s",
       "owner": "src/game/objects/environment/sbz",
       "responsibility": "Object implementation: 6A SBZ Saws and Pizza Cutters",
       "kind": "code",
@@ -7288,7 +7288,7 @@
       }
     },
     {
-      "path": "src/game/objects/environment/sbz/sbz_stomper_and_sliding_door.s",
+      "path": "src/game/objects/environment/sbz/stomper_door.s",
       "owner": "src/game/objects/environment/sbz",
       "responsibility": "Object implementation: 6B SBZ Stomper and Sliding Door",
       "kind": "code",
@@ -7326,7 +7326,7 @@
       }
     },
     {
-      "path": "src/game/objects/environment/sbz/sbz_vanishing_platforms.s",
+      "path": "src/game/objects/environment/sbz/vanishing_platforms.s",
       "owner": "src/game/objects/environment/sbz",
       "responsibility": "Object implementation: 6C SBZ Vanishing Platforms",
       "kind": "code",
@@ -7364,7 +7364,7 @@
       }
     },
     {
-      "path": "src/game/objects/environment/sbz/sbz_flamethrower.s",
+      "path": "src/game/objects/environment/sbz/flamethrower.s",
       "owner": "src/game/objects/environment/sbz",
       "responsibility": "Object implementation: 6D SBZ Flamethrower",
       "kind": "code",
@@ -7402,7 +7402,7 @@
       }
     },
     {
-      "path": "src/game/objects/environment/sbz/sbz_electrocuter.s",
+      "path": "src/game/objects/environment/sbz/electrocuter.s",
       "owner": "src/game/objects/environment/sbz",
       "responsibility": "Object implementation: 6E SBZ Electrocuter",
       "kind": "code",
@@ -7440,7 +7440,7 @@
       }
     },
     {
-      "path": "src/game/objects/environment/sbz/sbz_spin_platform_conveyor.s",
+      "path": "src/game/objects/environment/sbz/spin_platform_conveyor.s",
       "owner": "src/game/objects/environment/sbz",
       "responsibility": "Object implementation: 6F SBZ Spin Platform Conveyor",
       "kind": "code",
@@ -7496,7 +7496,7 @@
       }
     },
     {
-      "path": "src/game/objects/environment/sbz/sbz_girder_block.s",
+      "path": "src/game/objects/environment/sbz/girder_block.s",
       "owner": "src/game/objects/environment/sbz",
       "responsibility": "Object implementation: 70 SBZ Girder Block",
       "kind": "code",
@@ -7572,7 +7572,7 @@
       }
     },
     {
-      "path": "src/game/objects/environment/sbz/sbz_teleporter.s",
+      "path": "src/game/objects/environment/sbz/teleporter.s",
       "owner": "src/game/objects/environment/sbz",
       "responsibility": "Object implementation: 72 SBZ Teleporter",
       "kind": "code",
@@ -7610,7 +7610,7 @@
       }
     },
     {
-      "path": "src/game/objects/bosses/mz_main_and_fire.s",
+      "path": "src/game/objects/bosses/mz_boss.s",
       "owner": "src/game/objects/bosses",
       "responsibility": "Object implementation: 73, 74 Boss - MZ Main and Fire",
       "kind": "code",
@@ -7652,7 +7652,7 @@
       }
     },
     {
-      "path": "src/game/objects/bosses/syz_main_and_blocks.s",
+      "path": "src/game/objects/bosses/syz_boss.s",
       "owner": "src/game/objects/bosses",
       "responsibility": "Object implementation: 75, 76 Boss - SYZ Main and Blocks",
       "kind": "code",
@@ -7808,7 +7808,7 @@
       }
     },
     {
-      "path": "src/game/objects/bosses/slz_main_and_spike_balls.s",
+      "path": "src/game/objects/bosses/slz_boss.s",
       "owner": "src/game/objects/bosses",
       "responsibility": "Canonical include order for _incObj/7A, 7B Boss - SLZ Main and Spike Balls.asm",
       "kind": "include_index",
@@ -7867,7 +7867,7 @@
       }
     },
     {
-      "path": "src/game/special_stage/objects/special_stage_results_and_chaos_emeralds.s",
+      "path": "src/game/special_stage/objects/results_emeralds.s",
       "owner": "src/game/special_stage/objects",
       "responsibility": "Object implementation: 7E, 7F Special Stage Results and Chaos Emeralds",
       "kind": "code",
@@ -7905,7 +7905,7 @@
       }
     },
     {
-      "path": "src/ui/objects/continue_screen_elements_and_sonic.s",
+      "path": "src/ui/objects/continue_screen.s",
       "owner": "src/ui/objects",
       "responsibility": "Object implementation: 80, 81 Continue Screen Elements and Sonic",
       "kind": "code",
@@ -7943,7 +7943,7 @@
       }
     },
     {
-      "path": "src/game/objects/bosses/sbz_eggman_cutscene_and_crumbling_floor.s",
+      "path": "src/game/objects/bosses/sbz_cutscene.s",
       "owner": "src/game/objects/bosses",
       "responsibility": "Object implementation: 82, 83 SBZ Eggman Cutscene and Crumbling Floor",
       "kind": "code",
@@ -7999,7 +7999,7 @@
       }
     },
     {
-      "path": "src/game/objects/bosses/fz_main_cylinders_and_plasma_balls.s",
+      "path": "src/game/objects/bosses/final_boss.s",
       "owner": "src/game/objects/bosses",
       "responsibility": "Canonical include order for _incObj/85,84,86 Boss - FZ Main, Cylinders, and Plasma Balls.asm",
       "kind": "include_index",
@@ -8020,7 +8020,7 @@
       }
     },
     {
-      "path": "src/ui/objects/ending_sequence_sonic_emeralds_logo.s",
+      "path": "src/ui/objects/ending_scene.s",
       "owner": "src/ui/objects",
       "responsibility": "Object implementation: 87, 88, 89 Ending Sequence Sonic, Emeralds, Logo",
       "kind": "code",
@@ -8076,7 +8076,7 @@
       }
     },
     {
-      "path": "src/game/player/credits_and_sonic_team_presents.s",
+      "path": "src/game/player/credits_text.s",
       "owner": "src/game/player",
       "responsibility": "Subsystem implementation or declarations: 8A Credits and Sonic Team Presents",
       "kind": "code",
@@ -8114,7 +8114,7 @@
       }
     },
     {
-      "path": "src/ui/objects/try_again_end_eggman_end_emeralds.s",
+      "path": "src/ui/objects/ending_results.s",
       "owner": "src/ui/objects",
       "responsibility": "Object implementation: 8B, 8C Try Again, End Eggman, End Emeralds",
       "kind": "code",
@@ -8302,7 +8302,7 @@
       }
     },
     {
-      "path": "src/game/player/sonic_react_to_item.s",
+      "path": "src/game/player/object_collision.s",
       "owner": "src/game/player",
       "responsibility": "Subsystem implementation or declarations: Sonic ReactToItem",
       "kind": "code",
@@ -8416,7 +8416,7 @@
       }
     },
     {
-      "path": "src/game/objects/services/boss_defeated_and_boss_move.s",
+      "path": "src/game/objects/services/boss_motion_defeat.s",
       "owner": "src/game/objects/services",
       "responsibility": "Shared object service: sub BossDefeated & BossMove",
       "kind": "code",
@@ -8786,7 +8786,7 @@
       }
     },
     {
-      "path": "src/game/player/mv_sonic_on_ptfm.s",
+      "path": "src/game/player/platform_carry.s",
       "owner": "src/game/player",
       "responsibility": "Subsystem implementation or declarations: sub MvSonicOnPtfm",
       "kind": "code",
@@ -8900,7 +8900,7 @@
       }
     },
     {
-      "path": "src/game/objects/services/platform_object_and_slope_object.s",
+      "path": "src/game/objects/services/platform_collision.s",
       "owner": "src/game/objects/services",
       "responsibility": "Shared object service: sub PlatformObject & SlopeObject",
       "kind": "code",
@@ -9532,7 +9532,7 @@
       }
     },
     {
-      "path": "src/rendering/mappings/environment/lz/bubbles_and_drowning_countdown.s",
+      "path": "src/rendering/mappings/environment/lz/bubbles_countdown.s",
       "owner": "src/rendering/mappings/environment/lz",
       "responsibility": "Mapping and DPLC declarations for Bubbles and Drowning Countdown",
       "kind": "data_or_declarations",
@@ -10072,7 +10072,7 @@
       }
     },
     {
-      "path": "src/rendering/mappings/bosses/eggman_scrap_brain_2.s",
+      "path": "src/rendering/mappings/bosses/eggman_cutscene.s",
       "owner": "src/rendering/mappings/bosses",
       "responsibility": "Mapping and DPLC declarations for Eggman - Scrap Brain 2",
       "kind": "data_or_declarations",
@@ -10498,7 +10498,7 @@
       }
     },
     {
-      "path": "src/rendering/mappings/environment/common/floating_blocks_and_doors.s",
+      "path": "src/rendering/mappings/environment/common/floating_blocks.s",
       "owner": "src/rendering/mappings/environment/common",
       "responsibility": "Mapping and DPLC declarations for Floating Blocks and Doors",
       "kind": "data_or_declarations",
@@ -10768,7 +10768,7 @@
       }
     },
     {
-      "path": "src/rendering/mappings/environment/ghz/ghz_edge_walls.s",
+      "path": "src/rendering/mappings/environment/ghz/edge_walls.s",
       "owner": "src/rendering/mappings/environment/ghz",
       "responsibility": "Mapping and DPLC declarations for GHZ Edge Walls",
       "kind": "data_or_declarations",
@@ -11232,7 +11232,7 @@
       }
     },
     {
-      "path": "src/rendering/mappings/environment/lz/lz_blocks.s",
+      "path": "src/rendering/mappings/environment/lz/blocks.s",
       "owner": "src/rendering/mappings/environment/lz",
       "responsibility": "Mapping and DPLC declarations for LZ Blocks",
       "kind": "data_or_declarations",
@@ -11270,7 +11270,7 @@
       }
     },
     {
-      "path": "src/rendering/mappings/environment/lz/lz_conveyor.s",
+      "path": "src/rendering/mappings/environment/lz/conveyor.s",
       "owner": "src/rendering/mappings/environment/lz",
       "responsibility": "Mapping and DPLC declarations for LZ Conveyor",
       "kind": "data_or_declarations",
@@ -11426,7 +11426,7 @@
       }
     },
     {
-      "path": "src/rendering/mappings/environment/common/moving_blocks_mz_and_sbz.s",
+      "path": "src/rendering/mappings/environment/common/moving_blocks.s",
       "owner": "src/rendering/mappings/environment/common",
       "responsibility": "Mapping and DPLC declarations for Moving Blocks (MZ and SBZ)",
       "kind": "data_or_declarations",
@@ -11464,7 +11464,7 @@
       }
     },
     {
-      "path": "src/rendering/mappings/environment/mz/mz_bricks.s",
+      "path": "src/rendering/mappings/environment/mz/bricks.s",
       "owner": "src/rendering/mappings/environment/mz",
       "responsibility": "Mapping and DPLC declarations for MZ Bricks",
       "kind": "data_or_declarations",
@@ -11506,7 +11506,7 @@
       }
     },
     {
-      "path": "src/rendering/mappings/environment/mz/mz_large_grassy_platforms.s",
+      "path": "src/rendering/mappings/environment/mz/large_grassy_platforms.s",
       "owner": "src/rendering/mappings/environment/mz",
       "responsibility": "Mapping and DPLC declarations for MZ Large Grassy Platforms",
       "kind": "data_or_declarations",
@@ -11544,7 +11544,7 @@
       }
     },
     {
-      "path": "src/rendering/mappings/environment/mz/mz_large_green_glass_blocks.s",
+      "path": "src/rendering/mappings/environment/mz/glass_blocks.s",
       "owner": "src/rendering/mappings/environment/mz",
       "responsibility": "Mapping and DPLC declarations for MZ Large Green Glass Blocks",
       "kind": "data_or_declarations",
@@ -11974,7 +11974,7 @@
       }
     },
     {
-      "path": "src/rendering/mappings/ui/press_start_and_tm.s",
+      "path": "src/rendering/mappings/ui/title_prompts.s",
       "owner": "src/rendering/mappings/ui",
       "responsibility": "Mapping and DPLC declarations for Press Start and TM",
       "kind": "data_or_declarations",
@@ -12387,7 +12387,7 @@
       }
     },
     {
-      "path": "src/rendering/mappings/environment/sbz/saws_and_pizza_cutters.s",
+      "path": "src/rendering/mappings/environment/sbz/saws_cutters.s",
       "owner": "src/rendering/mappings/environment/sbz",
       "responsibility": "Mapping and DPLC declarations for Saws and Pizza Cutters",
       "kind": "data_or_declarations",
@@ -12425,7 +12425,7 @@
       }
     },
     {
-      "path": "src/rendering/mappings/environment/sbz/sbz_eggmans_crumbling_floor.s",
+      "path": "src/rendering/mappings/environment/sbz/eggmans_crumbling_floor.s",
       "owner": "src/rendering/mappings/environment/sbz",
       "responsibility": "Mapping and DPLC declarations for SBZ Eggman's Crumbling Floor",
       "kind": "data_or_declarations",
@@ -12463,7 +12463,7 @@
       }
     },
     {
-      "path": "src/rendering/mappings/environment/sbz/sbz_small_door.s",
+      "path": "src/rendering/mappings/environment/sbz/small_door.s",
       "owner": "src/rendering/mappings/environment/sbz",
       "responsibility": "Mapping and DPLC declarations for SBZ Small Door",
       "kind": "data_or_declarations",
@@ -12501,7 +12501,7 @@
       }
     },
     {
-      "path": "src/rendering/mappings/environment/sbz/sbz_spinning_platforms.s",
+      "path": "src/rendering/mappings/environment/sbz/spinning_platforms.s",
       "owner": "src/rendering/mappings/environment/sbz",
       "responsibility": "Mapping and DPLC declarations for SBZ Spinning Platforms",
       "kind": "data_or_declarations",
@@ -12539,7 +12539,7 @@
       }
     },
     {
-      "path": "src/rendering/mappings/environment/sbz/sbz_stomper_and_door.s",
+      "path": "src/rendering/mappings/environment/sbz/stomper_and_door.s",
       "owner": "src/rendering/mappings/environment/sbz",
       "responsibility": "Mapping and DPLC declarations for SBZ Stomper and Door",
       "kind": "data_or_declarations",
@@ -12577,7 +12577,7 @@
       }
     },
     {
-      "path": "src/rendering/mappings/environment/sbz/sbz_vanishing_platforms.s",
+      "path": "src/rendering/mappings/environment/sbz/vanishing_platforms.s",
       "owner": "src/rendering/mappings/environment/sbz",
       "responsibility": "Mapping and DPLC declarations for SBZ Vanishing Platforms",
       "kind": "data_or_declarations",
@@ -12893,7 +12893,7 @@
       }
     },
     {
-      "path": "src/rendering/mappings/environment/slz/slz_circling_platform.s",
+      "path": "src/rendering/mappings/environment/slz/circling_platform.s",
       "owner": "src/rendering/mappings/environment/slz",
       "responsibility": "Mapping and DPLC declarations for SLZ Circling Platform",
       "kind": "data_or_declarations",
@@ -12935,7 +12935,7 @@
       }
     },
     {
-      "path": "src/rendering/mappings/environment/slz/slz_elevators.s",
+      "path": "src/rendering/mappings/environment/slz/elevators.s",
       "owner": "src/rendering/mappings/environment/slz",
       "responsibility": "Mapping and DPLC declarations for SLZ Elevators",
       "kind": "data_or_declarations",
@@ -13057,7 +13057,7 @@
       }
     },
     {
-      "path": "src/rendering/mappings/player/sonic_dynamic_gfx_script.s",
+      "path": "src/rendering/mappings/player/sonic_dplc.s",
       "owner": "src/rendering/mappings/player",
       "responsibility": "Mapping and DPLC declarations for Sonic - Dynamic Gfx Script",
       "kind": "data_or_declarations",
@@ -13133,7 +13133,7 @@
       }
     },
     {
-      "path": "src/rendering/mappings/unused/special_stage_entry_unused.s",
+      "path": "src/rendering/mappings/unused/special_stage_entry.s",
       "owner": "src/rendering/mappings/unused",
       "responsibility": "Mapping and DPLC declarations for Special Stage Entry (Unused)",
       "kind": "data_or_declarations",
@@ -13171,7 +13171,7 @@
       }
     },
     {
-      "path": "src/rendering/mappings/environment/lz/spiked_ball_and_chain_lz.s",
+      "path": "src/rendering/mappings/environment/lz/spiked_chain.s",
       "owner": "src/rendering/mappings/environment/lz",
       "responsibility": "Mapping and DPLC declarations for Spiked Ball and Chain (LZ)",
       "kind": "data_or_declarations",
@@ -13213,7 +13213,7 @@
       }
     },
     {
-      "path": "src/rendering/mappings/environment/syz/spiked_ball_and_chain_syz.s",
+      "path": "src/rendering/mappings/environment/syz/spiked_chain.s",
       "owner": "src/rendering/mappings/environment/syz",
       "responsibility": "Mapping and DPLC declarations for Spiked Ball and Chain (SYZ)",
       "kind": "data_or_declarations",
@@ -13369,7 +13369,7 @@
       }
     },
     {
-      "path": "src/rendering/mappings/special_stage/ss_chaos_emeralds.s",
+      "path": "src/rendering/mappings/special_stage/chaos_emeralds.s",
       "owner": "src/rendering/mappings/special_stage",
       "responsibility": "Mapping and DPLC declarations for SS Chaos Emeralds",
       "kind": "data_or_declarations",
@@ -13407,7 +13407,7 @@
       }
     },
     {
-      "path": "src/rendering/mappings/special_stage/ss_down_block.s",
+      "path": "src/rendering/mappings/special_stage/down_block.s",
       "owner": "src/rendering/mappings/special_stage",
       "responsibility": "Mapping and DPLC declarations for SS DOWN Block",
       "kind": "data_or_declarations",
@@ -13449,7 +13449,7 @@
       }
     },
     {
-      "path": "src/rendering/mappings/special_stage/ss_glass_block.s",
+      "path": "src/rendering/mappings/special_stage/glass_block.s",
       "owner": "src/rendering/mappings/special_stage",
       "responsibility": "Mapping and DPLC declarations for SS Glass Block",
       "kind": "data_or_declarations",
@@ -13487,7 +13487,7 @@
       }
     },
     {
-      "path": "src/rendering/mappings/special_stage/ss_result_chaos_emeralds.s",
+      "path": "src/rendering/mappings/special_stage/result_chaos_emeralds.s",
       "owner": "src/rendering/mappings/special_stage",
       "responsibility": "Mapping and DPLC declarations for SS Result Chaos Emeralds",
       "kind": "data_or_declarations",
@@ -13525,7 +13525,7 @@
       }
     },
     {
-      "path": "src/rendering/mappings/special_stage/ss_shared_block.s",
+      "path": "src/rendering/mappings/special_stage/shared_block.s",
       "owner": "src/rendering/mappings/special_stage",
       "responsibility": "Mapping and DPLC declarations for SS Shared Block",
       "kind": "data_or_declarations",
@@ -13567,7 +13567,7 @@
       }
     },
     {
-      "path": "src/rendering/mappings/special_stage/ss_up_block.s",
+      "path": "src/rendering/mappings/special_stage/up_block.s",
       "owner": "src/rendering/mappings/special_stage",
       "responsibility": "Mapping and DPLC declarations for SS UP Block",
       "kind": "data_or_declarations",
@@ -13609,7 +13609,7 @@
       }
     },
     {
-      "path": "src/rendering/mappings/special_stage/ss_walls.s",
+      "path": "src/rendering/mappings/special_stage/walls.s",
       "owner": "src/rendering/mappings/special_stage",
       "responsibility": "Mapping and DPLC declarations for SS Walls",
       "kind": "data_or_declarations",
@@ -13939,7 +13939,7 @@
       }
     },
     {
-      "path": "src/rendering/mappings/ui/try_again_and_end_eggman.s",
+      "path": "src/rendering/mappings/ui/ending_eggman.s",
       "owner": "src/rendering/mappings/ui",
       "responsibility": "Mapping and DPLC declarations for Try Again & End Eggman",
       "kind": "data_or_declarations",
@@ -13977,7 +13977,7 @@
       }
     },
     {
-      "path": "src/rendering/mappings/unused/unused_explosion.s",
+      "path": "src/rendering/mappings/unused/explosion.s",
       "owner": "src/rendering/mappings/unused",
       "responsibility": "Mapping and DPLC declarations for Unused Explosion",
       "kind": "data_or_declarations",
@@ -14015,7 +14015,7 @@
       }
     },
     {
-      "path": "src/rendering/mappings/unused/unused_sonic_face.s",
+      "path": "src/rendering/mappings/unused/sonic_face.s",
       "owner": "src/rendering/mappings/unused",
       "responsibility": "Mapping and DPLC declarations for Unused Sonic Face",
       "kind": "data_or_declarations",
@@ -14057,7 +14057,7 @@
       }
     },
     {
-      "path": "src/rendering/mappings/unused/unused_switch.s",
+      "path": "src/rendering/mappings/unused/switch.s",
       "owner": "src/rendering/mappings/unused",
       "responsibility": "Mapping and DPLC declarations for Unused Switch",
       "kind": "data_or_declarations",

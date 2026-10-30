@@ -86,4 +86,4 @@ Swi_ChkTouch:
 
 ; ===========================================================================
 
-Map_Swi:   include "src/rendering/mappings/unused/unused_switch.s"
+Map_Swi:   include "src/rendering/mappings/unused/switch.s"

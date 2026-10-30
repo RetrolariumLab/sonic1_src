@@ -61,21 +61,21 @@ TryAg_Exit:                                       ; exit end screen and restart 
 ; ===========================================================================
 
 ; >>> Objects on final screen
-                include "src/ui/objects/try_again_end_eggman_end_emeralds.s"
+                include "src/ui/objects/ending_results.s"
 
 ; ===========================================================================
 ; ---------------------------------------------------------------------------
 ; Ending sequence demos
 ; ---------------------------------------------------------------------------
 
-Demo_EndGHZ1:   include "src/game/demos/ending/ending_ghz1.s"
-Demo_EndMZ:   include "src/game/demos/ending/ending_mz.s"
-Demo_EndSYZ:   include "src/game/demos/ending/ending_syz.s"
-Demo_EndLZ:   include "src/game/demos/ending/ending_lz.s"
-Demo_EndSLZ:   include "src/game/demos/ending/ending_slz.s"
-Demo_EndSBZ1:   include "src/game/demos/ending/ending_sbz1.s"
-Demo_EndSBZ2:   include "src/game/demos/ending/ending_sbz2.s"
-Demo_EndGHZ2:   include "src/game/demos/ending/ending_ghz2.s"
+Demo_EndGHZ1:   include "src/game/demos/ending/ghz1.s"
+Demo_EndMZ:   include "src/game/demos/ending/mz.s"
+Demo_EndSYZ:   include "src/game/demos/ending/syz.s"
+Demo_EndLZ:   include "src/game/demos/ending/lz.s"
+Demo_EndSLZ:   include "src/game/demos/ending/slz.s"
+Demo_EndSBZ1:   include "src/game/demos/ending/sbz1.s"
+Demo_EndSBZ2:   include "src/game/demos/ending/sbz2.s"
+Demo_EndGHZ2:   include "src/game/demos/ending/ghz2.s"
 
 ; ===========================================================================
 ; ---------------------------------------------------------------------------

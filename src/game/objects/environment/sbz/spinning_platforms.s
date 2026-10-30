@@ -144,4 +144,4 @@ Spin_Spinner:                                       ; Routine 4
 
                 include "src/rendering/animation/environment/sbz_spinning_platforms.s"
 Map_Trap:   include "src/rendering/mappings/environment/sbz/trapdoor.s"
-Map_Spin:   include "src/rendering/mappings/environment/sbz/sbz_spinning_platforms.s"
+Map_Spin:   include "src/rendering/mappings/environment/sbz/spinning_platforms.s"

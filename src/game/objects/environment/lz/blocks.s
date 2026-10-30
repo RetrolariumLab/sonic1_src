@@ -230,4 +230,4 @@ LBlk_Nudge:
 
 ; ===========================================================================
 
-Map_LBlock:   include "src/rendering/mappings/environment/lz/lz_blocks.s"
+Map_LBlock:   include "src/rendering/mappings/environment/lz/blocks.s"

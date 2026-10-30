@@ -276,4 +276,4 @@ Glass_UpdateY:
 
 ; ===========================================================================
 
-Map_Glass:   include "src/rendering/mappings/environment/mz/mz_large_green_glass_blocks.s"
+Map_Glass:   include "src/rendering/mappings/environment/mz/glass_blocks.s"

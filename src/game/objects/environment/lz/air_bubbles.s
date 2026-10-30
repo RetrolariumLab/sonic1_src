@@ -282,4 +282,4 @@ Bub_ChkSonic:
 ; ===========================================================================
 
                 include "src/rendering/animation/environment/bubbles.s"
-Map_Bub:   include "src/rendering/mappings/environment/lz/bubbles_and_drowning_countdown.s"
+Map_Bub:   include "src/rendering/mappings/environment/lz/bubbles_countdown.s"

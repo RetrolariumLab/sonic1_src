@@ -99,7 +99,7 @@ Cont_GotoLevel:
 ; ===========================================================================
 
 ; >>> Objects for the continue screen
-                include "src/ui/objects/continue_screen_elements_and_sonic.s"
+                include "src/ui/objects/continue_screen.s"
 
 ; ===========================================================================
 ; ---------------------------------------------------------------------------

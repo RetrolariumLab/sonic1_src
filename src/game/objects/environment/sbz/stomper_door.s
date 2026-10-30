@@ -365,4 +365,4 @@ Sto_AncientLift:
 
 ; ===========================================================================
 
-Map_Stomp:   include "src/rendering/mappings/environment/sbz/sbz_stomper_and_door.s"
+Map_Stomp:   include "src/rendering/mappings/environment/sbz/stomper_and_door.s"

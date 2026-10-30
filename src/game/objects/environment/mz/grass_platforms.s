@@ -422,4 +422,4 @@ GFire_Animate:
 ; ===========================================================================
 
                 include "src/rendering/animation/environment/burning_grass.s"
-Map_LGrass:   include "src/rendering/mappings/environment/mz/mz_large_grassy_platforms.s"
+Map_LGrass:   include "src/rendering/mappings/environment/mz/large_grassy_platforms.s"

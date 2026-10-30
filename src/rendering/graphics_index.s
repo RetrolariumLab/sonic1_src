@@ -48,7 +48,7 @@ Nem_JapNames:   binclude "artnem/Hidden Japanese Credits.nem"
 ; ---------------------------------------------------------------------------
 Map_Sonic:   include "src/rendering/mappings/player/sonic.s"
 
-SonicDynPLC:   include "src/rendering/mappings/player/sonic_dynamic_gfx_script.s"
+SonicDynPLC:   include "src/rendering/mappings/player/sonic_dplc.s"
 
 Art_Sonic:   binclude "artunc/Sonic.unc"
                 even
@@ -82,7 +82,7 @@ Nem_Goggle:   binclude "artnem/Unused - Goggles.nem"  ; unused goggles
 ; ---------------------------------------------------------------------------
 ; Compressed graphics - special stage
 ; ---------------------------------------------------------------------------
-Map_SSWalls:   include "src/rendering/mappings/special_stage/ss_walls.s"
+Map_SSWalls:   include "src/rendering/mappings/special_stage/walls.s"
 
 Nem_SSWalls:   binclude "artnem/Special Walls.nem"  ; special stage walls
                 even

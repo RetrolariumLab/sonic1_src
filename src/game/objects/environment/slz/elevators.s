@@ -298,4 +298,4 @@ Elev_Spawner:                                       ; Routine 6
 
 ; ===========================================================================
 
-Map_Elev:   include "src/rendering/mappings/environment/slz/slz_elevators.s"
+Map_Elev:   include "src/rendering/mappings/environment/slz/elevators.s"

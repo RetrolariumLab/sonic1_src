@@ -280,5 +280,5 @@ MBlock_SlideFast:
 
 ; ===========================================================================
 
-Map_MBlock:   include "src/rendering/mappings/environment/common/moving_blocks_mz_and_sbz.s"
+Map_MBlock:   include "src/rendering/mappings/environment/common/moving_blocks.s"
 Map_MBlockLZ:   include "src/rendering/mappings/environment/lz/moving_blocks_lz.s"

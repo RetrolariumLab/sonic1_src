@@ -204,7 +204,7 @@ SS_ToNextScreen:
 ; ===========================================================================
 
 ; >>> Special Stage background drawing and palette cycle logic
-                include "src/game/special_stage/special_stage_background_and_palette_cycle.s"
+                include "src/game/special_stage/background_palette.s"
 
 ; ===========================================================================
 ; ---------------------------------------------------------------------------

@@ -75,7 +75,7 @@ EEgg_Wait:                                       ; Routine 6
                 rts                                     ; return
 ; ===========================================================================
 
-                include "src/rendering/animation/ui/try_again_and_end_eggman.s"
+                include "src/rendering/animation/ui/ending_eggman.s"
 
 ; ===========================================================================
 ; ---------------------------------------------------------------------------
@@ -183,4 +183,4 @@ TCha_JuggleEmeralds:                                       ; Routine 2
                 rts                                     ; return
 ; ===========================================================================
 
-Map_EEgg:   include "src/rendering/mappings/ui/try_again_and_end_eggman.s"
+Map_EEgg:   include "src/rendering/mappings/ui/ending_eggman.s"

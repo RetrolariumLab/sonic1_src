@@ -72,4 +72,4 @@ ADoor_Animate:
 ; ===========================================================================
 
                 include "src/rendering/animation/environment/sbz_small_door.s"
-Map_ADoor:   include "src/rendering/mappings/environment/sbz/sbz_small_door.s"
+Map_ADoor:   include "src/rendering/mappings/environment/sbz/small_door.s"

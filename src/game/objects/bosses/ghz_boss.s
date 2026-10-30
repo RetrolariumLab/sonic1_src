@@ -147,7 +147,7 @@ BGHZ_Defeated:
 ; ===========================================================================
 
 ; These subroutines are shared by all bosses
-                include "src/game/objects/services/boss_defeated_and_boss_move.s"
+                include "src/game/objects/services/boss_motion_defeat.s"
 
 ; ===========================================================================
 ; ---------------------------------------------------------------------------

@@ -238,7 +238,7 @@ End_MoveSonExit:
 ; ===========================================================================
 
 ; >>> Objects on the ending sequence
-                include "src/ui/objects/ending_sequence_sonic_emeralds_logo.s"
+                include "src/ui/objects/ending_scene.s"
 
 ; ===========================================================================
 ; ---------------------------------------------------------------------------

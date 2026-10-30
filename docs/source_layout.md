@@ -70,8 +70,10 @@ wrapper instead records the exact four original lines that were moved.
 ## Source filename convention
 
 Source basenames use lowercase snake_case without numeric object-ID prefixes,
-spaces or punctuation. Object IDs remain in the symbolic dispatch table and
-source comments. Imported global assembly labels are unchanged.
+spaces or punctuation. Basenames use at most three words, rely on directory
+context and name the primary entity rather than listing every child object.
+Object IDs remain in the symbolic dispatch table and source comments. Imported
+global assembly labels are unchanged.
 
 The `.s` suffix identifies 68000 source and emitted content declarations; `.inc`
 identifies shared constants, RAM declarations, macros and assembler setup. The

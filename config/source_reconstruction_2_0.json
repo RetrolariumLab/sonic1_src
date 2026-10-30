@@ -18,7 +18,7 @@
   "delta_history": {
     "base_commit": "9459c137efac1bd010bd08cc1b0d54c9d63fb3cd",
     "tip": "release-commit",
-    "commit_count": 5
+    "commit_count": 6
   },
   "included_scope": [
     "semantic_source_owners",
@@ -84,6 +84,12 @@
       "id": "source_owner_subdirectories",
       "kind": "source",
       "summary": "Group environment source by zone and graphics declarations by semantic owner; separate attract and ending inputs without changing include order or emitted data.",
+      "commits": ["fafb5fe9a20c2a411db9a68545b683437c451c4e"]
+    },
+    {
+      "id": "concise_source_basenames",
+      "kind": "source",
+      "summary": "Use directory context and primary entity names to shorten source basenames to at most three words without changing module boundaries, symbols or emitted bytes.",
       "commits": ["release-commit"]
     }
   ],

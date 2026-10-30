@@ -383,7 +383,7 @@ Deform_SBZ:
 ; Extracted into a separate file because they are only tangentially
 ; related to background deformation, and identical in REV00 and REV01
 ; (This file includes MoveScreenHoriz!)
-                include "src/game/world/scroll_horiz_and_scroll_vertical.s"
+                include "src/game/world/camera_scroll.s"
 
 ; ===========================================================================
 ; ---------------------------------------------------------------------------

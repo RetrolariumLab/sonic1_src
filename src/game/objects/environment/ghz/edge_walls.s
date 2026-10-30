@@ -41,4 +41,4 @@ Edge_Display:                                       ; Routine 4
                 rts
 ; ===========================================================================
 
-Map_Edge:   include "src/rendering/mappings/environment/ghz/ghz_edge_walls.s"
+Map_Edge:   include "src/rendering/mappings/environment/ghz/edge_walls.s"

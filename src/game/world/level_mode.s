@@ -361,7 +361,7 @@ Level_FDLoop_NoDim:
 ; ===========================================================================
 ; >>> Misc level logic for specific circumstances
                 include "src/game/world/lz_water_features.s"
-                include "src/game/player/move_sonic_in_demo.s"
+                include "src/game/player/demo_control.s"
 
 ; ===========================================================================
 ; ---------------------------------------------------------------------------

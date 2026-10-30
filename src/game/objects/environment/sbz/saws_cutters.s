@@ -212,4 +212,4 @@ Saw_Type4_SpeedingFromRight_Shot:
 
 ; ===========================================================================
 
-Map_Saw:   include "src/rendering/mappings/environment/sbz/saws_and_pizza_cutters.s"
+Map_Saw:   include "src/rendering/mappings/environment/sbz/saws_cutters.s"

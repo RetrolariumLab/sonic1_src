@@ -183,5 +183,5 @@ SBall_Child:                                       ; Routine 4
 
 ; ===========================================================================
 
-Map_SBall:   include "src/rendering/mappings/environment/syz/spiked_ball_and_chain_syz.s"
-Map_SBall2:   include "src/rendering/mappings/environment/lz/spiked_ball_and_chain_lz.s"
+Map_SBall:   include "src/rendering/mappings/environment/syz/spiked_chain.s"
+Map_SBall2:   include "src/rendering/mappings/environment/lz/spiked_chain.s"

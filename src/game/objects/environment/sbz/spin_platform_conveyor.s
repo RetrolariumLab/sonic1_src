@@ -242,7 +242,7 @@ SpinC_Platform_Update:
 
 ; ===========================================================================
 ; We need to include animations from here to keep the corner data in this file
-                include "src/rendering/animation/environment/sbz_spin_platform_conveyor.s"
+                include "src/rendering/animation/environment/sbz_conveyor_platforms.s"
 
 ; ===========================================================================
 ; Conveyor belt corner target coordinate definitions

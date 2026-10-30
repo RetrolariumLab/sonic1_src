@@ -130,7 +130,7 @@ Bri_CheckOnBridge:
 
 ; Allow Sonic stepping on platforms. This is sandwiched in here,
 ; likely for being the first platform object created for the game
-                include "src/game/objects/services/platform_object_and_slope_object.s"
+                include "src/game/objects/services/platform_collision.s"
 
 ; ===========================================================================
 

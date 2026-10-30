@@ -358,4 +358,4 @@ Drown_Countdown:;   Routine $A
 
                 include "src/rendering/animation/environment/drowning_countdown.s"
 
-Map_UnusedFace:   include "src/rendering/mappings/unused/unused_sonic_face.s"
+Map_UnusedFace:   include "src/rendering/mappings/unused/sonic_face.s"

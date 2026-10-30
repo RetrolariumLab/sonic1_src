@@ -167,7 +167,7 @@ Swing_StoodOn:                                       ; Routine 4
 
 ; Move Sonic with platform, shared by almost all other platform objects
 ; This is likely sandwiched in between here for being the first one
-                include "src/game/player/mv_sonic_on_ptfm.s"
+                include "src/game/player/platform_carry.s"
 
 ; ===========================================================================
 ; ---------------------------------------------------------------------------

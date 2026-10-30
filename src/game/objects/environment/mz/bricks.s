@@ -138,4 +138,4 @@ Brick_Type04:                                       ; subtype 4 = wobble slow (o
                 rts                                     ; return
 ; ===========================================================================
 
-Map_Brick:   include "src/rendering/mappings/environment/mz/mz_bricks.s"
+Map_Brick:   include "src/rendering/mappings/environment/mz/bricks.s"

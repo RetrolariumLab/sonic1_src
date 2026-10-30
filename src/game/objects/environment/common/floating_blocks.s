@@ -573,4 +573,4 @@ FBlock_SLZStair_MoveSquare:
 
 ; ===========================================================================
 
-Map_FBlock:   include "src/rendering/mappings/environment/common/floating_blocks_and_doors.s"
+Map_FBlock:   include "src/rendering/mappings/environment/common/floating_blocks.s"

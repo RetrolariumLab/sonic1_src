@@ -121,4 +121,4 @@ VanP_StoodOn:                                       ; Routine 4
 ; ===========================================================================
 
                 include "src/rendering/animation/environment/sbz_vanishing_platforms.s"
-Map_VanP:   include "src/rendering/mappings/environment/sbz/sbz_vanishing_platforms.s"
+Map_VanP:   include "src/rendering/mappings/environment/sbz/vanishing_platforms.s"

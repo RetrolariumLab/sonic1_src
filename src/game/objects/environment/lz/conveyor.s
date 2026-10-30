@@ -393,4 +393,4 @@ LCon_Data:   dc.w    .group0-LCon_Data
 
 ; ===========================================================================
 
-Map_LConv:   include "src/rendering/mappings/environment/lz/lz_conveyor.s"
+Map_LConv:   include "src/rendering/mappings/environment/lz/conveyor.s"

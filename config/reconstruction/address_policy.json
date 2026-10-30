@@ -42,37 +42,37 @@
       "reason": "A3 holds a negative 16-pixel collision step for reversed floor or ceiling scans."
     },
     {
-      "owners": ["src/ui/hud/hud_update.s"],
+      "owners": ["src/ui/hud/update.s"],
       "statement": "dc.l 100000",
       "kind": "decimal_divisor",
       "reason": "HUD decimal digit conversion subtracts this power-of-ten value; it is not a ROM address."
     },
     {
-      "owners": ["src/ui/hud/hud_update.s"],
+      "owners": ["src/ui/hud/update.s"],
       "statement": "dc.l 10000",
       "kind": "decimal_divisor",
       "reason": "HUD decimal digit conversion subtracts this power-of-ten value; it is not a ROM address."
     },
     {
-      "owners": ["src/ui/hud/hud_update.s"],
+      "owners": ["src/ui/hud/update.s"],
       "statement": "dc.l 1000",
       "kind": "decimal_divisor",
       "reason": "HUD decimal digit conversion subtracts this power-of-ten value; it is not a ROM address."
     },
     {
-      "owners": ["src/ui/hud/hud_update.s"],
+      "owners": ["src/ui/hud/update.s"],
       "statement": "dc.l 100",
       "kind": "decimal_divisor",
       "reason": "HUD decimal digit conversion subtracts this power-of-ten value; it is not a ROM address."
     },
     {
-      "owners": ["src/ui/hud/hud_update.s"],
+      "owners": ["src/ui/hud/update.s"],
       "statement": "dc.l 10",
       "kind": "decimal_divisor",
       "reason": "HUD decimal digit conversion subtracts this power-of-ten value; it is not a ROM address."
     },
     {
-      "owners": ["src/ui/hud/hud_update.s"],
+      "owners": ["src/ui/hud/update.s"],
       "statement": "dc.l 1",
       "kind": "decimal_divisor",
       "reason": "HUD decimal digit conversion subtracts this power-of-ten value; it is not a ROM address."

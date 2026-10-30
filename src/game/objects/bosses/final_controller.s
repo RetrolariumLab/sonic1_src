@@ -688,7 +688,7 @@ BossFinal_EmptyShip:                                       ; Routine $A
                 bra.w   BossFinal_Display
 ; ===========================================================================
 
-                include "src/rendering/animation/bosses/fz_eggman_in_ship.s"
+                include "src/rendering/animation/bosses/eggman_escape.s"
 Map_FZDamaged:   include "src/rendering/mappings/bosses/fz_damaged_eggmobile.s"
 Map_FZLegs:   include "src/rendering/mappings/bosses/fz_eggmobile_legs.s"
 

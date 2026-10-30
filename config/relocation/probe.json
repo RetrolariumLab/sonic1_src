@@ -4,7 +4,7 @@
   "include_moves": [
     {
       "owner": "src/game/objects/environment/common/swinging_platforms.s",
-      "include": "src/game/player/mv_sonic_on_ptfm.s",
+      "include": "src/game/player/platform_carry.s",
       "placement": "end",
       "reason": "Keep both SolidObject BSR.w callers within signed word reach without changing their opcodes or cycles."
     },
@@ -26,7 +26,7 @@
   ],
   "branch_widths": [
     {
-      "owner": "src/game/objects/bosses/syz_main_and_blocks.s",
+      "owner": "src/game/objects/bosses/syz_boss.s",
       "target": "BossSpringYard_SetupAnim",
       "occurrences": 2,
       "replace_occurrence": 0,
