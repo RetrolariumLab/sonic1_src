@@ -17,8 +17,9 @@
 - [Resolved unknowns](resolved_unknowns.md): concrete evidence and its
   boundaries.
 - [Architecture decisions](architecture_decisions.md): ownership and tradeoffs.
-- [Provenance](provenance.md): source import, removals, contributors and
-  licensing.
+- [Provenance](provenance.md): source import, removals and licensing.
+- [Contributors](../CONTRIBUTORS.md): public author names from the imported
+  Sonic Retro history.
 
 `config/source_reconstruction_1_0.json` owns the inherited preservation
 contract. `config/source_reconstruction_2_0.json` describes the additional

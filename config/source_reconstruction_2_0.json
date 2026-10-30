@@ -18,7 +18,7 @@
   "delta_history": {
     "base_commit": "9459c137efac1bd010bd08cc1b0d54c9d63fb3cd",
     "tip": "release-commit",
-    "commit_count": 6
+    "commit_count": 7
   },
   "included_scope": [
     "semantic_source_owners",
@@ -90,6 +90,12 @@
       "id": "concise_source_basenames",
       "kind": "source",
       "summary": "Use directory context and primary entity names to shorten source basenames to at most three words without changing module boundaries, symbols or emitted bytes.",
+      "commits": ["f6741c07adf9474e76d30352fd17800983339f4b"]
+    },
+    {
+      "id": "upstream_fork_and_contributors",
+      "kind": "documentation",
+      "summary": "Identify the Sonic Retro fork explicitly and centralize all recorded upstream author names in a linked contributor roster without changing source or preservation behavior.",
       "commits": ["release-commit"]
     }
   ],

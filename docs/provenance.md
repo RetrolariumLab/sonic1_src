@@ -49,57 +49,9 @@ modified or bundled as part of this import. Music, sound effects, embedded FM
 voice definitions, PSG envelopes and SMPS2ASM content macros are excluded from
 the source tree; their private streams are included through extraction records.
 
-## Public upstream contributor names
+## Upstream contributors
 
-Names are transcribed from `git shortlog -sn HEAD` at the imported commit,
-without email addresses. Distinct spellings remain separate, as in that history.
-
-- Clownacy
-- Selbi182
-- unknown
-- MainMemory
-- AlexField442
-- noobguy57
-- Selbi
-- Francis Gagné
-- Kilo
-- MDTravis
-- Brainulator9
-- GabrielRavier
-- Filter
-- flamewing
-- Benjamin the Raccoon
-- Ralakimus
-- devon-artmeier
-- ollie-ollie-tech-deck
-- vladikcomper
-- Christopher Trumbour
-- DevonArtmeier
-- FourHawk
-- Mildanner
-- Techokami
-- TomatoWave_0
-- StardustGear
-- Lave sIime
-- Oleg Kalachev
-- ilija04
-- kirjavascript
-- vinegar97
-- Adrien Plazas
-- DevEd2
-- DevsArchive
-- Hame
-- Hivebrain
-- Jeor489
-- Lave siime
-- MoDule
-- Naoto_ntp
-- Novedicus
-- Paul McQuade
-- Sean Brackeen
-- Tails8521
-- TheBlad768
-- VAdaPEGA
-- VelpaChallenger
-- kirisamemofo
-- oo1o1o12
+All 49 public author names from the imported AS history are listed in
+[CONTRIBUTORS.md](../CONTRIBUTORS.md), with their recorded spellings and
+aliases. That file is the single owner of the contributor list. Original credits
+in source comments remain intact.
