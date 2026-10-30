@@ -1,8 +1,8 @@
 # Source ownership and include order
 
-The proposed canonical entry is `src/main.asm`. It shows preservation include
-order and delegates implementations to semantic owners. A generated wrapper
-supplies revision defines; profiles do not copy the engine.
+The canonical entry is `src/main.asm`. It shows preservation include order and
+delegates implementations to semantic owners. A generated wrapper supplies
+revision defines; profiles do not copy the engine.
 
 `config/reconstruction/source_layout.json` is the range authority. Each record
 names a path, responsibility, source provenance, content kind, profile ranges
@@ -29,10 +29,10 @@ blob.
 | `src/audio/`              | 68000 scheduling/channel/command logic, Z80 playback, RAM interfaces and private resource includes.                  |
 | `src/ui/`                 | Sega/title, level select, continue, ending, credits and result-screen flow.                                          |
 
-The semantic preview retains every instruction, table, conditional and emitted
+The semantic layout retains every instruction, table, conditional and emitted
 byte. File boundaries fall at complete global procedures or balanced include
 regions. Mechanical path changes are separate from behavior changes. The
-preview's 437 source records cover the complete ROM and decoded Z80 spaces in
+registry's 437 source records cover the complete ROM and decoded Z80 spaces in
 all three profiles; production acceptance must recompute that evidence.
 
 The 68000 sound driver is split into scheduling, track playback, sound queue,
