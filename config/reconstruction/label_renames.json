@@ -8,7 +8,7 @@
   "project_additions": [
     {
       "name": "CartridgeHeader",
-      "path": "src/system/cartridge.asm",
+      "path": "src/system/cartridge.s",
       "reason": "Name the fixed header boundary for layout checks."
     },
     {

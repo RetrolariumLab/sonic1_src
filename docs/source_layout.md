@@ -1,6 +1,6 @@
 # Source ownership and include order
 
-The canonical entry is `src/main.asm`. It shows preservation include order and
+The canonical entry is `src/main.s`. It shows preservation include order and
 delegates implementations to semantic owners. A generated wrapper supplies
 revision defines; profiles do not copy the engine.
 
@@ -66,3 +66,16 @@ invented original interval: it is checked as registered child includes only,
 emits no exclusive bytes, and still binds the complete original owner's hash.
 The seven structural wrappers use this explicit category. The HUD pattern
 wrapper instead records the exact four original lines that were moved.
+
+## Source filename convention
+
+Source basenames use lowercase snake_case without numeric object-ID prefixes,
+spaces or punctuation. Object IDs remain in the symbolic dispatch table and
+source comments. Imported global assembly labels are unchanged.
+
+The `.s` suffix identifies 68000 source and emitted content declarations; `.inc`
+identifies shared constants, RAM declarations, macros and assembler setup. The
+Z80 driver and its DPCM include wrappers retain `.asm`. The PCM logo sample
+belongs to the 68000 source. These are project naming conventions, not processor
+restrictions imposed by the assembler. Preservation origins continue to name the
+original files at the accepted predecessor commit.

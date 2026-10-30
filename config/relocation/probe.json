@@ -3,21 +3,21 @@
   "method": "Duplicate terminal RTS/RTE in an isolated source copy; preserve original instruction timing and sample-bank geometry.",
   "include_moves": [
     {
-      "owner": "src/game/objects/environment/15 Swinging Platforms.asm",
-      "include": "src/game/player/sub MvSonicOnPtfm.asm",
+      "owner": "src/game/objects/environment/swinging_platforms.s",
+      "include": "src/game/player/mv_sonic_on_ptfm.s",
       "placement": "end",
       "reason": "Keep both SolidObject BSR.w callers within signed word reach without changing their opcodes or cycles."
     },
     {
-      "owner": "src/game/engine_index.asm",
-      "include": "src/rendering/sprite_queue.asm",
-      "before_include": "src/game/objects/Object Pointers.asm",
+      "owner": "src/game/engine_index.s",
+      "include": "src/rendering/sprite_queue.s",
+      "before_include": "src/game/objects/object_pointers.s",
       "reason": "Keep the REV00 ending-object BRA.w within signed word reach."
     }
   ],
   "table_moves": [
     {
-      "owner": "src/ui/title_mode.asm",
+      "owner": "src/ui/title_mode.s",
       "first_label": "LevSel_Ptrs",
       "last_label": "LevSel_PtrsEnd",
       "before_label": "LevSel_Level_SS",
@@ -26,7 +26,7 @@
   ],
   "branch_widths": [
     {
-      "owner": "src/game/objects/bosses/75, 76 Boss - SYZ Main and Blocks.asm",
+      "owner": "src/game/objects/bosses/syz_main_and_blocks.s",
       "target": "BossSpringYard_SetupAnim",
       "occurrences": 2,
       "replace_occurrence": 0,
@@ -39,19 +39,19 @@
     }
   ],
   "reclaim_padding": {
-    "owner": "src/game/collision/data.asm",
+    "owner": "src/game/collision/data.s",
     "expressions": ["$104", "$40"],
     "reason": "Discard only the original non-executable gap before AngleMap, preserving all payload bytes."
   },
   "sample_anchor": {
-    "owner": "src/audio/resources.asm",
+    "owner": "src/audio/resources.s",
     "before_comment": "; Don't let Sega sample cross $8000-byte boundary",
     "observation_label": "Probe_SegaPCM_Unaligned",
     "sample_path": "sound/dac/pcm/sega.pcm",
     "label": "SegaPCM"
   },
   "audio_padding": {
-    "owner": "src/audio/rom_index.asm",
+    "owner": "src/audio/rom_index.s",
     "expressions": {
       "rev00": "$62A",
       "rev01": "$63C",

@@ -126,7 +126,9 @@ class HistoryBoundaryContracts(unittest.TestCase):
                 release_audit.history()
 
     def test_private_sound_content_is_not_accepted_as_driver_declarations(self):
-        source = "\n".join(path.read_text() for path in (ROOT / "src/audio").rglob("*.asm"))
+        source = "\n".join(
+            path.read_text() for path in (ROOT / "src/audio").rglob("*") if path.suffix in (".s", ".asm", ".inc")
+        )
         import re
 
         self.assertIsNone(re.search(r"^PSG[1-9]:?\s+dc\.b\b", source, re.M | re.I))

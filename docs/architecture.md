@@ -1,6 +1,6 @@
 # Engine architecture
 
-`src/main.asm` records cartridge include order. The generated profile wrapper
+`src/main.s` records cartridge include order. The generated profile wrapper
 supplies only manifest-owned `Revision`; all accepted images share one engine.
 Directory boundaries follow consumers and state ownership, while include order
 preserves original byte layout. [Source layout](source_layout.md) explains the

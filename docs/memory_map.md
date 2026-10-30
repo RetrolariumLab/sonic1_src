@@ -49,7 +49,7 @@ Work RAM is `$FF0000..$FFFFFF` (64 KiB). The 256x256 chunk buffer is followed by
 the interlaced foreground/background level layout and rendering buffers. The
 object pool contains 128 records of `$40` bytes, including Sonic at its first
 slot. Later RAM holds mode, camera, palette, level and audio state.
-`src/memory/ram.asm` owns the complete allocation and alias relationships.
+`src/memory/ram.inc` owns the complete allocation and alias relationships.
 
 The 68000 maps Z80 RAM at `$A00000..$A01FFF`, YM2612 at `$A04000..$A04003`, bank
 select at `$A06000`, bus request at `$A11100` and reset at `$A11200`.

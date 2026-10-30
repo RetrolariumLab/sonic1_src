@@ -18,7 +18,7 @@
   "delta_history": {
     "base_commit": "9459c137efac1bd010bd08cc1b0d54c9d63fb3cd",
     "tip": "release-commit",
-    "commit_count": 3
+    "commit_count": 4
   },
   "included_scope": [
     "semantic_source_owners",
@@ -72,6 +72,12 @@
       "id": "corpus_and_gates",
       "kind": "documentation",
       "summary": "Review thematic source/content documentation and add the inherited complete aggregate gate.",
+      "commits": ["a44609677d7b0c61f9ec68e8c885cf5fdcfc8c3b"]
+    },
+    {
+      "id": "source_filename_conventions",
+      "kind": "source",
+      "summary": "Normalize source basenames and processor-oriented suffixes while preserving symbolic labels, include order and cartridge bytes.",
       "commits": ["release-commit"]
     }
   ],

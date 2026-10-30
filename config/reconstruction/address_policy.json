@@ -3,76 +3,76 @@
   "classified_literals": [
     {
       "owners": [
-        "src/game/player/Sonic AnglePos.asm",
-        "src/game/player/Sonic Collision.asm",
-        "src/game/collision/object_floor.asm"
+        "src/game/player/sonic_angle_pos.s",
+        "src/game/player/sonic_collision.s",
+        "src/game/collision/object_floor.s"
       ],
       "statement": "movea.w #$10,a3",
       "kind": "scalar",
       "reason": "A3 holds the 16-pixel collision block height, not a memory address."
     },
     {
-      "owners": ["src/rendering/pattern_queue.asm"],
+      "owners": ["src/rendering/pattern_queue.s"],
       "statement": "movea.w #8,a5",
       "kind": "scalar",
       "reason": "A5 counts eight Nemesis rows in one tile."
     },
     {
-      "owners": ["src/system/startup.asm"],
+      "owners": ["src/system/startup.s"],
       "statement": "dc.l $40000080",
       "kind": "vdp_command",
       "reason": "Packed VDP DMA-fill destination command for VRAM address zero."
     },
     {
-      "owners": ["src/system/startup.asm"],
+      "owners": ["src/system/startup.s"],
       "statement": "dc.l $C0000000",
       "kind": "vdp_command",
       "reason": "Packed VDP CRAM write command."
     },
     {
-      "owners": ["src/system/startup.asm"],
+      "owners": ["src/system/startup.s"],
       "statement": "dc.l $40000010",
       "kind": "vdp_command",
       "reason": "Packed VDP VSRAM write command for offset zero."
     },
     {
-      "owners": ["src/game/player/Sonic AnglePos.asm", "src/game/player/Sonic Collision.asm"],
+      "owners": ["src/game/player/sonic_angle_pos.s", "src/game/player/sonic_collision.s"],
       "statement": "movea.w #-$10,a3",
       "kind": "scalar",
       "reason": "A3 holds a negative 16-pixel collision step for reversed floor or ceiling scans."
     },
     {
-      "owners": ["src/ui/hud/HUD Update.asm"],
+      "owners": ["src/ui/hud/hud_update.s"],
       "statement": "dc.l 100000",
       "kind": "decimal_divisor",
       "reason": "HUD decimal digit conversion subtracts this power-of-ten value; it is not a ROM address."
     },
     {
-      "owners": ["src/ui/hud/HUD Update.asm"],
+      "owners": ["src/ui/hud/hud_update.s"],
       "statement": "dc.l 10000",
       "kind": "decimal_divisor",
       "reason": "HUD decimal digit conversion subtracts this power-of-ten value; it is not a ROM address."
     },
     {
-      "owners": ["src/ui/hud/HUD Update.asm"],
+      "owners": ["src/ui/hud/hud_update.s"],
       "statement": "dc.l 1000",
       "kind": "decimal_divisor",
       "reason": "HUD decimal digit conversion subtracts this power-of-ten value; it is not a ROM address."
     },
     {
-      "owners": ["src/ui/hud/HUD Update.asm"],
+      "owners": ["src/ui/hud/hud_update.s"],
       "statement": "dc.l 100",
       "kind": "decimal_divisor",
       "reason": "HUD decimal digit conversion subtracts this power-of-ten value; it is not a ROM address."
     },
     {
-      "owners": ["src/ui/hud/HUD Update.asm"],
+      "owners": ["src/ui/hud/hud_update.s"],
       "statement": "dc.l 10",
       "kind": "decimal_divisor",
       "reason": "HUD decimal digit conversion subtracts this power-of-ten value; it is not a ROM address."
     },
     {
-      "owners": ["src/ui/hud/HUD Update.asm"],
+      "owners": ["src/ui/hud/hud_update.s"],
       "statement": "dc.l 1",
       "kind": "decimal_divisor",
       "reason": "HUD decimal digit conversion subtracts this power-of-ten value; it is not a ROM address."

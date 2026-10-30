@@ -87,7 +87,7 @@
       "status": "satisfied",
       "evidence": {
         "targets": ["audit-private", "audit-symbolic"],
-        "files": ["src/main.asm", "src/audio/z80.asm", "config/reconstruction/address_policy.json"]
+        "files": ["src/main.s", "src/audio/z80.asm", "config/reconstruction/address_policy.json"]
       }
     },
     "provenance_and_unknowns": {
@@ -187,7 +187,7 @@
       "artifact": "sonic1_rev00",
       "identity": "byte-identical",
       "input": "rev00",
-      "entrypoint": "src/main.asm"
+      "entrypoint": "src/main.s"
     },
     {
       "id": "rev01",
@@ -195,7 +195,7 @@
       "artifact": "sonic1_rev01",
       "identity": "byte-identical",
       "input": "rev01",
-      "entrypoint": "src/main.asm"
+      "entrypoint": "src/main.s"
     },
     {
       "id": "revxb",
@@ -203,7 +203,7 @@
       "artifact": "sonic1_revxb",
       "identity": "byte-identical",
       "input": "revxb",
-      "entrypoint": "src/main.asm"
+      "entrypoint": "src/main.s"
     }
   ],
   "runtime_coverage": [

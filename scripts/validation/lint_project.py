@@ -1,7 +1,7 @@
-"""Run Kit's AS house style over .asm sources through disposable .s copies.
+"""Run Kit's AS house style through protected disposable source copies.
 
 Kit's current AS file selector accepts .s/.inc. This adapter changes only the
-scratch suffix, leaves Kit/Core untouched, and uses their public CLI for every
+scratch suffix for Z80 .asm inputs, leaves Kit/Core untouched, and uses their public CLI for every
 format operation. Source formatting is copied back only for the explicit fix.
 """
 
@@ -57,7 +57,7 @@ def assembly(*, fix: bool) -> None:
         raise ValueError("No tracked assembler sources selected")
     pairs = []
     for relative in sources:
-        target = stage / "sources" / relative.with_suffix(".s")
+        target = stage / "sources" / (relative.with_suffix(".s") if relative.suffix == ".asm" else relative)
         projected, mapping = protect_fields((ROOT / relative).read_text(encoding="utf-8"))
         atomic_write(target, projected.encode())
         pairs.append((ROOT / relative, target, mapping))

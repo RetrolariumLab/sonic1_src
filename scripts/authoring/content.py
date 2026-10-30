@@ -30,7 +30,7 @@ def model_decode(plain: bytes, item: dict, context: dict):
         return tables.decode_mapping(plain, context["events"], profile=owner_profile)
     if kind == "animation":
         return tables.decode_animation(
-            plain, profile=owner_profile, special_player=item["source"]["path"].endswith("/Sonic.asm")
+            plain, profile=owner_profile, special_player=item["source"]["path"].endswith("/sonic.s")
         )
     if kind == "smps":
         return smps.decode(plain, kind=item["source"]["path"].split("/")[2], profile=owner_profile)

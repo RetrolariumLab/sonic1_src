@@ -1,0 +1,8 @@
+                include "src/game/player/controller.s"
+                include "src/game/player/ground_motion.s"
+                include "src/game/player/rolling_air.s"
+                include "src/game/player/jump_slopes.s"
+                include "src/game/player/floor_response.s"
+                include "src/game/player/damage_death.s"
+                include "src/game/player/loop_sections.s"
+                include "src/game/player/animation_graphics.s"

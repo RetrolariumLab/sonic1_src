@@ -3,7 +3,7 @@
 The accepted images are REV00, REV01 and the Sonic Mega Collection REVXB.
 `assets/manifest.json` owns their filenames, sizes and hashes.
 `config/revision_profiles.json` owns their assembler defines and the default
-profile. The default is REV01. All three share `src/main.asm`.
+profile. The default is REV01. All three share `src/main.s`.
 
 Install Python 3.11 or later, GNU Make and Retrolarium Kit with build-tool
 release 2026.10.11. This checkout currently pins the Windows x86_64 assembler
@@ -60,13 +60,15 @@ must be committed before the clean-clone and tag-ready checks can succeed.
 
 ## Kit style integration
 
-Kit's AS linter currently selects `.s` and `.inc` files. This source retains its
-imported `.asm` extension within the semantic subsystem tree. The project
-validation adapter selects every tracked source named by `config/lint.json`,
-stages `.s` copies under `build/lint-stage/` and calls `rltool lint` on those
-copies. Only an explicit format operation copies formatting back. General
-tracked text and code use `rltool lint` and `rltool format` directly. No copy is
-a build input and no Kit or Core source is changed.
+Kit's AS linter selects `.s` and `.inc` files. The project uses `.s` for 68000
+code and emitted tables, `.inc` for shared definitions, and `.asm` for the Z80
+driver and its DPCM sample wrappers. The validation adapter selects every
+tracked source named by `config/lint.json`, stages protected copies under
+`build/lint-stage/` and calls `rltool lint` on those copies. Z80 `.asm` copies
+receive the `.s` suffix only within that disposable stage. Only an explicit
+format operation copies formatting back. General tracked text and code use
+`rltool lint` and `rltool format` directly. No copy is a build input and no Kit
+or Core source is changed.
 
 The same projection protects AS column-zero declaration fields (assignments,
 functions, structs and local labels) that the current Kit formatter does not

@@ -1,8 +1,0 @@
-                include "src/game/player/controller.asm"
-                include "src/game/player/ground_motion.asm"
-                include "src/game/player/rolling_air.asm"
-                include "src/game/player/jump_slopes.asm"
-                include "src/game/player/floor_response.asm"
-                include "src/game/player/damage_death.asm"
-                include "src/game/player/loop_sections.asm"
-                include "src/game/player/animation_graphics.asm"
