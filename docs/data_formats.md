@@ -88,12 +88,31 @@ owner. It never treats a generally truncated layout as valid. The reason for the
 short original file and the gameplay relevance of the extra row remain separate
 questions.
 
+World exports require canonical engine capacities from the current profile's
+checked AS listing. `Catalog.read` binds the respawn, block and chunk RAM bounds
+to the export context. A block reference must fit the 0x1800-byte block buffer
+(768 eight-byte entries). A layout ID is validated after the consumer's
+subtract-one and seven-bit mask: zero is empty, and high-bit retail flags retain
+their original meaning. Flagged chunks also require the following collision
+chunk to fit RAM; flagged loop chunk A8 instead selects alternate chunk 51.
+Fitting the encoded slot or the field width alone does not authorize a reference
+beyond those RAM allocations. These checks establish RAM bounds; they do not
+establish every level-specific art, collision or gameplay dependency.
+
 ## Placement, starts and collision
 
 Normal object placements use six-byte records: X word; Y word with flip flags;
 object ID with the remember/respawn bit; subtype byte. Y occupies 12 bits;
 ignored bits are preserved. X equal to FFFF terminates, with the original
 terminator tail retained. The terminator is not an object at that position.
+
+The respawn allocation includes two counters and an unused zero index; the
+current 0xC0-byte region therefore supports 189 remembered objects. Public
+export derives that limit from the compiled symbols. Object X must remain
+nondecreasing. Several verified retail lists already have descending pairs: zero
+edits retain them, and an edit may retain only the same X pair at the same
+record position. New or changed descending pairs are rejected; export never
+silently sorts records or renumbers their respawn entries.
 
 LZ/SBZ conveyor groups have a different format: a word count-minus-one followed
 by X, Y and subtype words. Some groups retain a six-byte unused terminator after

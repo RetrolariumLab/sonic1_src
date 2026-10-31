@@ -17,6 +17,18 @@ shape, pointer and shared byte before encoding; validate compressed and decoded
 sizes before replacing an output. A model for another profile is rejected even
 when some current bytes happen to match.
 
+World owners also require a current canonical build so `Catalog.read` can bind
+their RAM capacities. Export rejects respawn overflow, new descending object
+positions and block/chunk references outside the engine buffers. Existing retail
+X inversions may retain only their original coordinates and position; layout
+high-bit aliases follow the original consumer's mask. See the exact contracts in
+[data formats](data_formats.md).
+
+The symbolic-pointer audit checks absolute memory operands, immediate address
+register loads including SP, and numeric equate expressions and chains. Its
+owner-specific scalar and hardware classifications remain explicit. CPU
+directives keep Z80 immediate arithmetic distinct from 68000 memory operands.
+
 For a zero edit, re-encoding the model must reproduce the payload. Compression
 may instead prove semantic equivalence through a genuine encode/decode and
 retain the original stream. This exception applies only while content is

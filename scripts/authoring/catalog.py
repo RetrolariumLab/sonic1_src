@@ -7,6 +7,7 @@ from scripts.build.project import ROOT, load, profile, image, sha1, sha256, file
 from scripts.build.sources import fingerprint
 from scripts.build.listing import symbols
 from scripts.validation.source_layout import actual
+from scripts.authoring import engine_contracts
 
 
 class Catalog:
@@ -20,6 +21,7 @@ class Catalog:
             for name in ("assets/manifest.json", "config/build/derived_assets.json")
         }
         self.builds = {}
+        self.engine_bounds = {}
         self.coverage()
 
     def coverage(self):
@@ -94,7 +96,25 @@ class Catalog:
             raw = checked_path(source["path"], ROOT / "data").read_bytes()
             if len(raw) != owner["size"] or sha1(raw) != owner["sha1"]:
                 raise ValueError("Private content differs from its extraction owner")
-            return raw, dict(slot=owner["size"], offset=owner["offset"], source_kind=kind)
+            context = dict(slot=owner["size"], offset=owner["offset"], source_kind=kind)
+            if item["codec"] in engine_contracts.KINDS:
+                identifier = item["profile"]
+                built = self.built(identifier)
+                if identifier not in self.engine_bounds:
+                    names = {
+                        "v_objstate",
+                        "v_objstate_end",
+                        "v_16x16",
+                        "v_sgfx_buffer",
+                        "v_256x256",
+                        "v_256x256_end",
+                        "chunk_size",
+                    }
+                    self.engine_bounds[identifier] = engine_contracts.capacities(
+                        symbols(built["directory"] / "entry.lst", names)
+                    )
+                context["engine_capacities"] = dict(self.engine_bounds[identifier])
+            return raw, context
         built = self.built(item["profile"])
         if kind == "module":
             # The title-card view deliberately includes its Game Over child;

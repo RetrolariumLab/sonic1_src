@@ -2,7 +2,7 @@
 
 from __future__ import annotations
 from dataclasses import replace
-from scripts.authoring import records, tables, enigma, smps, kosinski_optimal, core_codec
+from scripts.authoring import records, tables, enigma, smps, kosinski_optimal, core_codec, engine_contracts
 from scripts.authoring.kosinski import decode as kos_decode
 from scripts.build.project import profile, sha256
 
@@ -72,7 +72,9 @@ def model_encode(model, item: dict, context: dict, reference: bytes) -> bytes:
     # Fixed preservation allocations cannot shrink and expose adjacent bytes.
     if len(result) != capacity:
         raise ValueError("Content must fill its fixed decoded allocation")
-    model_decode(result, item, context)
+    checked = model_decode(result, item, context)
+    if kind in engine_contracts.KINDS:
+        engine_contracts.validate(checked, kind, context, model_decode(reference, item, context))
     return result
 
 

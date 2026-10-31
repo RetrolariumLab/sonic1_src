@@ -18,7 +18,7 @@
   "delta_history": {
     "base_commit": "9459c137efac1bd010bd08cc1b0d54c9d63fb3cd",
     "tip": "release-commit",
-    "commit_count": 9
+    "commit_count": 10
   },
   "included_scope": [
     "semantic_source_owners",
@@ -108,6 +108,12 @@
       "id": "cohesive_small_source_groups",
       "kind": "source",
       "summary": "Consolidate adjacent math and explosion families and inline owned level tables, preserving every source origin, content view and cartridge byte.",
+      "commits": ["ed378ad9a55ed2fd11aef53a28faad6807dd7a86"]
+    },
+    {
+      "id": "world_content_and_pointer_guards",
+      "kind": "tooling",
+      "summary": "Bind world exports to canonical RAM capacities, reject new object-order violations and audit numeric memory and equate address forms with negative regression tests.",
       "commits": ["release-commit"]
     }
   ],
