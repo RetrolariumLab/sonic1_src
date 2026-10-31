@@ -3138,103 +3138,38 @@
       }
     },
     {
-      "path": "src/game/world/level_order.s",
-      "owner": "src/game/world",
-      "responsibility": "Subsystem implementation or declarations: LevelOrder",
-      "kind": "code",
-      "origin": {
-        "path": "_inc/LevelOrder.asm",
-        "lines": [1, 50],
-        "preservation_source_sha256": "857582286b0ad9884b15e1b7b68a3bf4c8a4d9ea74548fa61366cda9584b567d",
-        "kind": "preserved_span"
-      },
-      "ranges": {
-        "rev00": [
-          {
-            "address_space": "m68000_rom",
-            "start": 50932,
-            "end": 50980,
-            "storage_kind": "source"
-          }
-        ],
-        "rev01": [
-          {
-            "address_space": "m68000_rom",
-            "start": 52610,
-            "end": 52658,
-            "storage_kind": "source"
-          }
-        ],
-        "revxb": [
-          {
-            "address_space": "m68000_rom",
-            "start": 52610,
-            "end": 52658,
-            "storage_kind": "source"
-          }
-        ]
-      }
-    },
-    {
-      "path": "src/game/world/level_size_array.s",
-      "owner": "src/game/world",
-      "responsibility": "Subsystem implementation or declarations: LevelSizeArray",
-      "kind": "code",
-      "origin": {
-        "path": "_inc/LevelSizeArray.asm",
-        "lines": [1, 54],
-        "preservation_source_sha256": "923ef3a0fb7858359dd546afcef70e4b844520cfbc2e618246977678f0677acc",
-        "kind": "preserved_span"
-      },
-      "ranges": {
-        "rev00": [
-          {
-            "address_space": "m68000_rom",
-            "start": 24348,
-            "end": 24684,
-            "storage_kind": "source"
-          }
-        ],
-        "rev01": [
-          {
-            "address_space": "m68000_rom",
-            "start": 24362,
-            "end": 24698,
-            "storage_kind": "source"
-          }
-        ],
-        "revxb": [
-          {
-            "address_space": "m68000_rom",
-            "start": 24362,
-            "end": 24698,
-            "storage_kind": "source"
-          }
-        ]
-      }
-    },
-    {
       "path": "src/game/world/bounds_scroll_setup.s",
       "owner": "src/game/world",
-      "responsibility": "Subsystem implementation or declarations: LevelSizeLoad & BgScrollSpeed",
+      "responsibility": "Load level bounds, player start and background scroll state with the owned level-boundary table",
       "kind": "code",
       "origin": {
-        "path": "_inc/LevelSizeLoad & BgScrollSpeed.asm",
-        "lines": [1, 395],
-        "preservation_source_sha256": "013f4b099276b9bf185c9e0f7eaedc20a560397ea87bc0c3352f9ee3eac73e20",
-        "kind": "preserved_span"
+        "kind": "composite",
+        "fragments": [
+          {
+            "path": "_inc/LevelSizeLoad & BgScrollSpeed.asm",
+            "lines": [1, 48],
+            "preservation_source_sha256": "013f4b099276b9bf185c9e0f7eaedc20a560397ea87bc0c3352f9ee3eac73e20",
+            "kind": "preserved_span"
+          },
+          {
+            "path": "_inc/LevelSizeArray.asm",
+            "lines": [1, 54],
+            "preservation_source_sha256": "923ef3a0fb7858359dd546afcef70e4b844520cfbc2e618246977678f0677acc",
+            "kind": "preserved_span"
+          },
+          {
+            "path": "_inc/LevelSizeLoad & BgScrollSpeed.asm",
+            "lines": [50, 395],
+            "preservation_source_sha256": "013f4b099276b9bf185c9e0f7eaedc20a560397ea87bc0c3352f9ee3eac73e20",
+            "kind": "preserved_span"
+          }
+        ]
       },
       "ranges": {
         "rev00": [
           {
             "address_space": "m68000_rom",
             "start": 24254,
-            "end": 24348,
-            "storage_kind": "source"
-          },
-          {
-            "address_space": "m68000_rom",
-            "start": 24684,
             "end": 25222,
             "storage_kind": "source"
           }
@@ -3243,12 +3178,6 @@
           {
             "address_space": "m68000_rom",
             "start": 24268,
-            "end": 24362,
-            "storage_kind": "source"
-          },
-          {
-            "address_space": "m68000_rom",
-            "start": 24698,
             "end": 25198,
             "storage_kind": "source"
           }
@@ -3257,12 +3186,6 @@
           {
             "address_space": "m68000_rom",
             "start": 24268,
-            "end": 24362,
-            "storage_kind": "source"
-          },
-          {
-            "address_space": "m68000_rom",
-            "start": 24698,
             "end": 25198,
             "storage_kind": "source"
           }
@@ -4818,44 +4741,6 @@
       }
     },
     {
-      "path": "src/game/objects/environment/unused/small_explosion.s",
-      "owner": "src/game/objects/environment/unused",
-      "responsibility": "Object implementation: 24 Unused - Small Explosion",
-      "kind": "code",
-      "origin": {
-        "path": "_incObj/24 Unused - Small Explosion.asm",
-        "lines": [1, 45],
-        "preservation_source_sha256": "e058a2e200b4d8c3ec2775aaf2d03488ff0a900a17591ed33fab8607f24455ce",
-        "kind": "preserved_span"
-      },
-      "ranges": {
-        "rev00": [
-          {
-            "address_space": "m68000_rom",
-            "start": 36082,
-            "end": 36194,
-            "storage_kind": "source"
-          }
-        ],
-        "rev01": [
-          {
-            "address_space": "m68000_rom",
-            "start": 37744,
-            "end": 37856,
-            "storage_kind": "source"
-          }
-        ],
-        "revxb": [
-          {
-            "address_space": "m68000_rom",
-            "start": 37744,
-            "end": 37856,
-            "storage_kind": "source"
-          }
-        ]
-      }
-    },
-    {
       "path": "src/game/objects/items/rings.s",
       "owner": "src/game/objects/items",
       "responsibility": "Object implementation: 25, 37 Rings",
@@ -4934,19 +4819,30 @@
     {
       "path": "src/game/objects/environment/common/explosions.s",
       "owner": "src/game/objects/environment/common",
-      "responsibility": "Object implementation: 27, 3F Explosions",
+      "responsibility": "Unused small explosion, item puff and fiery explosion object family",
       "kind": "code",
       "origin": {
-        "path": "_incObj/27, 3F Explosions.asm",
-        "lines": [1, 83],
-        "preservation_source_sha256": "b3034553fcd58060f79ff51bec3f8ee813bd4634990252cfaba8b7b7ffde151d",
-        "kind": "preserved_span"
+        "kind": "composite",
+        "fragments": [
+          {
+            "path": "_incObj/24 Unused - Small Explosion.asm",
+            "lines": [1, 45],
+            "preservation_source_sha256": "e058a2e200b4d8c3ec2775aaf2d03488ff0a900a17591ed33fab8607f24455ce",
+            "kind": "preserved_span"
+          },
+          {
+            "path": "_incObj/27, 3F Explosions.asm",
+            "lines": [1, 83],
+            "preservation_source_sha256": "b3034553fcd58060f79ff51bec3f8ee813bd4634990252cfaba8b7b7ffde151d",
+            "kind": "preserved_span"
+          }
+        ]
       },
       "ranges": {
         "rev00": [
           {
             "address_space": "m68000_rom",
-            "start": 36194,
+            "start": 36082,
             "end": 36424,
             "storage_kind": "source"
           }
@@ -4954,7 +4850,7 @@
         "rev01": [
           {
             "address_space": "m68000_rom",
-            "start": 37856,
+            "start": 37744,
             "end": 38086,
             "storage_kind": "source"
           }
@@ -4962,7 +4858,7 @@
         "revxb": [
           {
             "address_space": "m68000_rom",
-            "start": 37856,
+            "start": 37744,
             "end": 38086,
             "storage_kind": "source"
           }
@@ -5504,25 +5400,36 @@
     {
       "path": "src/ui/objects/got_through_card.s",
       "owner": "src/ui/objects",
-      "responsibility": "Object implementation: 3A Got Through Card",
+      "responsibility": "End-of-act result card and its owned next-level transition table",
       "kind": "code",
       "origin": {
-        "path": "_incObj/3A Got Through Card.asm",
-        "lines": [1, 313],
-        "preservation_source_sha256": "67422b18717a6a7a33c8c99190d5e14a96beef1f551ab942dca23223b72f239d",
-        "kind": "preserved_span"
+        "kind": "composite",
+        "fragments": [
+          {
+            "path": "_incObj/3A Got Through Card.asm",
+            "lines": [1, 210],
+            "preservation_source_sha256": "67422b18717a6a7a33c8c99190d5e14a96beef1f551ab942dca23223b72f239d",
+            "kind": "preserved_span"
+          },
+          {
+            "path": "_inc/LevelOrder.asm",
+            "lines": [1, 50],
+            "preservation_source_sha256": "857582286b0ad9884b15e1b7b68a3bf4c8a4d9ea74548fa61366cda9584b567d",
+            "kind": "preserved_span"
+          },
+          {
+            "path": "_incObj/3A Got Through Card.asm",
+            "lines": [212, 313],
+            "preservation_source_sha256": "67422b18717a6a7a33c8c99190d5e14a96beef1f551ab942dca23223b72f239d",
+            "kind": "preserved_span"
+          }
+        ]
       },
       "ranges": {
         "rev00": [
           {
             "address_space": "m68000_rom",
             "start": 50546,
-            "end": 50932,
-            "storage_kind": "source"
-          },
-          {
-            "address_space": "m68000_rom",
-            "start": 50980,
             "end": 51118,
             "storage_kind": "source"
           }
@@ -5531,12 +5438,6 @@
           {
             "address_space": "m68000_rom",
             "start": 52224,
-            "end": 52610,
-            "storage_kind": "source"
-          },
-          {
-            "address_space": "m68000_rom",
-            "start": 52658,
             "end": 52796,
             "storage_kind": "source"
           }
@@ -5545,12 +5446,6 @@
           {
             "address_space": "m68000_rom",
             "start": 52224,
-            "end": 52610,
-            "storage_kind": "source"
-          },
-          {
-            "address_space": "m68000_rom",
-            "start": 52658,
             "end": 52796,
             "storage_kind": "source"
           }
@@ -8454,106 +8349,6 @@
       }
     },
     {
-      "path": "src/system/math/angle.s",
-      "owner": "src/system/math",
-      "responsibility": "Subsystem implementation or declarations: angle",
-      "kind": "code",
-      "origin": {
-        "path": "_incObj/sub CalcAngle.asm",
-        "lines": [1, 95],
-        "preservation_source_sha256": "57b6bfc27d86ccb24f103db537e7c3cd784dd80b52309a755d3ed85e7425ede0",
-        "kind": "preserved_span"
-      },
-      "ranges": {
-        "rev00": [
-          {
-            "address_space": "m68000_rom",
-            "start": 11432,
-            "end": 11792,
-            "storage_kind": "source"
-          }
-        ],
-        "rev01": [
-          {
-            "address_space": "m68000_rom",
-            "start": 11370,
-            "end": 11730,
-            "storage_kind": "source"
-          }
-        ],
-        "revxb": [
-          {
-            "address_space": "m68000_rom",
-            "start": 11370,
-            "end": 11730,
-            "storage_kind": "source"
-          }
-        ]
-      }
-    },
-    {
-      "path": "src/system/math/sine.s",
-      "owner": "src/system/math",
-      "responsibility": "Subsystem implementation or declarations: sine",
-      "kind": "code",
-      "origin": {
-        "path": "_incObj/sub CalcSine.asm",
-        "lines": [1, 72],
-        "preservation_source_sha256": "fe80d482bb566f1e84462072e9ae6fae136a76902e303224715fab0858c5be71",
-        "kind": "preserved_span"
-      },
-      "ranges": {
-        "rev00": [
-          {
-            "address_space": "m68000_rom",
-            "start": 10714,
-            "end": 11378,
-            "storage_kind": "source"
-          }
-        ],
-        "rev01": [
-          {
-            "address_space": "m68000_rom",
-            "start": 10706,
-            "end": 11370,
-            "storage_kind": "source"
-          }
-        ],
-        "revxb": [
-          {
-            "address_space": "m68000_rom",
-            "start": 10706,
-            "end": 11370,
-            "storage_kind": "source"
-          }
-        ]
-      }
-    },
-    {
-      "path": "src/system/math/square_root.s",
-      "owner": "src/system/math",
-      "responsibility": "Subsystem implementation or declarations: square_root",
-      "kind": "code",
-      "origin": {
-        "path": "_incObj/sub CalcSqrt.asm",
-        "lines": [1, 42],
-        "preservation_source_sha256": "37062bad159a628de014c4635d0e8d62f9b9d03eb75041236086287394eb14ce",
-        "kind": "preserved_span"
-      },
-      "ranges": {
-        "rev00": [
-          {
-            "address_space": "m68000_rom",
-            "start": 11378,
-            "end": 11432,
-            "storage_kind": "source"
-          }
-        ],
-        "rev01": [],
-        "revxb": []
-      }
-    },
-    {
       "path": "src/game/objects/services/chk_object_visible.s",
       "owner": "src/game/objects/services",
       "responsibility": "Shared object service: sub ChkObjectVisible",
@@ -8935,48 +8730,6 @@
             "storage_kind": "source"
           }
         ]
-      }
-    },
-    {
-      "path": "src/system/math/random.s",
-      "owner": "src/system/math",
-      "responsibility": "Subsystem implementation or declarations: random",
-      "kind": "code",
-      "origin": {
-        "path": "_incObj/sub RandomNumber.asm",
-        "lines": [1, 24],
-        "preservation_source_sha256": "8cac4a1dccd027a6419cdbc0c237f02807866ac86c6b8994322994dcc3ac8ff4",
-        "kind": "preserved_span"
-      },
-      "ranges": {
-        "rev00": [
-          {
-            "address_space": "m68000_rom",
-            "start": 10676,
-            "end": 10714,
-            "storage_kind": "source"
-          }
-        ],
-        "rev01": [
-          {
-            "address_space": "m68000_rom",
-            "start": 10668,
-            "end": 10706,
-            "storage_kind": "source"
-          }
-        ],
-        "revxb": [
-          {
-            "address_space": "m68000_rom",
-            "start": 10668,
-            "end": 10706,
-            "storage_kind": "source"
-          }
-        ]
-      },
-      "size_exception": {
-        "kind": "complete_math_service",
-        "reason": "The complete pseudo-random update owns one shared seed and returns the derived value in d0."
       }
     },
     {
@@ -14994,10 +14747,21 @@
       "responsibility": "Wait for the next VBlank handshake",
       "kind": "code",
       "origin": {
-        "path": "sonic.asm",
-        "lines": [1694, 1717],
-        "preservation_source_sha256": "48e1269e1c26dfbe752deb4282b1d892f2f67d949f916e89fe12c1ee3582aeac",
-        "kind": "preserved_span"
+        "kind": "composite",
+        "fragments": [
+          {
+            "path": "sonic.asm",
+            "lines": [1694, 1704],
+            "preservation_source_sha256": "48e1269e1c26dfbe752deb4282b1d892f2f67d949f916e89fe12c1ee3582aeac",
+            "kind": "preserved_span"
+          },
+          {
+            "path": "sonic.asm",
+            "lines": [1711, 1717],
+            "preservation_source_sha256": "48e1269e1c26dfbe752deb4282b1d892f2f67d949f916e89fe12c1ee3582aeac",
+            "kind": "preserved_span"
+          }
+        ]
       },
       "ranges": {
         "rev00": [
@@ -15027,7 +14791,7 @@
       },
       "size_exception": {
         "kind": "complete_frame_handshake",
-        "reason": "WaitForVBlank is a complete interrupt handshake; following math includes preserve canonical order without adding their implementations here."
+        "reason": "WaitForVBlank is one complete interrupt handshake; the following math include preserves canonical order without adding its implementation to this owner."
       }
     },
     {
@@ -16957,6 +16721,79 @@
       "size_exception": {
         "kind": "private_resource_boundary",
         "reason": "HUD and lives-number pattern includes share one UI graphics consumer and preserve their adjacent layout."
+      }
+    },
+    {
+      "path": "src/system/math.s",
+      "owner": "src/system",
+      "responsibility": "Pseudo-random, sine/cosine, angle and REV00 square-root services with their lookup tables",
+      "kind": "code",
+      "origin": {
+        "kind": "composite",
+        "fragments": [
+          {
+            "path": "_incObj/sub RandomNumber.asm",
+            "lines": [1, 24],
+            "preservation_source_sha256": "8cac4a1dccd027a6419cdbc0c237f02807866ac86c6b8994322994dcc3ac8ff4",
+            "kind": "preserved_span"
+          },
+          {
+            "path": "_incObj/sub CalcSine.asm",
+            "lines": [1, 72],
+            "preservation_source_sha256": "fe80d482bb566f1e84462072e9ae6fae136a76902e303224715fab0858c5be71",
+            "kind": "preserved_span"
+          },
+          {
+            "path": "sonic.asm",
+            "lines": [1707, 1707],
+            "preservation_source_sha256": "48e1269e1c26dfbe752deb4282b1d892f2f67d949f916e89fe12c1ee3582aeac",
+            "kind": "preserved_span"
+          },
+          {
+            "path": "_incObj/sub CalcSqrt.asm",
+            "lines": [1, 42],
+            "preservation_source_sha256": "37062bad159a628de014c4635d0e8d62f9b9d03eb75041236086287394eb14ce",
+            "kind": "preserved_span"
+          },
+          {
+            "path": "sonic.asm",
+            "lines": [1709, 1709],
+            "preservation_source_sha256": "48e1269e1c26dfbe752deb4282b1d892f2f67d949f916e89fe12c1ee3582aeac",
+            "kind": "preserved_span"
+          },
+          {
+            "path": "_incObj/sub CalcAngle.asm",
+            "lines": [1, 95],
+            "preservation_source_sha256": "57b6bfc27d86ccb24f103db537e7c3cd784dd80b52309a755d3ed85e7425ede0",
+            "kind": "preserved_span"
+          }
+        ]
+      },
+      "ranges": {
+        "rev00": [
+          {
+            "address_space": "m68000_rom",
+            "start": 10676,
+            "end": 11792,
+            "storage_kind": "source"
+          }
+        ],
+        "rev01": [
+          {
+            "address_space": "m68000_rom",
+            "start": 10668,
+            "end": 11730,
+            "storage_kind": "source"
+          }
+        ],
+        "revxb": [
+          {
+            "address_space": "m68000_rom",
+            "start": 10668,
+            "end": 11730,
+            "storage_kind": "source"
+          }
+        ]
       }
     }
   ],

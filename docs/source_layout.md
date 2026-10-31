@@ -32,7 +32,7 @@ blob.
 The semantic layout retains every instruction, table, conditional and emitted
 byte. File boundaries fall at complete global procedures or balanced include
 regions. Mechanical path changes are separate from behavior changes. The
-registry's 437 source records cover the complete ROM and decoded Z80 spaces in
+registry's 431 source records cover the complete ROM and decoded Z80 spaces in
 all three profiles; production acceptance must recompute that evidence.
 
 The 68000 sound driver is split into scheduling, track playback, sound queue,
@@ -67,12 +67,27 @@ and checks every origin's file hash and line interval against that actual Git
 snapshot. Drafts leave the binding empty until the preservation gate is
 accepted; a prepared path map is not a substitute for this provenance check.
 
-Each origin declares `preserved_span` or `generated_include_index`. A preserved
-span has an actual inclusive source-line interval. A generated index has no
-invented original interval: it is checked as registered child includes only,
-emits no exclusive bytes, and still binds the complete original owner's hash.
-The seven structural wrappers use this explicit category. The HUD pattern
-wrapper instead records the exact four original lines that were moved.
+Each origin declares `preserved_span`, `generated_include_index` or `composite`.
+A preserved span has an actual inclusive source-line interval. A generated index
+has no invented original interval: it is checked as registered child includes
+only, emits no exclusive bytes, and still binds the complete original owner's
+hash. A composite origin lists ordered preserved fragments, each with its own
+original path, interval and hash. Empty, nested, generated, duplicate or
+overlapping fragments are rejected; the final audit checks every fragment
+against the accepted preservation commit. The seven structural wrappers declare
+`generated_include_index`. The HUD pattern wrapper instead records the exact
+four original lines that were moved.
+
+## Consolidated small owners
+
+The general numerical services share `src/system/math.s`, preserving their
+original order and the REV00-only square-root conditional. The boundary table is
+inside its level setup owner; the level-order table is inside the end-of-act
+card owner. Their labels, address positions and content contracts remain intact.
+Unused small, item and fiery explosions share one adjacent object family. These
+four groups reduce the source count by six without changing bytes. Sprites, HUD,
+their shared helpers and independently owned graphics/animation declarations
+retain their existing boundaries.
 
 ## Source filename convention
 

@@ -60,3 +60,53 @@ class SourceOwnershipTests(unittest.TestCase):
             origin["preservation_source_sha256"] = "0" * 64
             with self.assertRaisesRegex(ValueError, "hash"):
                 source_layout.origins(base, spec)
+
+    def test_composite_origins_check_every_original_hash_and_line_range(self):
+        from copy import deepcopy
+        from unittest.mock import patch
+        from scripts.validation import source_layout
+        from scripts.build.project import sha256
+
+        originals = {"first.asm": b"First original line\nSecond original line\n", "second.asm": b"Other original\n"}
+        fragments = [
+            dict(kind="preserved_span", path=name, lines=[1, 1], preservation_source_sha256=sha256(raw))
+            for name, raw in originals.items()
+        ]
+        spec = dict(
+            preservation_baseline_commit="1" * 40, modules=[dict(origin=dict(kind="composite", fragments=fragments))]
+        )
+
+        def show(args, **kwargs):
+            return originals[args[2].split(":", 1)[1]]
+
+        with patch.object(source_layout.subprocess, "check_output", side_effect=show):
+            source_layout.origins("1" * 40, spec)
+            for index in range(2):
+                for field, value in (("preservation_source_sha256", "0" * 64), ("lines", [1, 100])):
+                    changed = deepcopy(spec)
+                    changed["modules"][0]["origin"]["fragments"][index][field] = value
+                    with self.subTest(index=index, field=field), self.assertRaises(ValueError):
+                        source_layout.origins("1" * 40, changed)
+
+    def test_composite_origins_reject_empty_nested_generated_and_overlapping_fragments(self):
+        from copy import deepcopy
+        from scripts.validation.source_layout import origin_fragments
+
+        first = dict(kind="preserved_span", path="original.asm", lines=[1, 2], preservation_source_sha256="1" * 64)
+        second = dict(first, lines=[3, 4])
+        valid = dict(kind="composite", fragments=[first, second])
+        self.assertEqual(len(origin_fragments(valid)), 2)
+        for fragments in (
+            [],
+            [first],
+            [first, first],
+            [first, dict(second, lines=[2, 3])],
+            [first, dict(kind="generated_include_index", lines=[])],
+            [first, valid],
+        ):
+            with self.subTest(fragments=fragments), self.assertRaises(ValueError):
+                origin_fragments(dict(kind="composite", fragments=fragments))
+        changed = deepcopy(valid)
+        changed["path"] = "invented-single-owner.asm"
+        with self.assertRaises(ValueError):
+            origin_fragments(changed)

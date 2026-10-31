@@ -9,12 +9,7 @@ WaitForVBlank:
 
 ; ===========================================================================
 ; >>> Subroutines for generic calculations
-                include "src/system/math/random.s"
-                include "src/system/math/sine.s"
-                if      Revision=0
-                include "src/system/math/square_root.s"  ; Only in REV00, and even there it was never used
-                endif
-                include "src/system/math/angle.s"
+                include "src/system/math.s"
 
 ; ===========================================================================
 ; ---------------------------------------------------------------------------

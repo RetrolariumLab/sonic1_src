@@ -32,6 +32,29 @@ def origin_interval(origin: dict, length: int | None = None) -> tuple[int, int] 
     return first, last
 
 
+def origin_fragments(origin: dict) -> list[dict]:
+    if origin.get("kind") != "composite":
+        origin_interval(origin)
+        return [origin]
+    fragments = origin.get("fragments")
+    if set(origin) != {"kind", "fragments"} or not isinstance(fragments, list) or len(fragments) < 2:
+        raise ValueError("Composite origin requires at least two explicit preserved fragments")
+    seen = {}
+    for fragment in fragments:
+        if not isinstance(fragment, dict) or fragment.get("kind") != "preserved_span":
+            raise ValueError("Composite origin accepts only preserved spans")
+        first, last = origin_interval(fragment)
+        name = fragment.get("path")
+        digest = fragment.get("preservation_source_sha256")
+        if not isinstance(name, str) or not isinstance(digest, str) or not re.fullmatch(r"[0-9a-f]{64}", digest):
+            raise ValueError("Composite fragment needs a source path and preservation hash")
+        checked_path(name, ROOT)
+        if any(first <= end and start <= last for start, end in seen.get(name, [])):
+            raise ValueError("Composite origin repeats or overlaps a preservation span")
+        seen.setdefault(name, []).append((first, last))
+    return fragments
+
+
 def generated_index(text: str, paths: set[str]) -> None:
     count = 0
     for line in text.splitlines():
@@ -66,7 +89,8 @@ def structure() -> dict:
             raise ValueError(f"Unreviewed source size: {row['path']}")
         if set(row["ranges"]) != {item["id"] for item in profiles()}:
             raise ValueError("Source range profile matrix differs")
-        if origin_interval(row["origin"]) is None:
+        fragments = origin_fragments(row["origin"])
+        if len(fragments) == 1 and origin_interval(fragments[0]) is None:
             if row["kind"] != "include_index" or any(row["ranges"].values()):
                 raise ValueError("Generated include index cannot own emitted source bytes")
             generated_index(path.read_text(), set(paths))
@@ -81,16 +105,16 @@ def origins(base: str, spec: dict | None = None) -> None:
         raise ValueError("Source layout is not bound to the accepted preservation predecessor")
     checked = {}
     for row in spec["modules"]:
-        origin = row["origin"]
-        name = origin["path"]
-        checked_path(name, ROOT)
-        if name not in checked:
-            raw = subprocess.check_output(["git", "show", f"{base}:{name}"], cwd=ROOT)
-            checked[name] = (sha256(raw), len(raw.decode("utf-8").splitlines()))
-        digest, length = checked[name]
-        origin_interval(origin, length)
-        if digest != origin["preservation_source_sha256"]:
-            raise ValueError("Source origin hash differs from the accepted preservation source")
+        for origin in origin_fragments(row["origin"]):
+            name = origin["path"]
+            checked_path(name, ROOT)
+            if name not in checked:
+                raw = subprocess.check_output(["git", "show", f"{base}:{name}"], cwd=ROOT)
+                checked[name] = (sha256(raw), len(raw.decode("utf-8").splitlines()))
+            digest, length = checked[name]
+            origin_interval(origin, length)
+            if digest != origin["preservation_source_sha256"]:
+                raise ValueError("Source origin hash differs from the accepted preservation source")
 
 
 def actual(profile: str, spec: dict | None = None) -> dict:

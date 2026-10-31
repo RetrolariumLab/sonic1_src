@@ -27,7 +27,6 @@ Map_GBall:   include "src/rendering/mappings/bosses/ghz_ball.s"
 ; ===========================================================================
 ; >>> Badniks, explosions, and Badnik-related objects
                 include "src/game/objects/enemies/ball_hog.s"
-                include "src/game/objects/environment/unused/small_explosion.s"
                 include "src/game/objects/environment/common/explosions.s"
                 include "src/rendering/animation/enemies/ball_hog.s"
 Map_Hog:   include "src/rendering/mappings/enemies/ball_hog.s"

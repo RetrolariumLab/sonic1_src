@@ -18,7 +18,7 @@
   "delta_history": {
     "base_commit": "9459c137efac1bd010bd08cc1b0d54c9d63fb3cd",
     "tip": "release-commit",
-    "commit_count": 8
+    "commit_count": 9
   },
   "included_scope": [
     "semantic_source_owners",
@@ -102,6 +102,12 @@
       "id": "semantic_audio_return_names",
       "kind": "source",
       "summary": "Name six inherited audio return sites by behavior, record their provenance and reject active address-generated symbols in the inherited preservation gate.",
+      "commits": ["f43fdf02ad40eb459b5f2fd2f20c2f0b81b3ca50"]
+    },
+    {
+      "id": "cohesive_small_source_groups",
+      "kind": "source",
+      "summary": "Consolidate adjacent math and explosion families and inline owned level tables, preserving every source origin, content view and cartridge byte.",
       "commits": ["release-commit"]
     }
   ],

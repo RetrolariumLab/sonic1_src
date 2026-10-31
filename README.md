@@ -17,7 +17,7 @@ Source Reconstruction 1.0 establishes the byte-identical build, symbolic address
 checks, relocated-source probes and original-ROM runtime comparisons. Source
 Reconstruction 2.0 adds:
 
-- 437 source modules organized by subsystem and semantic owner;
+- 431 source modules organized by subsystem and semantic owner;
 - shared REV00, REV01 and REVXB profiles, with REV01 as the default;
 - 25 game-data formats with bounded, profile-aware content models;
 - round-trip checks for all 1834 registered content views;
