@@ -9,6 +9,7 @@ from scripts.build.project import ROOT, atomic_write, load, profiles, image, sha
 from scripts.build.listing import symbols
 from scripts.build.source_listing import collect, exclusive, complete
 from scripts.build.sources import source_paths, fingerprint
+from scripts.validation import symbol_names
 
 
 def origin_interval(origin: dict, length: int | None = None) -> tuple[int, int] | None:
@@ -70,13 +71,7 @@ def structure() -> dict:
                 raise ValueError("Generated include index cannot own emitted source bytes")
             generated_index(path.read_text(), set(paths))
     registry = load("config/reconstruction/label_renames.json")
-    if registry.get("renames") != []:
-        raise ValueError(
-            "This baseline preserves imported global names; register and audit any future rename explicitly"
-        )
-    for row in registry["project_additions"]:
-        if not (ROOT / row["path"]).is_file() or row["name"] not in (ROOT / row["path"]).read_text():
-            raise ValueError("Added boundary label is missing")
+    symbol_names.audit({path: (ROOT / path).read_text() for path in expected}, registry)
     return spec
 
 

@@ -247,7 +247,7 @@ DoModulation:
 ; sub_71E18:
 FMPrepareNote:
                 btst    #1,SMPS_Track.PlaybackControl(a5)  ; is track resting?
-                bne.s   locret_71E48                    ; return if so
+                bne.s   FMUpdateFreq_Return             ; return if so
                 move.w  SMPS_Track.Freq(a5),d6          ; get current note frequency
                 beq.s   FMSetRest                       ; branch if zero
 ; loc_71E24:
@@ -256,7 +256,7 @@ FMUpdateFreq:
                 ext.w   d0
                 add.w   d0,d6                           ; add note frequency
                 btst    #2,SMPS_Track.PlaybackControl(a5)  ; is track being overridden?
-                bne.s   locret_71E48                    ; return if so
+                bne.s   FMUpdateFreq_Return             ; return if so
                 move.w  d6,d1
                 lsr.w   #8,d1
                 move.b  #$A4,d0                         ; register for upper 6 bits of frequency
@@ -265,7 +265,7 @@ FMUpdateFreq:
                 move.b  #$A0,d0                         ; register for lower 8 bits of frequency
                 jsr     WriteFMIorII(pc)                ; (it would be better if this were a jmp)
 ; locret_71E48:
-locret_71E48:
+FMUpdateFreq_Return:
                 rts
 ; ===========================================================================
 ; loc_71E4A:

@@ -155,7 +155,11 @@
       "status": "satisfied",
       "evidence": {
         "targets": ["audit-symbolic", "build-relocated-all", "verify-layout"],
-        "files": ["config/relocation/probe.json"]
+        "files": [
+          "config/relocation/probe.json",
+          "config/reconstruction/label_renames.json",
+          "scripts/validation/symbol_names.py"
+        ]
       }
     },
     "runtime_coverage": {

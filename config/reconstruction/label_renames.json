@@ -4,7 +4,44 @@
     "repository": "sonicretro/s1disasm",
     "commit": "89c0e0e06b51fd9ebac44d988e4a89bd643fd031"
   },
-  "renames": [],
+  "renames": [
+    {
+      "old": "locret_71E48",
+      "new": "FMUpdateFreq_Return",
+      "path": "src/audio/fm_dac_tracks.s",
+      "reason": "Shared return when FM note preparation or frequency update is suppressed by rest or an overriding track."
+    },
+    {
+      "old": "locret_72714",
+      "new": "FMNoteOff_Return",
+      "path": "src/audio/fm_registers.s",
+      "reason": "Return without sending FM note-off when the next attack is held or the track is overridden."
+    },
+    {
+      "old": "locret_7298A",
+      "new": "SetPSGVolume_Return",
+      "path": "src/audio/psg_tracks.s",
+      "reason": "Shared return for inactive volume effects and PSG volume writes suppressed by rest or an overriding track."
+    },
+    {
+      "old": "locret_729B4",
+      "new": "PSGNoteOff_Return",
+      "path": "src/audio/psg_tracks.s",
+      "reason": "Return without silencing the PSG channel while a sound effect overrides the track."
+    },
+    {
+      "old": "locret_72AEA",
+      "new": "cfPanningAMSFMS_Return",
+      "path": "src/audio/commands_and_voices.s",
+      "reason": "Return from the panning/AMS/FMS command without writing FM registers for a PSG track."
+    },
+    {
+      "old": "locret_72CAA",
+      "new": "SetVoice_Return",
+      "path": "src/audio/commands_and_voices.s",
+      "reason": "Shared return after programming an FM voice or skipping voice writes while a sound effect overrides the track."
+    }
+  ],
   "project_additions": [
     {
       "name": "CartridgeHeader",

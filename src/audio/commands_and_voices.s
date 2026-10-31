@@ -63,7 +63,7 @@ coordflagLookup:
 cfPanningAMSFMS:
                 move.b  (a4)+,d1                        ; new AMS/FMS/panning value
                 tst.b   SMPS_Track.VoiceControl(a5)     ; is this a PSG track?
-                bmi.s   locret_72AEA                    ; return if yes
+                bmi.s   cfPanningAMSFMS_Return          ; return if yes
                 move.b  SMPS_Track.AMSFMSPan(a5),d0     ; get current AMS/FMS/panning
                 andi.b  #$37,d0                         ; retain bits 0-2, 3-4 if set
                 or.b    d0,d1                           ; mask in new value
@@ -72,7 +72,7 @@ cfPanningAMSFMS:
                 bra.w   WriteFMIorIIMain
 ; ===========================================================================
 
-locret_72AEA:
+cfPanningAMSFMS_Return:
                 rts
 ; ===========================================================================
 ; loc_72AEC: cfAlterNotes:
@@ -235,7 +235,7 @@ cfSetVoice:
                 move.b  (a4)+,d0                        ; get new voice
                 move.b  d0,SMPS_Track.VoiceIndex(a5)    ; store it
                 btst    #2,SMPS_Track.PlaybackControl(a5)  ; is SFX overriding this track?
-                bne.w   locret_72CAA                    ; return if yes
+                bne.w   SetVoice_Return                 ; return if yes
                 movea.l SMPS_RAM.v_voice_ptr(a6),a1     ; music voice pointer
                 tst.b   SMPS_RAM.f_voice_selector(a6)   ; are we updating a music track?
                 beq.s   SetVoice                        ; if yes, branch
@@ -290,7 +290,7 @@ SetVoice:
                 move.b  SMPS_Track.AMSFMSPan(a5),d1     ; value to send
                 jsr     WriteFMIorII(pc)                ; (It would be better if this were a jmp)
 
-locret_72CAA:
+SetVoice_Return:
                 rts
 ; End of function SetVoice
 

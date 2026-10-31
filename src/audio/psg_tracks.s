@@ -111,7 +111,7 @@ PSGSetRest:
 ; sub_72926:
 PSGUpdateVolFX:
                 tst.b   SMPS_Track.VoiceIndex(a5)       ; test PSG tone
-                beq.w   locret_7298A                    ; return if it is zero
+                beq.w   SetPSGVolume_Return             ; return if it is zero
 ; loc_7292E:
 PSGDoVolFX:
                 move.b  SMPS_Track.Volume(a5),d6        ; get volume
@@ -143,9 +143,9 @@ PSGDoVolFX:
 ; sub_7296A:
 SetPSGVolume:
                 btst    #1,SMPS_Track.PlaybackControl(a5)  ; is track at rest?
-                bne.s   locret_7298A                    ; return if so
+                bne.s   SetPSGVolume_Return             ; return if so
                 btst    #2,SMPS_Track.PlaybackControl(a5)  ; is SFX overriding?
-                bne.s   locret_7298A                    ; return if so
+                bne.s   SetPSGVolume_Return             ; return if so
                 btst    #4,SMPS_Track.PlaybackControl(a5)  ; is track set to not attack next note?
                 bne.s   PSGCheckNoteTimeout             ; branch if yes
 ; loc_7297C:
@@ -154,7 +154,7 @@ PSGSendVolume:
                 addi.b  #$10,d6                         ; mark it as a volume command
                 move.b  d6,(psg_input).l
 
-locret_7298A:
+SetPSGVolume_Return:
                 rts
 ; ===========================================================================
 ; loc_7298C: PSGCheckNoteFill:
@@ -176,14 +176,14 @@ VolEnvHold:
 ; sub_729A0:
 PSGNoteOff:
                 btst    #2,SMPS_Track.PlaybackControl(a5)  ; is SFX overriding?
-                bne.s   locret_729B4                    ; return if so
+                bne.s   PSGNoteOff_Return               ; return if so
 ; loc_729A6:
 SendPSGNoteOff:
                 move.b  SMPS_Track.VoiceControl(a5),d0  ; PSG channel to change
                 ori.b   #$1F,d0                         ; maximum volume attenuation
                 move.b  d0,(psg_input).l
 
-locret_729B4:
+PSGNoteOff_Return:
                 rts
 ; End of function PSGNoteOff
 ; ===========================================================================

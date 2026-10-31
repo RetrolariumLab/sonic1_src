@@ -50,10 +50,17 @@ tails and data declarations are classified separately from executable modules;
 they are not padded with comments to meet a line threshold.
 
 The rename registry is exactly `config/reconstruction/label_renames.json`.
-Existing global names are preserved. Newly added boundary labels are recorded as
-additions; an empty rename mapping still exists. Imported symbol names are
-community evidence, not an assertion that every interpretation was independently
-proved. The provenance document names the source snapshot.
+Imported global names are retained except for explicitly registered semantic
+renames. Six address-generated audio return labels now name their owning FM,
+PSG, panning and voice operations. Each rename records its old/new names,
+current owner and behavioral reason; newly added boundaries remain additions.
+`make audit-symbol-names` rejects active address-generated names, requires each
+renamed symbol to have one definition in its declared owner and rejects stale
+references to old names. This check also runs inside `make audit-symbolic` and
+the ROM-independent source-layout scaffold. Historical names in comments and
+string data are allowed. Imported symbol names are community evidence, not an
+assertion that every interpretation was independently proved. The provenance
+document names the source snapshot.
 
 The final audit binds `preservation_baseline_commit` to the accepted predecessor
 and checks every origin's file hash and line interval against that actual Git
@@ -73,7 +80,7 @@ Source basenames use lowercase snake_case without numeric object-ID prefixes,
 spaces or punctuation. Basenames use at most three words, rely on directory
 context and name the primary entity rather than listing every child object.
 Object IDs remain in the symbolic dispatch table and source comments. Imported
-global assembly labels are unchanged.
+global assembly labels follow the rename registry described above.
 
 The `.s` suffix identifies 68000 source and emitted content declarations; `.inc`
 identifies shared constants, RAM declarations, macros and assembler setup. The

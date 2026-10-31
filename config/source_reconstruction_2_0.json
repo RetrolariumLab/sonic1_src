@@ -18,7 +18,7 @@
   "delta_history": {
     "base_commit": "9459c137efac1bd010bd08cc1b0d54c9d63fb3cd",
     "tip": "release-commit",
-    "commit_count": 7
+    "commit_count": 8
   },
   "included_scope": [
     "semantic_source_owners",
@@ -96,6 +96,12 @@
       "id": "upstream_fork_and_contributors",
       "kind": "documentation",
       "summary": "Identify the Sonic Retro fork explicitly and centralize all recorded upstream author names in a linked contributor roster without changing source or preservation behavior.",
+      "commits": ["76b2d86c6ab6b88994c76892813c49279983cfc5"]
+    },
+    {
+      "id": "semantic_audio_return_names",
+      "kind": "source",
+      "summary": "Name six inherited audio return sites by behavior, record their provenance and reject active address-generated symbols in the inherited preservation gate.",
       "commits": ["release-commit"]
     }
   ],

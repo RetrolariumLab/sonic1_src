@@ -9,12 +9,12 @@ BUILD = $(RUN) build.cli
 SELECT = $(if $(PROFILE),--profile "$(PROFILE)")
 INPUT = --rom-dir "$(ROM_DIR)"
 
-.PHONY: help split check-assets check-inputs build verify verify-all verify-toolchain test audit-private clean lint format format-check build-relocated build-relocated-all audit-symbolic verify-layout runtime-golden runtime-check trace release-check release-audit
+.PHONY: help split check-assets check-inputs build verify verify-all verify-toolchain test audit-private clean lint format format-check audit-symbol-names build-relocated build-relocated-all audit-symbolic verify-layout runtime-golden runtime-check trace release-check release-audit
 help:
 	@echo Sonic 1 preservation source
 	@echo "Inputs: split, check-assets, check-inputs"
 	@echo "Build: build, verify, verify-all, verify-toolchain"
-	@echo "Validation: lint, format, format-check, test, audit-private, audit-symbolic, verify-layout"
+	@echo "Validation: lint, format, format-check, test, audit-private, audit-symbolic, audit-symbol-names, verify-layout"
 	@echo "Relocation: build-relocated, build-relocated-all"
 	@echo "Runtime: runtime-golden, runtime-check, trace"
 	@echo "Release: release-check, release-audit"

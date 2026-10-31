@@ -49,8 +49,13 @@ transfers, pointer-bearing macros, raw ROM-valued equates and numeric longword
 candidates. The explicit classifications in
 `config/reconstruction/address_policy.json` explain the remaining tile-height
 scalars, Nemesis row counter, decimal divisors and packed VDP command words.
-Unused classifications fail the audit. Named fixed hardware regions are checked
-against each canonical listing by `make verify-layout`.
+Unused classifications fail the audit. The same target also checks the rename
+registry and rejects active address-generated symbol families such as `loc_`,
+`locret_`, `sub_`, `bra_` and `off_` followed by a hexadecimal address,
+including local and Z80-prefixed forms. Comments and quoted data retain
+historical names. `make audit-symbol-names` runs just this ROM-independent
+name/registry check. Named fixed hardware regions are checked against each
+canonical listing by `make verify-layout`.
 
 The audit is a source-level guard. Runtime evidence remains scoped to the
 recorded attract and ending scenarios. Neither those scenarios nor a source scan

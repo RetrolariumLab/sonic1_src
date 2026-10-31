@@ -7,6 +7,7 @@ import json
 import re
 from scripts.build.project import ROOT, atomic_write, load
 from scripts.validation.lint_project import source_paths
+from scripts.validation import symbol_names
 
 LITERAL = re.compile(r"\$[0-9A-Fa-f]+|\b[0-9][0-9A-Fa-f]*[hH]\b|\b[0-9]+\b")
 REGISTER = re.compile(r"\b(?:[ad][0-7]|sp|pc)\b", re.IGNORECASE)
@@ -129,7 +130,8 @@ def candidates(text: str, aliases: dict[str, str]) -> list[dict]:
     return found
 
 
-def audit(sources: dict[str, str], policy: dict) -> dict:
+def audit(sources: dict[str, str], policy: dict, registry: dict | None = None) -> dict:
+    names = symbol_names.audit(sources, registry)
     aliases = raw_equates(sources)
     permitted = {}
     for record in policy["classified_literals"]:
@@ -156,6 +158,7 @@ def audit(sources: dict[str, str], policy: dict) -> dict:
         "source_files": len(sources),
         "classified_numeric_operands": classified,
         "raw_pointer_findings": [],
+        "symbol_names": names,
         "fixed_regions": policy["fixed_regions"],
     }
 
@@ -164,7 +167,9 @@ def main() -> int:
     argparse.ArgumentParser(description=__doc__).parse_args()
     sources = {path.as_posix(): (ROOT / path).read_text(encoding="utf-8") for path in source_paths()}
     try:
-        report = audit(sources, load("config/reconstruction/address_policy.json"))
+        report = audit(
+            sources, load("config/reconstruction/address_policy.json"), load("config/reconstruction/label_renames.json")
+        )
     except ValueError as error:
         raise SystemExit(f"error: {error}") from error
     atomic_write(ROOT / "build/audits/symbolic-pointers.json", (json.dumps(report, indent=2) + "\n").encode())

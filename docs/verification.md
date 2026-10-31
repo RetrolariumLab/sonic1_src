@@ -8,10 +8,11 @@ make release-check ROM_DIR="path/to/dumps"
 
 The fail-fast sequence is lint, tool tests, legal inputs, output cleanup,
 extraction, canonical builds and byte identity for every profile, symbolic
-pointers and fixed-region checks, all relocated builds, six sequential MAME
-checks, documentation/manifest/history audit and finally a clean Git tree. The
-ROM-independent `make test` command skips only explicitly optional private input
-integration tests. A release gate never skips a missing ROM or runtime row.
+pointers, symbol names, the rename registry and fixed regions, all relocated
+builds, six sequential MAME checks, documentation/manifest/history audit and
+finally a clean Git tree. The ROM-independent `make test` command skips only
+explicitly optional private input integration tests. A release gate never skips
+a missing ROM or runtime row.
 
 The default is REV01, but the aggregate gate always checks REV00, REV01 and
 REVXB. Identity compares lengths and every byte before validating SHA-1 and
@@ -31,7 +32,9 @@ exist when the pre-tag gate is run. A ready source/content manifest binds its
 accepted preservation predecessor; if the owner has created that predecessor
 tag, it must be annotated and point to the bound commit. The inherited
 preservation gate then checks the active source/content tag. A draft does not
-change this policy. This repository has no configured publishing remote.
+change this policy. Run the pre-tag gate in a disposable clone made with
+`--no-tags`, then remove its clone remote before verification; the canonical
+published checkout retains its publishing remote and accepted tags.
 
 Reports stay under `build/release/`, `build/audits/`, `build/artifacts/`,
 `build/relocated/` and `build/runtime/`. They are recomputed and not public
@@ -67,13 +70,12 @@ original compressed storage. The final audit checks those reports and each
 export image. A missing predecessor commit or draft manifest cannot pass the
 final audit.
 
-The current draft is not an accepted baseline. In particular, successful
-isolated identity/content checks do not replace the required clean-clone
-aggregate gate or make an uncorrected reachable history releasable.
+Successful isolated identity/content checks do not replace the required
+clean-clone aggregate gate or make an uncorrected reachable history releasable.
 
 The delta maps each substantive commit since the accepted predecessor exactly
-once. The final metadata commit is named `release-commit` in its own delta row,
-which resolves to current HEAD during the audit and avoids a hash
+once. The current candidate commit is named `release-commit` in its own delta
+row, which resolves to current HEAD during the audit and avoids a hash
 self-reference. This token does not permit an empty commit or an unlisted
 intermediate change.
 

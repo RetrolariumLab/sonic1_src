@@ -16,9 +16,9 @@ FMNoteOn:
 ; sub_726FE:
 FMNoteOff:
                 btst    #4,SMPS_Track.PlaybackControl(a5)  ; is 'do not attack next note' set?
-                bne.s   locret_72714                    ; return if yes
+                bne.s   FMNoteOff_Return                ; return if yes
                 btst    #2,SMPS_Track.PlaybackControl(a5)  ; is SFX overriding?
-                bne.s   locret_72714                    ; return if yes
+                bne.s   FMNoteOff_Return                ; return if yes
 ; loc_7270A:
 SendFMNoteOff:
                 moveq   #$28,d0                         ; note on/off register
@@ -26,7 +26,7 @@ SendFMNoteOff:
                 bra.w   WriteFMI
 ; ===========================================================================
 
-locret_72714:
+FMNoteOff_Return:
                 rts
 ; End of function FMNoteOff
 
