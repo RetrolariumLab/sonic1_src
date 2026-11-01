@@ -97,6 +97,18 @@ context and name the primary entity rather than listing every child object.
 Object IDs remain in the symbolic dispatch table and source comments. Imported
 global assembly labels follow the rename registry described above.
 
+Remove redundant context without hiding the primary entity: the SLZ directory
+already identifies `swinging_platforms.s`, and `ending_sonic.s` and
+`continue_sonic.s` identify their modes without extra sequence/screen words. The
+shared shield effect uses `shield_invincibility.s` consistently for its object,
+animation and mappings.
+
+Live includes, module owners and path-based compiled content IDs change
+together. The nine contextual basename changes retain all 431 modules and 1834
+content views; 24 profile-specific compiled IDs follow their new paths.
+Preservation origins, source hashes and physical ranges retain the accepted
+predecessor's names and bytes.
+
 The `.s` suffix identifies 68000 source and emitted content declarations; `.inc`
 identifies shared constants, RAM declarations, macros and assembler setup. The
 Z80 driver and its DPCM include wrappers retain `.asm`. The PCM logo sample

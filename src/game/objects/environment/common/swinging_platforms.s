@@ -298,4 +298,4 @@ Swing_ChainLink:                                       ; Routine $A
 ; ===========================================================================
 
 Map_Swing_GHZ:   include "src/rendering/mappings/environment/common/swinging_platforms_ghz.s"
-Map_Swing_SLZ:   include "src/rendering/mappings/environment/slz/swinging_platforms_slz.s"
+Map_Swing_SLZ:   include "src/rendering/mappings/environment/slz/swinging_platforms.s"

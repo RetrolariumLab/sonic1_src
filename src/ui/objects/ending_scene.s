@@ -132,7 +132,7 @@ ESon_BadEnding:                                       ; Routine $10
 
 ; ===========================================================================
 
-                include "src/rendering/animation/ui/ending_sequence_sonic.s"
+                include "src/rendering/animation/ui/ending_sonic.s"
 
 ; ===========================================================================
 ; ---------------------------------------------------------------------------
@@ -295,6 +295,6 @@ ESth_Wait:
                 endif
 ; ===========================================================================
 
-Map_ESon:   include "src/rendering/mappings/ui/ending_sequence_sonic.s"
-Map_ECha:   include "src/rendering/mappings/ui/ending_sequence_emeralds.s"
+Map_ESon:   include "src/rendering/mappings/ui/ending_sonic.s"
+Map_ECha:   include "src/rendering/mappings/ui/ending_emeralds.s"
 Map_ESth:   include "src/rendering/mappings/ui/ending_sequence_sth.s"

@@ -1122,7 +1122,7 @@
       }
     },
     {
-      "path": "src/rendering/animation/ui/continue_screen_sonic.s",
+      "path": "src/rendering/animation/ui/continue_sonic.s",
       "owner": "src/rendering/animation/ui",
       "responsibility": "Animation scripts for Continue Screen Sonic",
       "kind": "data_or_declarations",
@@ -1358,7 +1358,7 @@
       }
     },
     {
-      "path": "src/rendering/animation/ui/ending_sequence_sonic.s",
+      "path": "src/rendering/animation/ui/ending_sonic.s",
       "owner": "src/rendering/animation/ui",
       "responsibility": "Animation scripts for Ending Sequence Sonic",
       "kind": "data_or_declarations",
@@ -2254,7 +2254,7 @@
       }
     },
     {
-      "path": "src/rendering/animation/items/shield_and_invincibility.s",
+      "path": "src/rendering/animation/items/shield_invincibility.s",
       "owner": "src/rendering/animation/items",
       "responsibility": "Animation scripts for Shield and Invincibility",
       "kind": "data_or_declarations",
@@ -5322,7 +5322,7 @@
       }
     },
     {
-      "path": "src/game/objects/environment/common/shield_and_invincibility.s",
+      "path": "src/game/objects/environment/common/shield_invincibility.s",
       "owner": "src/game/objects/environment/common",
       "responsibility": "Object implementation: 38 Shield and Invincibility",
       "kind": "code",
@@ -9939,7 +9939,7 @@
       }
     },
     {
-      "path": "src/rendering/mappings/ui/ending_sequence_emeralds.s",
+      "path": "src/rendering/mappings/ui/ending_emeralds.s",
       "owner": "src/rendering/mappings/ui",
       "responsibility": "Mapping and DPLC declarations for Ending Sequence Emeralds",
       "kind": "data_or_declarations",
@@ -9977,7 +9977,7 @@
       }
     },
     {
-      "path": "src/rendering/mappings/ui/ending_sequence_sonic.s",
+      "path": "src/rendering/mappings/ui/ending_sonic.s",
       "owner": "src/rendering/mappings/ui",
       "responsibility": "Mapping and DPLC declarations for Ending Sequence Sonic",
       "kind": "data_or_declarations",
@@ -12490,7 +12490,7 @@
       }
     },
     {
-      "path": "src/rendering/mappings/items/shield_and_invincibility.s",
+      "path": "src/rendering/mappings/items/shield_invincibility.s",
       "owner": "src/rendering/mappings/items",
       "responsibility": "Mapping and DPLC declarations for Shield and Invincibility",
       "kind": "data_or_declarations",
@@ -13240,7 +13240,7 @@
       }
     },
     {
-      "path": "src/rendering/mappings/special_stage/result_chaos_emeralds.s",
+      "path": "src/rendering/mappings/special_stage/result_emeralds.s",
       "owner": "src/rendering/mappings/special_stage",
       "responsibility": "Mapping and DPLC declarations for SS Result Chaos Emeralds",
       "kind": "data_or_declarations",
@@ -13484,7 +13484,7 @@
       }
     },
     {
-      "path": "src/rendering/mappings/environment/slz/swinging_platforms_slz.s",
+      "path": "src/rendering/mappings/environment/slz/swinging_platforms.s",
       "owner": "src/rendering/mappings/environment/slz",
       "responsibility": "Mapping and DPLC declarations for Swinging Platforms (SLZ)",
       "kind": "data_or_declarations",

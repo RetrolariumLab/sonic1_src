@@ -18,7 +18,7 @@
   "delta_history": {
     "base_commit": "9459c137efac1bd010bd08cc1b0d54c9d63fb3cd",
     "tip": "release-commit",
-    "commit_count": 10
+    "commit_count": 11
   },
   "included_scope": [
     "semantic_source_owners",
@@ -114,6 +114,12 @@
       "id": "world_content_and_pointer_guards",
       "kind": "tooling",
       "summary": "Bind world exports to canonical RAM capacities, reject new object-order violations and audit numeric memory and equate address forms with negative regression tests.",
+      "commits": ["ed497030021b63b26430105de021c167dd674ed9"]
+    },
+    {
+      "id": "contextual_short_source_names",
+      "kind": "source",
+      "summary": "Shorten nine source basenames using their existing directory context and update live includes, content IDs and ownership paths while retaining original provenance and cartridge bytes.",
       "commits": ["release-commit"]
     }
   ],

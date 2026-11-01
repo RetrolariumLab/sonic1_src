@@ -82,7 +82,7 @@ Map_SStom:   include "src/rendering/mappings/unused/sideways_stomper.s"
                 include "src/ui/objects/got_through_card.s"
                 include "src/game/special_stage/objects/results_emeralds.s"
                 include "src/rendering/mappings/ui/title_cards.s"  ; includes "Map_Card", "Map_Over", "Map_Got", and "Map_SSR"
-Map_SSRC:   include "src/rendering/mappings/special_stage/result_chaos_emeralds.s"
+Map_SSRC:   include "src/rendering/mappings/special_stage/result_emeralds.s"
 
 ; ===========================================================================
 ; >>> More level objects
@@ -159,11 +159,11 @@ Map_LWall:   include "src/rendering/mappings/environment/mz/wall_of_lava.s"
 ; ===========================================================================
 ; >>> Various unique objects
                 include "src/game/objects/environment/lz/drowning_countdown.s"  ; includes ResumeMusic
-                include "src/game/objects/environment/common/shield_and_invincibility.s"
+                include "src/game/objects/environment/common/shield_invincibility.s"
                 include "src/game/special_stage/objects/unused_entry.s"
                 include "src/game/objects/environment/lz/water_splash.s"
-                include "src/rendering/animation/items/shield_and_invincibility.s"
-Map_Shield:   include "src/rendering/mappings/items/shield_and_invincibility.s"
+                include "src/rendering/animation/items/shield_invincibility.s"
+Map_Shield:   include "src/rendering/mappings/items/shield_invincibility.s"
                 include "src/rendering/animation/special_stage/entry_unused.s"
 Map_Vanish:   include "src/rendering/mappings/unused/special_stage_entry.s"
                 include "src/rendering/animation/environment/water_splash.s"

@@ -21509,7 +21509,7 @@
       "compression": null
     },
     {
-      "id": "rev00:src/rendering/animation/ui/continue_screen_sonic.s",
+      "id": "rev00:src/rendering/animation/ui/continue_sonic.s",
       "profile": "rev00",
       "codec": "animation",
       "abi": "sonic1-md",
@@ -21520,7 +21520,7 @@
       "editable": true,
       "source": {
         "kind": "module",
-        "path": "src/rendering/animation/ui/continue_screen_sonic.s"
+        "path": "src/rendering/animation/ui/continue_sonic.s"
       },
       "compression": null
     },
@@ -21541,7 +21541,7 @@
       "compression": null
     },
     {
-      "id": "rev00:src/rendering/animation/ui/ending_sequence_sonic.s",
+      "id": "rev00:src/rendering/animation/ui/ending_sonic.s",
       "profile": "rev00",
       "codec": "animation",
       "abi": "sonic1-md",
@@ -21552,12 +21552,12 @@
       "editable": true,
       "source": {
         "kind": "module",
-        "path": "src/rendering/animation/ui/ending_sequence_sonic.s"
+        "path": "src/rendering/animation/ui/ending_sonic.s"
       },
       "compression": null
     },
     {
-      "id": "rev00:src/rendering/mappings/ui/ending_sequence_sonic.s",
+      "id": "rev00:src/rendering/mappings/ui/ending_sonic.s",
       "profile": "rev00",
       "codec": "mapping_dplc",
       "abi": "sonic1-md",
@@ -21568,12 +21568,12 @@
       "editable": true,
       "source": {
         "kind": "module",
-        "path": "src/rendering/mappings/ui/ending_sequence_sonic.s"
+        "path": "src/rendering/mappings/ui/ending_sonic.s"
       },
       "compression": null
     },
     {
-      "id": "rev00:src/rendering/mappings/ui/ending_sequence_emeralds.s",
+      "id": "rev00:src/rendering/mappings/ui/ending_emeralds.s",
       "profile": "rev00",
       "codec": "mapping_dplc",
       "abi": "sonic1-md",
@@ -21584,7 +21584,7 @@
       "editable": true,
       "source": {
         "kind": "module",
-        "path": "src/rendering/mappings/ui/ending_sequence_emeralds.s"
+        "path": "src/rendering/mappings/ui/ending_emeralds.s"
       },
       "compression": null
     },
@@ -21797,7 +21797,7 @@
       "compression": null
     },
     {
-      "id": "rev00:src/rendering/mappings/environment/slz/swinging_platforms_slz.s",
+      "id": "rev00:src/rendering/mappings/environment/slz/swinging_platforms.s",
       "profile": "rev00",
       "codec": "mapping_dplc",
       "abi": "sonic1-md",
@@ -21808,7 +21808,7 @@
       "editable": true,
       "source": {
         "kind": "module",
-        "path": "src/rendering/mappings/environment/slz/swinging_platforms_slz.s"
+        "path": "src/rendering/mappings/environment/slz/swinging_platforms.s"
       },
       "compression": null
     },
@@ -22646,7 +22646,7 @@
       "compression": null
     },
     {
-      "id": "rev00:src/rendering/mappings/special_stage/result_chaos_emeralds.s",
+      "id": "rev00:src/rendering/mappings/special_stage/result_emeralds.s",
       "profile": "rev00",
       "codec": "mapping_dplc",
       "abi": "sonic1-md",
@@ -22657,7 +22657,7 @@
       "editable": true,
       "source": {
         "kind": "module",
-        "path": "src/rendering/mappings/special_stage/result_chaos_emeralds.s"
+        "path": "src/rendering/mappings/special_stage/result_emeralds.s"
       },
       "compression": null
     },
@@ -23702,7 +23702,7 @@
       "compression": null
     },
     {
-      "id": "rev00:src/rendering/animation/items/shield_and_invincibility.s",
+      "id": "rev00:src/rendering/animation/items/shield_invincibility.s",
       "profile": "rev00",
       "codec": "animation",
       "abi": "sonic1-md",
@@ -23713,12 +23713,12 @@
       "editable": true,
       "source": {
         "kind": "module",
-        "path": "src/rendering/animation/items/shield_and_invincibility.s"
+        "path": "src/rendering/animation/items/shield_invincibility.s"
       },
       "compression": null
     },
     {
-      "id": "rev00:src/rendering/mappings/items/shield_and_invincibility.s",
+      "id": "rev00:src/rendering/mappings/items/shield_invincibility.s",
       "profile": "rev00",
       "codec": "mapping_dplc",
       "abi": "sonic1-md",
@@ -23729,7 +23729,7 @@
       "editable": true,
       "source": {
         "kind": "module",
-        "path": "src/rendering/mappings/items/shield_and_invincibility.s"
+        "path": "src/rendering/mappings/items/shield_invincibility.s"
       },
       "compression": null
     },
@@ -24582,7 +24582,7 @@
       "compression": null
     },
     {
-      "id": "rev01:src/rendering/animation/ui/continue_screen_sonic.s",
+      "id": "rev01:src/rendering/animation/ui/continue_sonic.s",
       "profile": "rev01",
       "codec": "animation",
       "abi": "sonic1-md",
@@ -24593,7 +24593,7 @@
       "editable": true,
       "source": {
         "kind": "module",
-        "path": "src/rendering/animation/ui/continue_screen_sonic.s"
+        "path": "src/rendering/animation/ui/continue_sonic.s"
       },
       "compression": null
     },
@@ -24614,7 +24614,7 @@
       "compression": null
     },
     {
-      "id": "rev01:src/rendering/animation/ui/ending_sequence_sonic.s",
+      "id": "rev01:src/rendering/animation/ui/ending_sonic.s",
       "profile": "rev01",
       "codec": "animation",
       "abi": "sonic1-md",
@@ -24625,12 +24625,12 @@
       "editable": true,
       "source": {
         "kind": "module",
-        "path": "src/rendering/animation/ui/ending_sequence_sonic.s"
+        "path": "src/rendering/animation/ui/ending_sonic.s"
       },
       "compression": null
     },
     {
-      "id": "rev01:src/rendering/mappings/ui/ending_sequence_sonic.s",
+      "id": "rev01:src/rendering/mappings/ui/ending_sonic.s",
       "profile": "rev01",
       "codec": "mapping_dplc",
       "abi": "sonic1-md",
@@ -24641,12 +24641,12 @@
       "editable": true,
       "source": {
         "kind": "module",
-        "path": "src/rendering/mappings/ui/ending_sequence_sonic.s"
+        "path": "src/rendering/mappings/ui/ending_sonic.s"
       },
       "compression": null
     },
     {
-      "id": "rev01:src/rendering/mappings/ui/ending_sequence_emeralds.s",
+      "id": "rev01:src/rendering/mappings/ui/ending_emeralds.s",
       "profile": "rev01",
       "codec": "mapping_dplc",
       "abi": "sonic1-md",
@@ -24657,7 +24657,7 @@
       "editable": true,
       "source": {
         "kind": "module",
-        "path": "src/rendering/mappings/ui/ending_sequence_emeralds.s"
+        "path": "src/rendering/mappings/ui/ending_emeralds.s"
       },
       "compression": null
     },
@@ -24870,7 +24870,7 @@
       "compression": null
     },
     {
-      "id": "rev01:src/rendering/mappings/environment/slz/swinging_platforms_slz.s",
+      "id": "rev01:src/rendering/mappings/environment/slz/swinging_platforms.s",
       "profile": "rev01",
       "codec": "mapping_dplc",
       "abi": "sonic1-md",
@@ -24881,7 +24881,7 @@
       "editable": true,
       "source": {
         "kind": "module",
-        "path": "src/rendering/mappings/environment/slz/swinging_platforms_slz.s"
+        "path": "src/rendering/mappings/environment/slz/swinging_platforms.s"
       },
       "compression": null
     },
@@ -25719,7 +25719,7 @@
       "compression": null
     },
     {
-      "id": "rev01:src/rendering/mappings/special_stage/result_chaos_emeralds.s",
+      "id": "rev01:src/rendering/mappings/special_stage/result_emeralds.s",
       "profile": "rev01",
       "codec": "mapping_dplc",
       "abi": "sonic1-md",
@@ -25730,7 +25730,7 @@
       "editable": true,
       "source": {
         "kind": "module",
-        "path": "src/rendering/mappings/special_stage/result_chaos_emeralds.s"
+        "path": "src/rendering/mappings/special_stage/result_emeralds.s"
       },
       "compression": null
     },
@@ -26775,7 +26775,7 @@
       "compression": null
     },
     {
-      "id": "rev01:src/rendering/animation/items/shield_and_invincibility.s",
+      "id": "rev01:src/rendering/animation/items/shield_invincibility.s",
       "profile": "rev01",
       "codec": "animation",
       "abi": "sonic1-md",
@@ -26786,12 +26786,12 @@
       "editable": true,
       "source": {
         "kind": "module",
-        "path": "src/rendering/animation/items/shield_and_invincibility.s"
+        "path": "src/rendering/animation/items/shield_invincibility.s"
       },
       "compression": null
     },
     {
-      "id": "rev01:src/rendering/mappings/items/shield_and_invincibility.s",
+      "id": "rev01:src/rendering/mappings/items/shield_invincibility.s",
       "profile": "rev01",
       "codec": "mapping_dplc",
       "abi": "sonic1-md",
@@ -26802,7 +26802,7 @@
       "editable": true,
       "source": {
         "kind": "module",
-        "path": "src/rendering/mappings/items/shield_and_invincibility.s"
+        "path": "src/rendering/mappings/items/shield_invincibility.s"
       },
       "compression": null
     },
@@ -27655,7 +27655,7 @@
       "compression": null
     },
     {
-      "id": "revxb:src/rendering/animation/ui/continue_screen_sonic.s",
+      "id": "revxb:src/rendering/animation/ui/continue_sonic.s",
       "profile": "revxb",
       "codec": "animation",
       "abi": "sonic1-md",
@@ -27666,7 +27666,7 @@
       "editable": true,
       "source": {
         "kind": "module",
-        "path": "src/rendering/animation/ui/continue_screen_sonic.s"
+        "path": "src/rendering/animation/ui/continue_sonic.s"
       },
       "compression": null
     },
@@ -27687,7 +27687,7 @@
       "compression": null
     },
     {
-      "id": "revxb:src/rendering/animation/ui/ending_sequence_sonic.s",
+      "id": "revxb:src/rendering/animation/ui/ending_sonic.s",
       "profile": "revxb",
       "codec": "animation",
       "abi": "sonic1-md",
@@ -27698,12 +27698,12 @@
       "editable": true,
       "source": {
         "kind": "module",
-        "path": "src/rendering/animation/ui/ending_sequence_sonic.s"
+        "path": "src/rendering/animation/ui/ending_sonic.s"
       },
       "compression": null
     },
     {
-      "id": "revxb:src/rendering/mappings/ui/ending_sequence_sonic.s",
+      "id": "revxb:src/rendering/mappings/ui/ending_sonic.s",
       "profile": "revxb",
       "codec": "mapping_dplc",
       "abi": "sonic1-md",
@@ -27714,12 +27714,12 @@
       "editable": true,
       "source": {
         "kind": "module",
-        "path": "src/rendering/mappings/ui/ending_sequence_sonic.s"
+        "path": "src/rendering/mappings/ui/ending_sonic.s"
       },
       "compression": null
     },
     {
-      "id": "revxb:src/rendering/mappings/ui/ending_sequence_emeralds.s",
+      "id": "revxb:src/rendering/mappings/ui/ending_emeralds.s",
       "profile": "revxb",
       "codec": "mapping_dplc",
       "abi": "sonic1-md",
@@ -27730,7 +27730,7 @@
       "editable": true,
       "source": {
         "kind": "module",
-        "path": "src/rendering/mappings/ui/ending_sequence_emeralds.s"
+        "path": "src/rendering/mappings/ui/ending_emeralds.s"
       },
       "compression": null
     },
@@ -27943,7 +27943,7 @@
       "compression": null
     },
     {
-      "id": "revxb:src/rendering/mappings/environment/slz/swinging_platforms_slz.s",
+      "id": "revxb:src/rendering/mappings/environment/slz/swinging_platforms.s",
       "profile": "revxb",
       "codec": "mapping_dplc",
       "abi": "sonic1-md",
@@ -27954,7 +27954,7 @@
       "editable": true,
       "source": {
         "kind": "module",
-        "path": "src/rendering/mappings/environment/slz/swinging_platforms_slz.s"
+        "path": "src/rendering/mappings/environment/slz/swinging_platforms.s"
       },
       "compression": null
     },
@@ -28792,7 +28792,7 @@
       "compression": null
     },
     {
-      "id": "revxb:src/rendering/mappings/special_stage/result_chaos_emeralds.s",
+      "id": "revxb:src/rendering/mappings/special_stage/result_emeralds.s",
       "profile": "revxb",
       "codec": "mapping_dplc",
       "abi": "sonic1-md",
@@ -28803,7 +28803,7 @@
       "editable": true,
       "source": {
         "kind": "module",
-        "path": "src/rendering/mappings/special_stage/result_chaos_emeralds.s"
+        "path": "src/rendering/mappings/special_stage/result_emeralds.s"
       },
       "compression": null
     },
@@ -29848,7 +29848,7 @@
       "compression": null
     },
     {
-      "id": "revxb:src/rendering/animation/items/shield_and_invincibility.s",
+      "id": "revxb:src/rendering/animation/items/shield_invincibility.s",
       "profile": "revxb",
       "codec": "animation",
       "abi": "sonic1-md",
@@ -29859,12 +29859,12 @@
       "editable": true,
       "source": {
         "kind": "module",
-        "path": "src/rendering/animation/items/shield_and_invincibility.s"
+        "path": "src/rendering/animation/items/shield_invincibility.s"
       },
       "compression": null
     },
     {
-      "id": "revxb:src/rendering/mappings/items/shield_and_invincibility.s",
+      "id": "revxb:src/rendering/mappings/items/shield_invincibility.s",
       "profile": "revxb",
       "codec": "mapping_dplc",
       "abi": "sonic1-md",
@@ -29875,7 +29875,7 @@
       "editable": true,
       "source": {
         "kind": "module",
-        "path": "src/rendering/mappings/items/shield_and_invincibility.s"
+        "path": "src/rendering/mappings/items/shield_invincibility.s"
       },
       "compression": null
     },
