@@ -40,6 +40,12 @@
       "new": "SetVoice_Return",
       "path": "src/audio/commands_and_voices.s",
       "reason": "Shared return after programming an FM voice or skipping voice writes while a sound effect overrides the track."
+    },
+    {
+      "old": "Hud_Write_8x16Digits_WithLeading_Continuous",
+      "new": "Hud_Write_Digits_WithLeading_Continuous",
+      "path": "src/ui/hud/update.s",
+      "reason": "Keep the continuous VRAM writer and leading-zero behavior explicit within the 40-character label limit."
     }
   ],
   "project_additions": [

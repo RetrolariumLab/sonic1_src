@@ -354,14 +354,13 @@ ContScrCounter:
                 lea     (vdp_data_port).l,a6            ; set VDP port
                 lea     (Hud_10).l,a2                   ; affect two digits
                 moveq   #2-1,d6                         ; write two digits
-; fall-through to Hud_Write_8x16Digits_WithLeading_Continuous
+; Fall through to Hud_Write_Digits_WithLeading_Continuous
 
 ; ---------------------------------------------------------------------------
-; Edited copy-paste of Hud_Write_8x16Digits_WithLeading, but continuously
-; writing to VRAM instead of changing the pointer VRAM between digits
+; Write 8x16 digits continuously to VRAM, preserving leading zeroes
 ; ---------------------------------------------------------------------------
 
-Hud_Write_8x16Digits_WithLeading_Continuous:
+Hud_Write_Digits_WithLeading_Continuous:
                 moveq   #0,d4                           ; clear d4 (redundant, leading zeroes are not skipped here)
                 lea     Art_Hud(pc),a1                  ; load uncompressed 8x16 HUD number graphics
 

@@ -44,6 +44,7 @@ clean:
 	$(BUILD) clean
 
 lint:
+	rltool lint --project . --only labels
 	$(RUN) validation.lint_project
 	$(RUN) validation.private_data
 	$(RUN) validation.symbolic_pointers

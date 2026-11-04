@@ -76,9 +76,13 @@ recognise. Disposable explicit labels make the CLI preserve their field role;
 the exact original declaration tokens are restored before copying formatting
 back. Byte identity remains a separate mandatory check after formatting.
 
-`make lint` checks assembly, text, code and private-data policy without changing
-tracked files. `make format` applies formatting and always follows with lint; a
-second invocation is required to leave the tracked tree unchanged.
+`make lint` also checks the original `.s`, `.inc` and `.asm` sources with
+`rltool lint --project . --only labels`. This requires Kit with the label-length
+rule (commit `6a48386` or later) and limits labels to 40 characters. The check
+runs before the assembly style adapter substitutes temporary names.
+
+`make format` applies formatting and always follows with lint; a second
+invocation is required to leave the tracked tree unchanged.
 `.git-blame-ignore-revs` names the isolated mechanical formatting commit.
 
 Content round trips additionally require the hash-pinned Core CLI described in
