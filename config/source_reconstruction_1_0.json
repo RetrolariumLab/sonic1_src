@@ -214,19 +214,19 @@
     {
       "profile_id": "rev00",
       "mode": "direct",
-      "scenarios": ["attract", "ending"],
+      "scenarios": ["attract", "ending", "special-stage"],
       "manifest": "scenarios/runtime_matrix.json"
     },
     {
       "profile_id": "rev01",
       "mode": "direct",
-      "scenarios": ["attract", "ending"],
+      "scenarios": ["attract", "ending", "special-stage"],
       "manifest": "scenarios/runtime_matrix.json"
     },
     {
       "profile_id": "revxb",
       "mode": "direct",
-      "scenarios": ["attract", "ending"],
+      "scenarios": ["attract", "ending", "special-stage"],
       "manifest": "scenarios/runtime_matrix.json"
     }
   ],

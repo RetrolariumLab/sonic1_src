@@ -1,6 +1,10 @@
 # Public preservation interface. Profile facts belong to config/revision_profiles.json.
 .DEFAULT_GOAL := help
+# Build and emulator stages share ignored workspaces.
+.NOTPARALLEL:
 PYTHON ?= python
+RLTOOL ?= rltool
+export RLTOOL
 ROM_DIR ?= .
 PROFILE ?=
 SCENARIO ?=
@@ -18,10 +22,12 @@ help:
 	@echo "Relocation: build-relocated, build-relocated-all"
 	@echo "Runtime: runtime-golden, runtime-check, trace"
 	@echo "Release: release-check, release-audit"
-	@echo "Content: roundtrip-formats, check-content-zero-edit, source-layout-check"
+	@echo "Content: roundtrip-formats, check-content-zero-edit, check-content-edits, source-layout-check"
 	@echo "Source: scaffold-check, source-2-check, source-2-audit"
+	@echo "Memory: check-memory-contract, check-memory-layout"
+	@echo "Dependencies: prepare-core, check-core"
 	@echo "Cleanup: clean"
-	@echo "Selectors: ROM_DIR=folder, PROFILE=profile-id (default from JSON), SCENARIO=attract or ending"
+	@echo "Selectors: ROM_DIR=folder, PROFILE=profile-id (default from JSON), SCENARIO=attract, ending or special-stage"
 split:
 	$(BUILD) split $(INPUT)
 check-assets:
@@ -44,10 +50,11 @@ clean:
 	$(BUILD) clean
 
 lint:
-	rltool lint --project . --only labels
+	$(RLTOOL) lint --project . --only labels
 	$(RUN) validation.lint_project
 	$(RUN) validation.private_data
 	$(RUN) validation.symbolic_pointers
+	$(RUN) validation.memory_contracts
 format:
 	$(RUN) validation.lint_project --fix
 	$(MAKE) lint

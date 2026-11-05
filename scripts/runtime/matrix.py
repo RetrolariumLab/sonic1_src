@@ -4,7 +4,7 @@ from scripts.build.project import profiles
 
 
 def validate(matrix: dict) -> None:
-    required = {"attract", "ending"}
+    required = {"attract", "ending", "special-stage"}
     scenarios = matrix.get("scenarios", [])
     if len(scenarios) != len(required) or {row.get("id") for row in scenarios} != required:
         raise ValueError("Runtime scenario set differs from the release boundary")
@@ -21,10 +21,17 @@ def validate(matrix: dict) -> None:
                 raise ValueError("Runtime check path does not belong to its profile and scenario")
     for scenario in scenarios:
         expected_machine = "genesis" if scenario["id"] == "attract" else "megadrij"
-        expected_frames = 15000 if scenario["id"] == "attract" else 18000
+        expected_frames = 15000 if scenario["id"] == "attract" else 18000 if scenario["id"] == "ending" else 8000
         if scenario.get("machine") != expected_machine or scenario.get("frames") != expected_frames:
             raise ValueError("Runtime machine or duration differs from the release boundary")
         if scenario.get("checkpoint_step") != 60 or not scenario.get("required_states"):
             raise ValueError("Runtime checkpoints and reached-state predicates are required")
         if scenario.get("setup", {}).get("ram_patches") != [] or scenario.get("setup", {}).get("save_states") != []:
             raise ValueError("Release scenarios use original controller inputs without injected state")
+
+        if scenario["id"] == "special-stage" and scenario.get("required_sequence") != [
+            {"mode": 16, "demo": 0},
+            {"mode": 140, "demo": 0, "zone": 0, "act": 0},
+            {"mode": 12, "demo": 0, "zone": 0, "act": 0},
+        ]:
+            raise ValueError("Special Stage acceptance requires ordered entry and return to normal play")

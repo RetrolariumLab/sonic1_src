@@ -253,3 +253,18 @@ context, including when another owner's original bytes are identical. Equality
 of source bytes does not prove equal destination capacities or palette-read
 permissions. The aggregate does not reuse another owner's model/proof to skip
 those checks.
+
+## Nonzero private container proofs
+
+`make check-content-edits ROM_DIR="path/to/dumps"` first verifies all canonical
+profiles. For each revision it decodes the Sonic palette through `Catalog` and
+the public document API, changes one red component and encodes the fixed slot.
+The private authoring build must match an independently patched original image
+and independently calculated cartridge checksum byte for byte. Reports retain
+exact changed ranges and current input hashes under `build/authoring/`.
+
+Edited assets are accepted only through an explicit build argument, with the
+same owner and storage size, and a separate destination under
+`build/authoring/`. Default preservation builds continue to reject any changed
+asset export. This bounded proof does not provide a general expanded-ROM
+composer.

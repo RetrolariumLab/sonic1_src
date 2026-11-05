@@ -10,7 +10,18 @@ import re
 import subprocess
 import shutil
 import time
-from scripts.build.project import ROOT, atomic_write, checked_path, image, load, profile, profiles, read_rom, sha256
+from scripts.build.project import (
+    ROOT,
+    rltool_command,
+    atomic_write,
+    checked_path,
+    image,
+    load,
+    profile,
+    profiles,
+    read_rom,
+    sha256,
+)
 from scripts.build.project import file_sha256
 from scripts.build.listing import symbols
 from scripts.runtime.matrix import validate as validate_matrix
@@ -75,7 +86,7 @@ def wait_until_idle(timeout: float = 3600) -> None:
 def emulator(named: Path | None) -> Path:
     value = str(named) if named else os.environ.get("RETROLARIUM_MAME")
     if not value:
-        value = subprocess.check_output(["rltool", "movie", "mame"], text=True).strip()
+        value = subprocess.check_output([*rltool_command(), "movie", "mame"], text=True).strip()
     path = Path(value).resolve()
     expected = load("config/toolchain.json")["emulator"]["sha256"]
     if not path.is_file() or file_sha256(path) != expected:
@@ -105,7 +116,19 @@ def controller_movie(profile_id: str, scenario: dict) -> bytes:
 
     if scenario["id"] == "attract":
         frames(scenario["frames"])
-    else:
+    elif scenario["id"] == "special-stage":
+        frames(600)
+        for button in (1, 2, 4, 8) if profile_id == "rev00" else (1, 2, 2, 2, 4, 8):
+            pulse(button)
+        frames(8)
+        frames(4, 64)
+        frames(1, 192)
+        frames(90)
+        pulse(1)
+        pulse(1)
+        pulse(64)
+        frames(scenario["frames"] - sum(count for count, _ in runs))
+    elif scenario["id"] == "ending":
         code = (1, 2, 4, 8) if profile_id == "rev00" else (1, 2, 2, 2, 4, 8)
         frames(600)
         for button in code:
@@ -127,6 +150,10 @@ def controller_movie(profile_id: str, scenario: dict) -> bytes:
         if remaining < 0:
             raise ValueError("Ending movie is shorter than its original title input sequence")
         frames(remaining)
+    else:
+        raise ValueError("Unknown runtime scenario")
+    if sum(count for count, _ in runs) != scenario["frames"]:
+        raise ValueError("Movie duration differs from its scenario")
     header = "# retrolarium movie 1\nplatform megadrive\nsource mame\n"
     return (
         header
@@ -195,6 +222,10 @@ def validate_check(spec: dict, scenario: dict) -> None:
                 raise ValueError("Golden RAM value is not hexadecimal") from error
             if len(raw) != spec["cells"][name]["length"]:
                 raise ValueError("Golden RAM value has an incorrect width")
+    checkpoints = iter(expected[str(frame)] for frame in frames)
+    for state in scenario.get("required_sequence", []):
+        if not any(all(int(values[name], 16) == value for name, value in state.items()) for values in checkpoints):
+            raise ValueError("Movie never reaches its ordered scene transition")
     for state in scenario["required_states"]:
         if not any(
             all(int(values[name], 16) == value for name, value in state.items()) for values in expected.values()
@@ -230,7 +261,7 @@ def invoke(action: str, rom: Path, check_path: Path, mame: Path, log: Path) -> N
     try:
         with log.open("wb") as stream:
             result = subprocess.Popen(
-                ["rltool", "movie", action, "--mame", str(mame), "--rom", str(rom.resolve()), str(check_path)],
+                [*rltool_command(), "movie", action, "--mame", str(mame), "--rom", str(rom.resolve()), str(check_path)],
                 cwd=ROOT,
                 env=environment,
                 stdout=stream,
@@ -263,7 +294,7 @@ def invoke(action: str, rom: Path, check_path: Path, mame: Path, log: Path) -> N
                 ],
                 check=True,
             )
-        if remaining:
+        if ours:
             raise ValueError(
                 f"MAME remained after the run: terminated owned IDs {[item['ProcessId'] for item in ours]}; unrelated processes were preserved"
             )
@@ -389,7 +420,7 @@ def main() -> int:
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("action", choices=("golden", "check"))
     parser.add_argument("--profile")
-    parser.add_argument("--scenario", choices=("attract", "ending"))
+    parser.add_argument("--scenario", choices=("attract", "ending", "special-stage"))
     parser.add_argument("--rom-dir", type=Path, default=ROOT)
     parser.add_argument("--mame", type=Path)
     args = parser.parse_args()

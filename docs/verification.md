@@ -9,7 +9,7 @@ make release-check ROM_DIR="path/to/dumps"
 The fail-fast sequence is lint, tool tests, legal inputs, output cleanup,
 extraction, canonical builds and byte identity for every profile, symbolic
 pointers, symbol names, the rename registry and fixed regions, all relocated
-builds, six sequential MAME checks, documentation/manifest/history audit and
+builds, nine sequential MAME checks, documentation/manifest/history audit and
 finally a clean Git tree. The ROM-independent `make test` command skips only
 explicitly optional private input integration tests. A release gate never skips
 a missing ROM or runtime row.
@@ -19,9 +19,9 @@ REVXB. Identity compares lengths and every byte before validating SHA-1 and
 SHA-256. The relocation gate uses the same source and toolchain while moving
 terminal return sites. Runtime checks compare exact registered RAM bytes against
 original-ROM traces; they do not use tolerances, RAM patches or screenshots.
-Every profile directly covers attract and ending scenarios. The ending uses
-original controller shortcuts on the supplementary Japanese NTSC machine; the
-primary attract check uses `genesis`.
+Every profile directly covers attract, ending and an explicit Special Stage
+entry/return scenario. The ending uses original controller shortcuts on the
+supplementary Japanese NTSC machine; the primary attract check uses `genesis`.
 
 `make release-audit` checks release fields, document links, evidence references,
 profile/artifact facts, actual source landmarks, runtime reports and Git
@@ -84,3 +84,11 @@ including every accepted artifact identity, requirement and full gate sequence.
 An arbitrary older source snapshot cannot stand in for that release boundary.
 This metadata check supplements the actual inherited gate and source-origin
 checks; it does not turn a declaration into proof of a past successful run.
+
+The source/content aggregate also runs `check-memory-layout` and
+`check-content-edits`. Memory grammar checks run during lint without ROMs. Built
+checks compare all declared RAM fields, structure offsets and Z80 symbols with
+the pre-change ABI witness, then check decoded driver bytes against their
+independently extracted original. The edited-container audit revalidates exact
+predicted ROMs and current authoring input fingerprints before accepting
+evidence.

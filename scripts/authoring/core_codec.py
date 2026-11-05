@@ -14,7 +14,7 @@ from scripts.build.project import ROOT, checked_path, file_sha256, load
 def resolve(named: Path | None = None) -> Path:
     spec = load("config/authoring/toolchain.json")["core_cli"]
     path = Path(named or os.environ.get(spec["environment"]) or checked_path(spec["default_path"])).resolve()
-    if not path.is_file() or file_sha256(path) != spec["sha256"]:
+    if not path.is_file() or file_sha256(path) not in {spec["sha256"], spec["legacy_sha256"]}:
         raise ValueError("Core CLI SHA-256 differs from the authoring toolchain")
     result = subprocess.run([str(path), "version"], capture_output=True, text=True, check=True, timeout=30)
     if result.stdout.strip() != spec["version"]:
@@ -61,7 +61,8 @@ def operate(verb: str, plain: bytes, reference: bytes | None = None) -> bytes:
         result = subprocess.run([*args, str(output)], capture_output=True, text=True, timeout=120)
         if result.returncode:
             raise ValueError(f"Core Nemesis {verb} failed: {result.stderr.strip()[-1200:]}")
-        if file_sha256(executable) != load("config/authoring/toolchain.json")["core_cli"]["sha256"]:
+        expected = load("config/authoring/toolchain.json")["core_cli"]
+        if file_sha256(executable) not in {expected["sha256"], expected["legacy_sha256"]}:
             raise ValueError("Core CLI changed during the codec operation")
         return output.read_bytes()
 

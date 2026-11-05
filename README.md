@@ -22,7 +22,8 @@ Reconstruction 2.0 adds:
 - 25 game-data formats with bounded, profile-aware content models;
 - round-trip checks for all 1834 registered content views;
 - three byte-identical rebuilds from a newly encoded zero-edit export;
-- direct attract and ending RAM checks in MAME for every revision.
+- direct attract, ending and Special Stage transition RAM checks in MAME for
+  every revision.
 
 The entry point is `src/main.s`. Data extracted from the ROM stays in ignored
 `data/`; generated ROMs, listings, reports and scratch files stay in ignored
@@ -83,14 +84,17 @@ make scaffold-check               # Check repository structure without ROMs
 make audit-private                # Audit reachable history for private payloads
 make audit-symbolic               # Check address expressions and fixed operands
 make verify-layout                # Check declared fixed regions
+make check-memory-contract        # Check RAM declarations and Z80 contexts
+make check-memory-layout          # Check every historical RAM/Z80 symbol
 make source-layout-check          # Recompute source ownership for all profiles
 make build-relocated-all          # Build the moved-source probes
 make runtime-check                # Compare their RAM traces in MAME
 ```
 
 Source-ownership and runtime checks need current builds and extracted inputs.
-MAME runs are sequential. The recorded scenarios cover attract and ending paths;
-they do not prove every gameplay path or every imported semantic name.
+MAME runs are sequential. The recorded scenarios cover attract, ending and
+explicit Special Stage entry/return paths; they do not prove every gameplay path
+or every imported semantic name.
 
 ## Content models
 
@@ -111,6 +115,21 @@ original compressed stream when content is unchanged. The 2.0 baseline covers
 checked payload models and zero-edit rebuilds; a general edited-ROM composer is
 outside this release. See [development](docs/development.md) and
 [known limits](docs/unknowns.md).
+
+## Additional validation
+
+Set `RETROLARIUM_CORE_SOURCE` to a public Core checkout containing the pinned
+dependency commit, then run `make prepare-core` and `make check-core`.
+Preparation archives that exact commit and builds it in ignored storage with the
+configured compiler and SDK. `RLTOOL` selects Kit consistently in Make and
+Python commands. Make targets execute serially, including when called with
+`make -j`.
+
+`make check-content-edits ROM_DIR="path/to/dumps"` changes one Sonic palette
+component through the public model API for each revision. Private builds must
+match independently predicted ROM bytes, including the cartridge checksum. The
+complete source/content gate requires these proofs and the historical RAM/Z80
+contracts alongside its zero-edit rebuilds.
 
 ## Release checks
 

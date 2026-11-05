@@ -13,7 +13,15 @@ from scripts.runtime.matrix import validate as runtime_matrix
 from scripts.validation import release_audit, source_layout
 from scripts.validation.release import STEPS as PRESERVATION_STEPS
 
-STEPS = ("release-check", "scaffold-check", "source-layout-check", "check-content-zero-edit", "source-2-audit")
+STEPS = (
+    "release-check",
+    "scaffold-check",
+    "source-layout-check",
+    "check-memory-layout",
+    "check-content-zero-edit",
+    "check-content-edits",
+    "source-2-audit",
+)
 DOCUMENTS = {
     "README.md",
     "CONTRIBUTING.md",
@@ -67,6 +75,7 @@ def manifest(spec: dict, *, ready: bool = False) -> None:
         formats="config/authoring/data_formats.json",
         authoring_toolchain="config/authoring/toolchain.json",
         runtime="scenarios/runtime_matrix.json",
+        memory_contracts="config/reconstruction/memory_contracts.json",
     )
     if spec.get("owners") != expected:
         raise ValueError("Source/content authority paths differ")
@@ -128,6 +137,9 @@ def scaffold() -> tuple[dict, Catalog]:
     manifest(spec)
     documents(spec)
     source_layout.structure()
+    from scripts.validation.memory_contracts import check as check_memory
+
+    check_memory()
     catalog = Catalog()
     runtime_matrix(load("scenarios/runtime_matrix.json"))
     revisions = load("config/revision_profiles.json")
@@ -189,6 +201,11 @@ def evidence(spec: dict, catalog: Catalog) -> None:
     predecessor_contract(json.loads(release_audit.git("show", f"{predecessor['commit']}:{predecessor['manifest']}")))
     source_layout.origins(predecessor["commit"])
     core_codec.resolve()
+    from scripts.validation.memory_contracts import check as check_memory
+    from scripts.authoring.edited_containers import audit as audit_edits
+
+    check_memory(built=True)
+    audit_edits()
     preservation = load("build/release/preservation.json")
     head = release_audit.git("rev-parse", "HEAD")
     if (

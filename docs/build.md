@@ -90,3 +90,10 @@ Content round trips additionally require the hash-pinned Core CLI described in
 need ROMs or that executable. Full `make source-2-check` requires all accepted
 inputs, the CLI, the pinned assembler suite and MAME; it never skips a
 dependency.
+
+`make prepare-core` builds the exact native dependency from the public checkout
+named by `RETROLARIUM_CORE_SOURCE`. See
+[authoring toolchain](authoring_toolchain.md) for compiler pins and accepted
+executable identities. `RLTOOL` consistently selects Kit across Make recipes and
+Python wrappers. `.NOTPARALLEL` keeps shared build and emulator workspaces
+serial even when Make receives `-j`.

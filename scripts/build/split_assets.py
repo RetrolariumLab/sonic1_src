@@ -2,11 +2,11 @@
 
 from pathlib import Path
 from scripts.authoring.kosinski import decode
-from scripts.build.project import ROOT, atomic_write, checked_path, command, load, read_rom, sha1
+from scripts.build.project import ROOT, rltool_command, atomic_write, checked_path, command, load, read_rom, sha1
 
 
 def split(profile_ids: list[str], rom_directory: Path) -> None:
-    arguments = ["rltool", "assets", "split"]
+    arguments = [*rltool_command(), "assets", "split"]
     for profile_id in profile_ids:
         path, _ = read_rom(profile_id, rom_directory)
         arguments += ["--image", profile_id, "--rom", f"{profile_id}={path.resolve()}"]
@@ -35,7 +35,7 @@ def split(profile_ids: list[str], rom_directory: Path) -> None:
 
 
 def check(profile_ids: list[str]) -> None:
-    arguments = ["rltool", "assets", "check"]
+    arguments = [*rltool_command(), "assets", "check"]
     for profile_id in profile_ids:
         arguments += ["--image", profile_id]
     command(arguments)

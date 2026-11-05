@@ -18,7 +18,7 @@
   "delta_history": {
     "base_commit": "9459c137efac1bd010bd08cc1b0d54c9d63fb3cd",
     "tip": "release-commit",
-    "commit_count": 11
+    "commit_count": 13
   },
   "included_scope": [
     "semantic_source_owners",
@@ -26,13 +26,16 @@
     "bounded_content_codecs",
     "every_owner_roundtrip",
     "zero_edit_export_rebuild",
-    "direct_relocated_runtime"
+    "direct_relocated_runtime",
+    "typed_memory_and_z80_contracts",
+    "bounded_nonzero_palette_edit_proofs",
+    "original_special_stage_runtime"
   ],
   "excluded_scope": [
     {
       "id": "expanded_or_edited_rom_composer",
       "status": "unsupported",
-      "reason": "Encoders return checked payloads; canonical builds remain byte-identical preservation builds."
+      "reason": "Only bounded fixed-footprint palette probes produce private edited images; general composition and expanded ROMs remain unsupported."
     },
     {
       "id": "gui_editors",
@@ -52,7 +55,7 @@
     {
       "id": "all_gameplay_paths",
       "status": "partial",
-      "reason": "Only the declared direct attract and ending matrix is observed."
+      "reason": "The declared attract, ending and explicit Special Stage entry/return scenarios provide finite direct coverage."
     }
   ],
   "delta": [
@@ -120,6 +123,18 @@
       "id": "contextual_short_source_names",
       "kind": "source",
       "summary": "Shorten nine source basenames using their existing directory context and update live includes, content IDs and ownership paths while retaining original provenance and cartridge bytes.",
+      "commits": ["3ab943303b0658a29daf64ce0bdb95a70cd800ef"]
+    },
+    {
+      "id": "original_label_length_check",
+      "kind": "tooling",
+      "summary": "Check the original declaration spellings against the forty-character limit and shorten the continuous HUD digit writer.",
+      "commits": ["6cd9d5ea6fe2d07b38481542ec2da7010d97bc3d"]
+    },
+    {
+      "id": "validation_and_dependency_upgrades",
+      "kind": "tooling",
+      "summary": "Verify historical RAM and Z80 contracts, nonzero private palette rebuilds and Special Stage transitions with reproducible Core preparation and serial configurable Kit commands.",
       "commits": ["release-commit"]
     }
   ],
@@ -129,7 +144,8 @@
     "label_renames": "config/reconstruction/label_renames.json",
     "formats": "config/authoring/data_formats.json",
     "authoring_toolchain": "config/authoring/toolchain.json",
-    "runtime": "scenarios/runtime_matrix.json"
+    "runtime": "scenarios/runtime_matrix.json",
+    "memory_contracts": "config/reconstruction/memory_contracts.json"
   },
   "required_documents": [
     "README.md",
@@ -155,7 +171,9 @@
     "release-check",
     "scaffold-check",
     "source-layout-check",
+    "check-memory-layout",
     "check-content-zero-edit",
+    "check-content-edits",
     "source-2-audit"
   ],
   "layout_deviations": []

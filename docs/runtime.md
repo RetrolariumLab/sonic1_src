@@ -29,6 +29,16 @@ code. Checks require their zone/act pairs and credits indices with ending demo
 flag 8001. The additional RAM cells prove the original shortcut flags and menu
 selection. Checkpoints compare exact bytes, with no positional tolerance.
 
+## Explicit Special Stage transition
+
+The 8000-frame `special-stage` scenario uses original title inputs on `megadrij`
+to enable level select and choose its Special Stage row. Idle play then reaches
+the results path and returns to Green Hill. Ordered checkpoints must observe
+mode 16, the Green Hill title-card mode 140, then mode 12 with demo flag zero.
+Each revision owns its original golden and its direct relocated comparison.
+`make runtime-golden SCENARIO=special-stage` records only this route when the
+original dumps are supplied through `ROM_DIR`.
+
 ## Capturing and checking
 
 ```sh

@@ -32,7 +32,12 @@ def fix_header(raw: bytes) -> bytes:
 
 
 def build(
-    profile_id: str, *, source_root: Path = ROOT, asset_root: Path | None = None, output_root: Path | None = None
+    profile_id: str,
+    *,
+    source_root: Path = ROOT,
+    asset_root: Path | None = None,
+    output_root: Path | None = None,
+    edited_assets: dict[str, bytes] | None = None,
 ) -> Path:
     selected = profile(profile_id)
     inputs = fingerprint(source_root)
@@ -44,9 +49,25 @@ def build(
         for row in load(manifest)["assets"]
         if row["image"] == profile_id
     ]
+    if edited_assets is not None:
+        if (
+            not edited_assets
+            or not output_root
+            or not output_root.resolve().is_relative_to((ROOT / "build/authoring").resolve())
+        ):
+            raise ValueError("Edited assets require a separate private authoring output")
+        allowed = {row["path"] for row in owners}
+        if set(edited_assets) - allowed:
+            raise ValueError("Edited asset belongs to another profile or storage owner")
+        for name, payload in edited_assets.items():
+            if not isinstance(payload, bytes) or len(payload) != len(checked_path(name, ROOT / "data").read_bytes()):
+                raise ValueError("Edited asset changes its immutable storage footprint")
     asset_hashes = {row["path"]: sha256(checked_path(row["path"], asset_root).read_bytes()) for row in owners}
     for row in owners:
-        if checked_path(row["path"], asset_root).read_bytes() != checked_path(row["path"], ROOT / "data").read_bytes():
+        expected = checked_path(row["path"], ROOT / "data").read_bytes()
+        if edited_assets is not None and row["path"] in edited_assets:
+            expected = edited_assets[row["path"]]
+        if checked_path(row["path"], asset_root).read_bytes() != expected:
             raise ValueError("Preservation export differs from its extracted input")
     tools = toolchain.resolve()
     output = output_root or ROOT / "build/artifacts" / profile_id
@@ -98,7 +119,10 @@ def build(
         raise ValueError("Private assets changed during assembly")
     if fingerprint(source_root) != inputs:
         raise ValueError("Preservation inputs changed during assembly")
-    atomic_write(output / "inputs.json", (json.dumps(inputs, indent=2) + "\n").encode())
+    receipt = dict(inputs)
+    if edited_assets is not None:
+        receipt["edited_assets"] = {name: sha256(payload) for name, payload in edited_assets.items()}
+    atomic_write(output / "inputs.json", (json.dumps(receipt, indent=2) + "\n").encode())
     print(f"[OK] Built {profile_id}: {target.relative_to(ROOT)}")
     return target
 

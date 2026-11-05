@@ -4,6 +4,7 @@ from __future__ import annotations
 import hashlib
 import json
 import os
+import shlex
 from pathlib import Path
 import subprocess
 
@@ -79,3 +80,10 @@ def command(arguments: list[str], *, output: Path | None = None, cwd: Path = ROO
 def file_sha256(path: Path) -> str:
     with path.open("rb") as stream:
         return hashlib.file_digest(stream, "sha256").hexdigest()
+
+
+def rltool_command() -> list[str]:
+    value = os.environ.get("RLTOOL", "rltool")
+    if Path(value).is_file():
+        return [value]
+    return shlex.split(value)

@@ -128,13 +128,13 @@ def validate_manifest(spec: dict) -> None:
         dict(
             profile_id=row["id"],
             mode="direct",
-            scenarios=["attract", "ending"],
+            scenarios=[row["id"] for row in load("scenarios/runtime_matrix.json")["scenarios"]],
             manifest="scenarios/runtime_matrix.json",
         )
         for row in profiles()
     ]
     if spec.get("runtime_coverage") != expected_coverage:
-        raise ValueError("Every profile needs direct attract and ending coverage")
+        raise ValueError("Every profile needs direct coverage of all required scenarios")
     if not spec.get("delta") or not spec.get("included_scope") or not spec.get("excluded_scope"):
         raise ValueError("Release scope and full-history delta must be explicit")
     for row in spec["delta"]:
@@ -247,7 +247,7 @@ def current_evidence(spec: dict) -> None:
             raise ValueError("Canonical artifact differs from its current identity report")
         profile_id = artifact["profile"]
         relocated = movies.verify_relocated(profile_id)
-        for scenario in ("attract", "ending"):
+        for scenario in (row["id"] for row in matrix["scenarios"]):
             report = load(f"build/runtime/{profile_id}-{scenario}.json")
             check_path = ROOT / f"scenarios/{profile_id}-{scenario}.check.json"
             check = json.loads(check_path.read_text())

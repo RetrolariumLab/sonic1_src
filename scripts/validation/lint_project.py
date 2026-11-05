@@ -12,7 +12,7 @@ import re
 from pathlib import Path
 import shutil
 import subprocess
-from scripts.build.project import ROOT, atomic_write, command, load
+from scripts.build.project import ROOT, rltool_command, atomic_write, command, load
 from scripts.build.sources import source_paths
 
 
@@ -66,7 +66,7 @@ def assembly(*, fix: bool) -> None:
     config.pop("text", None)
     config["code"] = False
     atomic_write(stage / "config/lint.json", (json.dumps(config, indent=2) + "\n").encode())
-    arguments = ["rltool", "lint", "--project", str(stage), "--only", "assembly", "--limit", "30"]
+    arguments = [*rltool_command(), "lint", "--project", str(stage), "--only", "assembly", "--limit", "30"]
     if fix:
         arguments.append("--fix")
     command(arguments)
@@ -84,14 +84,27 @@ def main() -> int:
     try:
         assembly(fix=args.fix)
         if args.fix:
-            command(["rltool", "format", "--project", str(ROOT)])
-        arguments = ["rltool", "lint", "--project", str(ROOT), "--only", "text", "--only", "code", "--limit", "30"]
+            command([*rltool_command(), "format", "--project", str(ROOT)])
+        arguments = [
+            *rltool_command(),
+            "lint",
+            "--project",
+            str(ROOT),
+            "--only",
+            "text",
+            "--only",
+            "code",
+            "--limit",
+            "30",
+        ]
         if args.fix:
             arguments.append("--fix")
         command(arguments)
         if args.fix:
             assembly(fix=False)
-            command(["rltool", "lint", "--project", str(ROOT), "--only", "text", "--only", "code", "--limit", "30"])
+            command(
+                [*rltool_command(), "lint", "--project", str(ROOT), "--only", "text", "--only", "code", "--limit", "30"]
+            )
     except (OSError, ValueError, subprocess.CalledProcessError) as error:
         parser.exit(1, f"error: {error}\n")
     return 0

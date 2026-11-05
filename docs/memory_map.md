@@ -66,3 +66,19 @@ Generated AS listings live at `build/artifacts/<profile>/entry.lst`; the shared
 listing parser resolves numeric symbols, including equates and phased Z80
 declarations. Listings are analysis artifacts, never tracked or required as old
 build inputs. No standalone debugger-symbol export is claimed.
+
+## Typed declaration and driver contracts
+
+`config/reconstruction/memory_contracts.json` binds the two RAM declaration
+owners, Z80 driver and three sample wrappers to baseline commit `6cd9d5e`.
+`make check-memory-contract` checks the actual source grammar and balanced
+structures, phases and CPU contexts, together with reviewed primitive helpers.
+It rejects executable code or initialized storage in RAM declarations.
+
+`make check-memory-layout` additionally requires fresh byte-identical builds for
+all revisions. It compares every declared RAM/structure and Z80 symbol with the
+independent baseline listings. The REV00 score-copy field and later score-life
+field retain their separate applicability. Driver bytes decoded from each
+assembled cartridge must match the original extracted DAC container and fit
+below the Z80 stack. A declaration or helper change requires an explicit
+contract review and new built evidence.

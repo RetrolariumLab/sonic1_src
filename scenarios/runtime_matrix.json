@@ -145,6 +145,75 @@
           "credits": 8
         }
       ]
+    },
+    {
+      "id": "special-stage",
+      "machine": "megadrij",
+      "frames": 8000,
+      "checkpoint_step": 60,
+      "cells": [
+        "mode",
+        "zone",
+        "act",
+        "camera_x",
+        "camera_y",
+        "sonic_x",
+        "sonic_y",
+        "rings",
+        "score",
+        "lives",
+        "frames",
+        "demo",
+        "credits",
+        "level_select",
+        "credits_cheat",
+        "dpad_count",
+        "c_count",
+        "menu_row",
+        "sound_test"
+      ],
+      "setup": {
+        "kind": "recorded_original_title_inputs",
+        "purpose": "Use the original title cheat and level-select Special Stage entry, then observe its exit and return to Green Hill.",
+        "ram_patches": [],
+        "save_states": []
+      },
+      "required_states": [
+        {
+          "mode": 16,
+          "demo": 0
+        },
+        {
+          "mode": 140,
+          "demo": 0,
+          "zone": 0,
+          "act": 0
+        },
+        {
+          "mode": 12,
+          "demo": 0,
+          "zone": 0,
+          "act": 0
+        }
+      ],
+      "required_sequence": [
+        {
+          "mode": 16,
+          "demo": 0
+        },
+        {
+          "mode": 140,
+          "demo": 0,
+          "zone": 0,
+          "act": 0
+        },
+        {
+          "mode": 12,
+          "demo": 0,
+          "zone": 0,
+          "act": 0
+        }
+      ]
     }
   ],
   "profiles": [
@@ -158,6 +227,10 @@
         {
           "id": "ending",
           "check": "scenarios/rev00-ending.check.json"
+        },
+        {
+          "id": "special-stage",
+          "check": "scenarios/rev00-special-stage.check.json"
         }
       ]
     },
@@ -171,6 +244,10 @@
         {
           "id": "ending",
           "check": "scenarios/rev01-ending.check.json"
+        },
+        {
+          "id": "special-stage",
+          "check": "scenarios/rev01-special-stage.check.json"
         }
       ]
     },
@@ -184,6 +261,10 @@
         {
           "id": "ending",
           "check": "scenarios/revxb-ending.check.json"
+        },
+        {
+          "id": "special-stage",
+          "check": "scenarios/revxb-special-stage.check.json"
         }
       ]
     }
